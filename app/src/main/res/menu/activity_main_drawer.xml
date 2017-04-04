@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:title="پروفایل"/>
+        <item
+            android:id="@+id/nav_setting"
+            android:title="تنظیمات" />
+        <item
+            android:id="@+id/nav_login"
+            android:title="ورود به سیستم" />
+        <item
+            android:id="@+id/nav_marakez"
+            android:title="مراکز" />
+        <item
+            android:id="@+id/nav_moshaverin"
+            android:title="مشاورین"/>
+        <item
+            android:id="@+id/nav_porseshha"
+            android:title="پرسش ها" />
+        <item
+            android:id="@+id/nav_logout"
+            android:title="خروج" />
+    </group>
+
+
+</menu>
