@@ -1,16 +1,20 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
+import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.Toast;
@@ -20,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
@@ -27,24 +32,39 @@ import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 
-public class ExplainMoshaver extends AppCompatActivity {
+public class ExplainMoshaver extends TabActivity
+        implements NavigationView.OnNavigationItemSelectedListener  {
 
 
+    String adviseridm="0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explain_moshaver);
 
 
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                adviseridm= "0";
+            } else {
+                adviseridm= extras.getString("adviserid");
+            }
+        } else {
+            adviseridm= (String) savedInstanceState.getSerializable("adviserid");
+        }
 
-        requestData();
+        //Toast.makeText(getApplicationContext(), "+"+adviseridm+"+", Toast.LENGTH_LONG).show();
+
+        requestData(adviseridm);
 
 
-        /*TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
+        TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
 
         TabHost.TabSpec tabSpec1 = tabHost.newTabSpec("nazar");
         TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("madarek");
         TabHost.TabSpec tabSpec3 = tabHost.newTabSpec("map");
+
 
         tabSpec1.setIndicator("نظرات");
         tabSpec1.setContent(new Intent(this, MapsActivity.class));
@@ -52,12 +72,12 @@ public class ExplainMoshaver extends AppCompatActivity {
         tabSpec2.setIndicator("مدارک");
         tabSpec2.setContent(new Intent(this, ListeMoshaverin.class));
 
-        tabSpec2.setIndicator("نقشه");
-        tabSpec2.setContent(new Intent(this, MapsActivity.class));
+        tabSpec3.setIndicator("نقشه");
+        tabSpec3.setContent(new Intent(this, MapsActivity.class));
 
         tabHost.addTab(tabSpec1);
         tabHost.addTab(tabSpec2);
-        tabHost.addTab(tabSpec3);*/
+        tabHost.addTab(tabSpec3);
 
 
 
@@ -85,30 +105,38 @@ public class ExplainMoshaver extends AppCompatActivity {
         return false;
     }
 
-    private void requestData() {
+    private void requestData(String adviserid) {
 
         RequestPackage p = new RequestPackage();
         p.setMethod("POST");
-        //p.setUri("http://telyar.dmedia.ir/webservice/Get_adviser_profile");
-        p.setUri("http://telyar.dmedia.ir/webservice/Get_mainplace");
+        p.setUri("http://telyar.dmedia.ir/webservice/Get_adviser_profile");
+
+        //p.setUri("http://telyar.dmedia.ir/webservice/Get_mainplace");
 
         //Output : AID,  AdviserName ,  Telephone , License , Tag , Dialect , Rating , PicAddress , CostPerMin, Gender , AboutMe , UniqueID , Comment : [comment,  UserName , UserFamilyName, RegTime]
 
-        /*p.setParam("adviserid",  "1");
-        p.setParam("deviceid", "3");*/
+        /*p.setParam("adviserid",  adviserid);
+        p.setParam("deviceid", GlobalVar.getDeviceID());*/
+        p.setParam("adviserid",  adviserid);
+        p.setParam("deviceid", GlobalVar.getDeviceID());
 
-        p.setParam("lat",  "10");
+        /*p.setParam("lat",  "10");
         p.setParam("long", "22");
         p.setParam("start",  "0");
         p.setParam("adviserid", "1");
         p.setParam("adviserid",  "1");
         p.setParam("subjectid", "2");
-        p.setParam("deviceid", "2");
+        p.setParam("deviceid", "2");*/
 
 
         LoginAsyncTask task = new LoginAsyncTask();
         task.execute(p);
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
     }
 
 
@@ -124,7 +152,8 @@ public class ExplainMoshaver extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 
-            Toast.makeText(getApplicationContext(), "+"+result+"+", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+            Log.i("ExplainExplain",result);
 
         }
 

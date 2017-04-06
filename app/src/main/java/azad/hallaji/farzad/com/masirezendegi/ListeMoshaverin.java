@@ -48,47 +48,34 @@ public class ListeMoshaverin extends AppCompatActivity {
         setContentView(R.layout.activity_liste_moshaverin);
 
         String porseshemoredenazar="";
-        /*try {
+        try {
             Question question= (Question) getIntent().getSerializableExtra("porseshemoredenazar");
             porseshemoredenazar=question.getSubjectID();
         }catch (Exception e){
             Log.i("tag","no obj ques");
-        }*/
+        }
 
         listView=(ListView)findViewById(R.id.ListeMoshaverinListView);
 
-        //LayoutInflater li = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //ftView = li.inflate(R.layout.footer_view, null);
+        LayoutInflater li = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        ftView = li.inflate(R.layout.footer_view, null);
 
 
         if (isOnline()) {
             //Toast.makeText(getApplicationContext(), "Network is available", Toast.LENGTH_LONG).show();
             requestData(porseshemoredenazar,0);
 
-            /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
-                    try{
-                        Log.i("ahhhhh","asa");
-                        Intent intent = new Intent(getApplication() , ExplainMoshaver.class);
-                        startActivity(intent);
-                    }catch (Exception e){
-                        Toast.makeText(getApplicationContext(), e.getMessage() , Toast.LENGTH_LONG).show();
-
-                    }
-                }
-            });*/
-
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    //Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), totalList.get(position).getAID(), Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplication() , ExplainMoshaver.class);
+                    intent.putExtra("adviserid",totalList.get(position).getAID());
                     startActivity(intent);
 
                 }
             });
+
 
             //final String finalPorseshemoredenazar = porseshemoredenazar;
             /*listView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -125,14 +112,14 @@ public class ListeMoshaverin extends AppCompatActivity {
 
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
     }
 
 
@@ -181,7 +168,7 @@ public class ListeMoshaverin extends AppCompatActivity {
 
 
             List<Moshaver> templist=new ArrayList<>();
-
+            Log.i("saasasa",result) ;
             try {
 
                 JSONArray jsonArray = new JSONArray(result);

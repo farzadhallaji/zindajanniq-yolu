@@ -2,6 +2,7 @@ package azad.hallaji.farzad.com.masirezendegi;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 
 import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
 import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
+import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -40,12 +43,11 @@ public class MainActivity extends AppCompatActivity {
 
         textView = (TextView) findViewById(R.id.idLoadingTextview);
         progressBar = (ProgressBar) findViewById(R.id.loadprogs);
-        progressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
 
 
         if (isOnline()) {
-            progressBar.setVisibility(View.VISIBLE);
-            Toast.makeText(getApplicationContext(), "jeddi", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "jeddi", Toast.LENGTH_LONG).show();
             source =  imei + "/" + wifimac + "/" + uniqueid + "/" + androidid + "/" + simno + "/" + operator + "/" + brand + "/" + model
                     + "/" + android_sdk + "/" + android_version + "/" + height + "/" + width + "/" + device_size + "/" + version + "/" + os;
 
@@ -100,17 +102,22 @@ public class MainActivity extends AppCompatActivity {
             Log.i("err", e.toString());
         }
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        height = String.valueOf(displayMetrics.heightPixels);
-        width = String.valueOf(displayMetrics.widthPixels);
+        try {
 
-        android_version = Build.VERSION.RELEASE;
-        android_sdk = String.valueOf(Build.VERSION.SDK_INT);
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            height = String.valueOf(displayMetrics.heightPixels);
+            width = String.valueOf(displayMetrics.widthPixels);
 
-        model = android.os.Build.MODEL;
-        brand = Build.MANUFACTURER;
+            android_version = Build.VERSION.RELEASE;
+            android_sdk = String.valueOf(Build.VERSION.SDK_INT);
 
+            model = android.os.Build.MODEL;
+            brand = Build.MANUFACTURER;
+
+        }catch (Exception e){
+            Log.i("err",e.toString());
+        }
 
     }
 
@@ -150,7 +157,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 
-            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+            progressBar.setVisibility(View.GONE);
+            textView.setVisibility(View.GONE);
+            GlobalVar.setDeviceID(result);
+
+            Intent intent = new Intent(MainActivity.this, Pagemenu.class);
+            startActivity(intent);
 
         }
 
