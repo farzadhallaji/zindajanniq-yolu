@@ -17,12 +17,21 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import azad.hallaji.farzad.com.masirezendegi.helper.ListeTaxassoshaAdapter;
 import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
@@ -52,7 +61,7 @@ public class ListeTaxassosHa extends AppCompatActivity {
         if (isOnline()) {
 
 
-            requestData(0,0);
+            postgetData("0","0",GlobalVar.getDeviceID());
 
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -65,23 +74,23 @@ public class ListeTaxassosHa extends AppCompatActivity {
 
                 }
             });
-/*
+
             listView.setOnScrollListener(new AbsListView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(AbsListView view, int scrollState) {
 
                     //Toast.makeText(getApplicationContext(),String.valueOf(totalList.size())+" : "+String.valueOf(view.getLastVisiblePosition()), Toast.LENGTH_LONG).show();
 
-
-                    //Check when scroll to last item in listview, in this tut, init data in listview = 10 item
-                    if(view.getLastVisiblePosition() == totalList.size()-1) {
+                    if(view.getLastVisiblePosition() == totalList.size()-1 ) {
                         //Toast.makeText(getApplicationContext(), view.getLastVisiblePosition(), Toast.LENGTH_LONG).show();
 
-                        listView.addFooterView(ftView);
-                        requestData(0,((totalList.size()%20+2)*20));
-                        //  Thread thread = new ThreadGetMoreData();
-                        //Start thread
-                        //thread.start();
+                        if(totalList.size()<19){
+
+                        }else{
+                            listView.addFooterView(ftView);
+                            postgetData("0",String.valueOf((totalList.size()/20+1)*20),GlobalVar.getDeviceID());
+
+                        }
                     }
 
                 }
@@ -92,7 +101,7 @@ public class ListeTaxassosHa extends AppCompatActivity {
 
                 }
             });
-*/
+
 
         } else {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
@@ -122,15 +131,84 @@ public class ListeTaxassosHa extends AppCompatActivity {
         return false;
     }
 
-    private void requestData(int pid , int start) {
+    void postgetData(final String pid , final String start , final String deviceid){
+
+
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
+
+        String url = "http://telyar.dmedia.ir/webservice/Get_all_subject";
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //This code is executed if the server responds, whether or not the response contains data.
+                //The String 'response' contains the server's response.
+                //Log.i("ahmad",response);
+                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
+                updatelistview(response);
+
+
+            }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //This code is executed if there is an error.
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                MyData.put("pid", pid); //Add the data you'd like to send to the server.
+                MyData.put("start", start); //Add the data you'd like to send to the server.
+                MyData.put("deviceid",deviceid); //Add the data you'd like to send to the server.
+                return MyData;
+            }
+        };
+
+        MyRequestQueue.add(MyStringRequest);
+    }
+
+    private void updatelistview(String response) {
+
+
+        List<Taxassos> templist=new ArrayList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(response);
+
+            for(int i= 0 ; i<jsonArray.length() ; i++){
+                JSONObject s = (JSONObject) jsonArray.get(i);
+                Taxassos temp = new Taxassos(s.get("SID").toString(),s.get("Name").toString(),
+                        s.get("HasChild").toString());
+                templist.add(temp);
+            }
+
+            totalList.addAll(templist);
+
+            //Log.i("lisrtt",templist.toString());
+
+            if(tempcount==0){
+                adapter =new ListeTaxassoshaAdapter(ListeTaxassosHa.this,totalList);
+                listView.setAdapter(adapter);
+                tempcount++;
+            }
+            adapter.notifyDataSetChanged();
+            listView.removeFooterView(ftView);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+    /*private void requestData(int pid , int start) {
 
         RequestPackage p = new RequestPackage();
         p.setMethod("POST");
         p.setUri("http://telyar.dmedia.ir/webservice/Get_all_subject");
 
-        /*p.setParam("pid",  String.valueOf(pid));
+        *//*p.setParam("pid",  String.valueOf(pid));
         p.setParam("start", String.valueOf(start));
-        p.setParam("deviceid", GlobalVar.getDeviceID());*/
+        p.setParam("deviceid", GlobalVar.getDeviceID());*//*
 
         //Log.i("deviceid",GlobalVar.getDeviceID());
         p.setParam("pid", "0");
@@ -138,9 +216,9 @@ public class ListeTaxassosHa extends AppCompatActivity {
         p.setParam("deviceid", "3");
 
 
-        /*p.setParam("subjectid",  String.valueOf(pid));
+        *//*p.setParam("subjectid",  String.valueOf(pid));
         p.setParam("start", String.valueOf(start));
-        p.setParam("deviceid", GlobalVar.getDeviceID());*/
+        p.setParam("deviceid", GlobalVar.getDeviceID());*//*
 
         LoginAsyncTask task = new LoginAsyncTask();
         task.execute(p);
@@ -148,54 +226,6 @@ public class ListeTaxassosHa extends AppCompatActivity {
     }
 
 
-    private class LoginAsyncTask extends AsyncTask<RequestPackage, String, String> {
-
-
-        @Override
-        protected String doInBackground(RequestPackage... params) {
-            String content = HttpManager.getData(params[0]);
-            return content;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
-
-
-            List<Question> templist=new ArrayList<>();
-
-            try {
-
-                JSONArray jsonArray = new JSONArray(result);
-
-                /*for(int i= 0 ; i<jsonArray.length() ; i++){
-                    JSONObject s = (JSONObject) jsonArray.get(i);
-                    Question temp = new Question(s.get("QID").toString(),s.get("SubjectID").toString(),
-                            s.get("QuestionSubject").toString(),s.get("Text").toString()
-                            ,s.get("RegTime").toString(),s.get("AnswerCount").toString());
-                    templist.add(temp);
-                }
-                totalList.addAll(templist);
-
-                Log.i("lisrtt",templist.toString());
-
-                if(tempcount==0){
-                    adapter =new ListePorseshhaAdapter(ListePorseshha.this,totalList);
-                    listView.setAdapter(adapter);
-                    tempcount++;
-                }
-                adapter.notifyDataSetChanged();
-                listView.removeFooterView(ftView);
 */
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-    }
 
 }

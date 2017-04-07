@@ -1,9 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context="azad.hallaji.farzad.com.masirezendegi.PasoxePorsesh">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="3">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="تاریخ :"
+            android:layout_weight="2"
+            android:layout_gravity="bottom"
+            android:gravity="end"
+            android:id="@+id/TarixePorsesh"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/MozueSoalTextView"
+            android:textColor="#fa731e"
+            android:layout_weight="2"
+            android:layout_gravity="center"
+            android:text="موضوع سوال : "/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="موضوع سوال :"
+            android:layout_weight="2"
+            android:layout_gravity="center"
+            android:textColor="#000"
+            android:layout_marginLeft="15dp"/>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="right"
+        android:layout_weight="3">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/OnvaneSoalTextView"
+            android:textColor="#fa731e"
+            android:text="موضوع سوال : "/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="عنوان سوال :"
+            android:textColor="#000"
+            android:layout_marginLeft="15dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/ListepasoxhaListView"
+            android:padding="25dp"/>
+    </LinearLayout>
+
+</LinearLayout>

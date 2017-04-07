@@ -37,22 +37,20 @@ public class ListeTaxassoshaAdapter extends ArrayAdapter<Taxassos> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = vi.inflate(R.layout.porseshha_item,null);
+        View view = vi.inflate(R.layout.taxassos_item,null);
 
         CircleImageView userimg = (CircleImageView)view.findViewById(R.id.user_img);
         TextView Name =(TextView)view.findViewById(R.id.OnvanePorseshTextView) ;
-        TextView text  =(TextView)view.findViewById(R.id.MatnePorseshTextView) ;
-        TextView Count  =(TextView)view.findViewById(R.id.AnswerCount) ;
-        TextView IDsub  =(TextView)view.findViewById(R.id.QID) ;
+        TextView Count  =(TextView)view.findViewById(R.id.HasChildTextView) ;
+        TextView IDsub  =(TextView)view.findViewById(R.id.SID) ;
 
-        /*Question Ittem = reportItemList.get(position);
+        Taxassos Ittem = reportItemList.get(position);
 
         //new DownloadImageTask(userimg).execute(Ittem.getPicAddress()); //TODO ?*
-        Name.setText(Ittem.getQuestionSubject());
-        text.setText(Ittem.getText());  //TODO
-        Count.setText(Ittem.getAnswerCount());
-        IDsub.setText(Ittem.getQID());
-*/
+        Name.setText(Ittem.getName());
+        Count.setText(Ittem.getHasChild());
+        IDsub.setText(Ittem.getSID());
+
         return view;
     }
 

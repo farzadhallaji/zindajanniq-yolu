@@ -56,7 +56,11 @@ public class ExplainMoshaver extends TabActivity
 
         //Toast.makeText(getApplicationContext(), "+"+adviseridm+"+", Toast.LENGTH_LONG).show();
 
-        requestData(adviseridm);
+        if(isOnline()){
+            requestData(adviseridm);
+        } else {
+        Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
+        }
 
 
         TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
@@ -117,8 +121,6 @@ public class ExplainMoshaver extends TabActivity
 
         /*p.setParam("adviserid",  adviserid);
         p.setParam("deviceid", GlobalVar.getDeviceID());*/
-        p.setParam("adviserid",  adviserid);
-        p.setParam("deviceid", GlobalVar.getDeviceID());
 
         /*p.setParam("lat",  "10");
         p.setParam("long", "22");
