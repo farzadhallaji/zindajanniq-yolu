@@ -70,7 +70,8 @@
         <activity
             android:name=".ExplainMoshaver"
             android:label="@string/title_activity_explain_moshaver"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ListeComments"></activity>
     </application>
 
 </manifest>

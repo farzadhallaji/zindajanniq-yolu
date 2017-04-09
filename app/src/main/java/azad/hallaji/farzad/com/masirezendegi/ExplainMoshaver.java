@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -35,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -44,6 +46,7 @@ import java.util.Map;
 import azad.hallaji.farzad.com.masirezendegi.helper.ListeTaxassoshaAdapter;
 import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
 import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
+import azad.hallaji.farzad.com.masirezendegi.model.Comment;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 
@@ -57,6 +60,7 @@ public class ExplainMoshaver extends TabActivity
     TextView taxassose_moshaver_textview;
     TextView code_moshaver_textview;
     String License="";
+    List<Comment> comments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,8 +106,9 @@ public class ExplainMoshaver extends TabActivity
 
 
         tabSpec1.setIndicator("نظرات");
-        Intent intent1 =new Intent(this, MapsActivity.class);
-        intent1.putExtra("License",License);
+        Intent intent1 =new Intent(this, ListeComments.class);
+        //intent1.putParcelableArrayListExtra("comments", (ArrayList<? extends Parcelable>) comments);
+        //intent1.putExtra("comments", (Serializable) comments);
         tabSpec1.setContent(intent1);
 
         tabSpec2.setIndicator("مدارک");
@@ -182,7 +187,7 @@ public class ExplainMoshaver extends TabActivity
             public void onResponse(String response) {
                 //This code is executed if the server responds, whether or not the response contains data.
                 //The String 'response' contains the server's response.
-                Log.i("ahmad",response);
+                //Log.i("ahmad",response);
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
                 updatelistview(response);
 
@@ -233,12 +238,16 @@ public class ExplainMoshaver extends TabActivity
             String CostPerMin = jsonObject.get("AdviserName").toString();
             String IsFavourite = jsonObject.getString("Telephone");
 
-            List<String> strings2=new ArrayList<>();
+            comments=new ArrayList<>();
             JSONArray jsonArray2 =new JSONArray(jsonObject.getJSONArray("Comment").toString());
             try{
                 for(int i= 0 ; i<jsonArray2.length() ; i++){
-                    strings2.add((String) jsonArray2.get(i));
+                    JSONObject object = (JSONObject) jsonArray2.get(i);
+                    Comment comment = new Comment(object.getString("comment"),object.getString("RegTime"),
+                                                    object.getString("UserName"),object.getString("UserFamilyName"));
+                    comments.add((comment));
                 }
+                GlobalVar.setComments(comments);
             }catch (Exception e){
 
             }
