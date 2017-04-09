@@ -85,9 +85,6 @@ public class ListePorseshha extends AppCompatActivity {
                 public void onScrollStateChanged(AbsListView view, int scrollState) {
 
                     //Toast.makeText(getApplicationContext(),String.valueOf(totalList.size())+" : "+String.valueOf(view.getLastVisiblePosition()), Toast.LENGTH_LONG).show();
-
-
-
                     //Check when scroll to last item in listview, in this tut, init data in listview = 10 item
                     if(view.getLastVisiblePosition() == totalList.size()-1 ) {
                         //Toast.makeText(getApplicationContext(), view.getLastVisiblePosition(), Toast.LENGTH_LONG).show();

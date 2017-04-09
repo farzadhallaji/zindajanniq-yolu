@@ -77,23 +77,22 @@ public class ListeMoshaverin extends AppCompatActivity {
             });
 
 
-            //final String finalPorseshemoredenazar = porseshemoredenazar;
-            /*listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            final String finalPorseshemoredenazar = porseshemoredenazar;
+            listView.setOnScrollListener(new AbsListView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(AbsListView view, int scrollState) {
 
                     //Toast.makeText(getApplicationContext(),String.valueOf(totalList.size())+" : "+String.valueOf(view.getLastVisiblePosition()), Toast.LENGTH_LONG).show();
-
-
                     //Check when scroll to last item in listview, in this tut, init data in listview = 10 item
-                    if(view.getLastVisiblePosition() == totalList.size()-1) {
+                    if(view.getLastVisiblePosition() == totalList.size()-1 ) {
                         //Toast.makeText(getApplicationContext(), view.getLastVisiblePosition(), Toast.LENGTH_LONG).show();
 
-                        listView.addFooterView(ftView);
-                        requestData(finalPorseshemoredenazar,((totalList.size()%20+2)*20));
-                        //  Thread thread = new ThreadGetMoreData();
-                        //Start thread
-                        //thread.start();
+                        if(totalList.size()<19){
+
+                        }else{
+                            listView.addFooterView(ftView);
+                            requestData(finalPorseshemoredenazar,((totalList.size()/20+1)*20));
+                        }
                     }
 
                 }
@@ -103,7 +102,7 @@ public class ListeMoshaverin extends AppCompatActivity {
                     //Toast.makeText(getApplicationContext(), "onScroll", Toast.LENGTH_LONG).show();
 
                 }
-            });*/
+            });
 
 
         } else {

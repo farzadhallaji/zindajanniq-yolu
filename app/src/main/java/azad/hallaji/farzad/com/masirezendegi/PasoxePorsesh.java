@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,6 +63,7 @@ public class PasoxePorsesh extends AppCompatActivity {
             //requestData();
             postgetData(qid,GlobalVar.getDeviceID());
 
+
         }else{
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
         }
@@ -89,7 +92,7 @@ public class PasoxePorsesh extends AppCompatActivity {
             public void onResponse(String response) {
                 //This code is executed if the server responds, whether or not the response contains data.
                 //The String 'response' contains the server's response.
-                //Log.i("ahmad",response);
+                Log.i("ahmad",response);
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
                 updateview(response);
 
@@ -110,6 +113,7 @@ public class PasoxePorsesh extends AppCompatActivity {
         };
 
         MyRequestQueue.add(MyStringRequest);
+
     }
 
     private void updateview(String response) {
