@@ -71,7 +71,8 @@
             android:name=".ExplainMoshaver"
             android:label="@string/title_activity_explain_moshaver"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ListeComments"></activity>
+        <activity android:name=".ListeComments" />
+        <activity android:name=".PageLiecence"></activity>
     </application>
 
 </manifest>

@@ -88,51 +88,40 @@ public class ExplainMoshaver extends TabActivity
         //Toast.makeText(getApplicationContext(), "+"+adviseridm+"+", Toast.LENGTH_LONG).show();
 
         if(isOnline()){
-            requestData();
+            //requestData();
 
             postgetData();
+            Log.i("Lieseesene",License);
+
+            TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
+
+            TabHost.TabSpec tabSpec1 = tabHost.newTabSpec("nazar");
+            TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("madarek");
+            TabHost.TabSpec tabSpec3 = tabHost.newTabSpec("map");
+
+
+
+            tabSpec1.setIndicator("نظرات");
+            Intent intent1 =new Intent(this, ListeComments.class);
+            tabSpec1.setContent(intent1);
+
+            tabSpec2.setIndicator("مدارک");
+            Intent intent2 =new Intent(this, PageLiecence.class);
+            intent2.putExtra("License",License);
+            tabSpec2.setContent(intent2);
+
+            tabSpec3.setIndicator("نقشه");
+            tabSpec3.setContent(new Intent(this, MapsActivity.class));
+
+            tabHost.addTab(tabSpec1);
+            tabHost.addTab(tabSpec2);
+            tabHost.addTab(tabSpec3);
 
 
         } else {
-        Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
         }
 
-
-        TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
-
-        TabHost.TabSpec tabSpec1 = tabHost.newTabSpec("nazar");
-        TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("madarek");
-        TabHost.TabSpec tabSpec3 = tabHost.newTabSpec("map");
-
-
-        tabSpec1.setIndicator("نظرات");
-        Intent intent1 =new Intent(this, ListeComments.class);
-        //intent1.putParcelableArrayListExtra("comments", (ArrayList<? extends Parcelable>) comments);
-        //intent1.putExtra("comments", (Serializable) comments);
-        tabSpec1.setContent(intent1);
-
-        tabSpec2.setIndicator("مدارک");
-        Intent intent2 =new Intent(this, MapsActivity.class);
-        intent2.putExtra("License",License);
-        tabSpec2.setContent(intent2);
-
-        tabSpec3.setIndicator("نقشه");
-        tabSpec3.setContent(new Intent(this, MapsActivity.class));
-
-        tabHost.addTab(tabSpec1);
-        tabHost.addTab(tabSpec2);
-        tabHost.addTab(tabSpec3);
-
-
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
     }
 
 
@@ -148,34 +137,6 @@ public class ExplainMoshaver extends TabActivity
         }
         return false;
     }
-
-    private void requestData() {
-
-        RequestPackage p = new RequestPackage();
-        p.setMethod("POST");
-        p.setUri("http://telyar.dmedia.ir/webservice/Get_adviser_profile");
-
-        //p.setUri("http://telyar.dmedia.ir/webservice/Get_mainplace");
-
-        //Output : AID,  AdviserName ,  Telephone , License , Tag , Dialect , Rating , PicAddress , CostPerMin, Gender , AboutMe , UniqueID , Comment : [comment,  UserName , UserFamilyName, RegTime]
-
-        p.setParam("adviserid",  adviseridm);
-        p.setParam("deviceid", GlobalVar.getDeviceID());
-
-        /*p.setParam("lat",  "10");
-        p.setParam("long", "22");
-        p.setParam("start",  "0");
-        p.setParam("adviserid", "1");
-        p.setParam("adviserid",  "1");
-        p.setParam("subjectid", "2");
-        p.setParam("deviceid", "2");*/
-
-
-        /*LoginAsyncTask task = new LoginAsyncTask();
-        task.execute(p);*/
-
-    }
-
     void postgetData(){
 
 
@@ -227,6 +188,7 @@ public class ExplainMoshaver extends TabActivity
             }catch (Exception e){}
 
             License = jsonObject.getString("License");
+            Log.i("Lieseesene",License);
             String AID = jsonObject.get("AID").toString();
             String Dialect = jsonObject.get("Dialect").toString();
             String Rating = jsonObject.getString("Rating");
@@ -252,7 +214,6 @@ public class ExplainMoshaver extends TabActivity
 
             }
 
-            new DownloadImageTask(userimg).execute(PicAddress);
 
             name_moshaver_textview.setText(AdviserName);
             taxassose_moshaver_textview.setText(AboutMe);
@@ -266,8 +227,7 @@ public class ExplainMoshaver extends TabActivity
             moshaver.setDialect(Dialect);
             moshaver.setRating(Rating);
 
-
-
+            new DownloadImageTask(userimg).execute(PicAddress);
 
 
         } catch (JSONException e) {
@@ -307,24 +267,5 @@ public class ExplainMoshaver extends TabActivity
             bmImage.setImageBitmap(result);
         }
     }
-
-/*    private class LoginAsyncTask extends AsyncTask<RequestPackage, String, String> {
-
-
-        @Override
-        protected String doInBackground(RequestPackage... params) {
-            String content = HttpManager.getData(params[0]);
-            return content;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
-            //Log.i("ExplainExplain",result);
-
-        }
-
-    }*/
 
 }
