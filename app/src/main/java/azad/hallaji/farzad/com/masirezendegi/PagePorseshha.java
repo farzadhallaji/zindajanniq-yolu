@@ -80,23 +80,20 @@ public class PagePorseshha extends TabActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            // Handle the camera action
-            Intent intent = new Intent(PagePorseshha.this , MainActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(PagePorseshha.this , MarakeZ.class));
         }else if (id == R.id.nav_profile) {
-
-            Intent intent = new Intent(PagePorseshha.this , MapsActivity.class);
-            startActivity(intent);
-
-        } /*else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }*/
+            //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
+        } else if (id == R.id.nav_setting) {
+            //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
+        } else if (id == R.id.nav_login) {
+            startActivity(new Intent(PagePorseshha.this , MainActivity.class));
+        } else if (id == R.id.nav_moshaverin) {
+            startActivity(new Intent(PagePorseshha.this , PageMoshaverin.class));
+        } else if (id == R.id.nav_porseshha) {
+            startActivity(new Intent(PagePorseshha.this , PagePorseshha.class));
+        } else if (id == R.id.nav_logout){
+            //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.END);

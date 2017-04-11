@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.Map;
 
 import azad.hallaji.farzad.com.masirezendegi.helper.ListePasoxhayeksoalAdapter;
+import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
+import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Pasox;
 
@@ -145,6 +147,60 @@ public class PasoxePorsesh extends AppCompatActivity {
 
         ListePasoxhayeksoalAdapter listePasoxhayeksoalAdapter = new ListePasoxhayeksoalAdapter(PasoxePorsesh.this,templist);
         listView.setAdapter(listePasoxhayeksoalAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if(view.getId()==R.id.likeImageview){
+
+
+
+                }
+
+            }
+        });
+
+
+    }
+
+    private void requestData(String userid , String contentid , String status) {
+
+        RequestPackage p = new RequestPackage();
+        p.setMethod("POST");
+        p.setUri("http://telyar.dmedia.ir/webservice/Set_like_dislike");
+
+        p.setParam("userid",  userid);
+        p.setParam("contentid", contentid);
+        p.setParam("contenttype", "question");
+        p.setParam("status", status);
+        p.setParam("deviceid", GlobalVar.getDeviceID());
+
+
+        LoginAsyncTask task = new LoginAsyncTask();
+        task.execute(p);
+
+    }
+
+
+    private class LoginAsyncTask extends AsyncTask<RequestPackage, String, String> {
+
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+            String content = HttpManager.getData(params[0]);
+            return content;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+
+            //List<Moshaver> templist=new ArrayList<>();
+            Log.i("listeasadsddf",result) ;
+
+
+
+        }
 
     }
 

@@ -1,5 +1,6 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
+import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -14,7 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 
-public class PageMarakez extends TabActivity
+public class PageMarakez extends Activity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawer;
@@ -53,6 +54,8 @@ public class PageMarakez extends TabActivity
         tabHost.addTab(tabSpec1);
         tabHost.addTab(tabSpec2);
 
+        tabHost.setCurrentTab(1);
+
     }
 
 
@@ -80,23 +83,20 @@ public class PageMarakez extends TabActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            // Handle the camera action
-            Intent intent = new Intent(PageMarakez.this , MainActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(PageMarakez.this , MarakeZ.class));
         }else if (id == R.id.nav_profile) {
-
-            Intent intent = new Intent(PageMarakez.this , MapsActivity.class);
-            startActivity(intent);
-
-        } /*else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }*/
+            //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
+        } else if (id == R.id.nav_setting) {
+            //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
+        } else if (id == R.id.nav_login) {
+            startActivity(new Intent(PageMarakez.this , MainActivity.class));
+        } else if (id == R.id.nav_moshaverin) {
+            startActivity(new Intent(PageMarakez.this , PageMoshaverin.class));
+        } else if (id == R.id.nav_porseshha) {
+            startActivity(new Intent(PageMarakez.this , PagePorseshha.class));
+        } else if (id == R.id.nav_logout){
+            //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.END);

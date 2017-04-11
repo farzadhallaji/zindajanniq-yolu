@@ -60,7 +60,7 @@ public class ExplainMoshaver extends TabActivity
     TextView taxassose_moshaver_textview;
     TextView code_moshaver_textview;
     String License="";
-    List<Comment> comments;
+    List<Comment> comments=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,15 +103,18 @@ public class ExplainMoshaver extends TabActivity
 
             tabSpec1.setIndicator("نظرات");
             Intent intent1 =new Intent(this, ListeComments.class);
+            intent1.putExtra("adviseridm",adviseridm);
             tabSpec1.setContent(intent1);
 
             tabSpec2.setIndicator("مدارک");
             Intent intent2 =new Intent(this, PageLiecence.class);
-            intent2.putExtra("License",License);
+            intent2.putExtra("adviseridm",adviseridm);
             tabSpec2.setContent(intent2);
 
             tabSpec3.setIndicator("نقشه");
-            tabSpec3.setContent(new Intent(this, MapsActivity.class));
+            Intent intent = new Intent(ExplainMoshaver.this, MapsActivity.class);
+            intent.putExtra("adviseridm",adviseridm);
+            tabSpec3.setContent(intent);
 
             tabHost.addTab(tabSpec1);
             tabHost.addTab(tabSpec2);
@@ -185,7 +188,7 @@ public class ExplainMoshaver extends TabActivity
                 for(int i= 0 ; i<jsonArray.length() ; i++){
                     strings.add((String) jsonArray.get(i));
                 }
-            }catch (Exception e){}
+            }catch (Exception ignored){}
 
             License = jsonObject.getString("License");
             Log.i("Lieseesene",License);
@@ -209,7 +212,7 @@ public class ExplainMoshaver extends TabActivity
                                                     object.getString("UserName"),object.getString("UserFamilyName"));
                     comments.add((comment));
                 }
-                GlobalVar.setComments(comments);
+                Log.i("aasasasassddfgfgyjyua",comments.size()+" ");
             }catch (Exception e){
 
             }

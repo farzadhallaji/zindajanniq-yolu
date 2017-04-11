@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     String imei, wifimac, uniqueid, androidid, simno, operator, brand, model, android_sdk, android_version, height, width, device_size, version, os = "";
     String source;
 
-    TextView textView;
     ProgressBar progressBar;
 
 
@@ -41,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
         initial();
 
-        textView = (TextView) findViewById(R.id.idLoadingTextview);
         progressBar = (ProgressBar) findViewById(R.id.loadprogs);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -52,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
                     + "/" + android_sdk + "/" + android_version + "/" + height + "/" + width + "/" + device_size + "/" + version + "/" + os;
 
             requestData();
-
 
         } else {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
@@ -159,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
 
             //Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
             progressBar.setVisibility(View.GONE);
-            textView.setVisibility(View.GONE);
             GlobalVar.setDeviceID(result);
 
             Intent intent = new Intent(MainActivity.this, Pagemenu.class);

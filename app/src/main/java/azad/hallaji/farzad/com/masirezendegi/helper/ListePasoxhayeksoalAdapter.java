@@ -19,13 +19,22 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import azad.hallaji.farzad.com.masirezendegi.ListeMoshaverin;
 import azad.hallaji.farzad.com.masirezendegi.R;
+import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
+import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
+import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
+import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 import azad.hallaji.farzad.com.masirezendegi.model.Pasox;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -35,6 +44,8 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
 
     private Context mContext;
     private List<Pasox> reportItemList = new ArrayList<>();
+    public static String userid="100";
+    public static String contentid="";
 
 
 
@@ -44,6 +55,9 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
         this.mContext=context;
         this.reportItemList=objects;
     }
+
+    TextView CountLike;
+    TextView CountdisLike;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -57,8 +71,8 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
         CircleImageView userimg = (CircleImageView)view.findViewById(R.id.user_img);
         TextView Name =(TextView)view.findViewById(R.id.NameMoshaverTExtView) ;
         TextView Matnepasox  =(TextView)view.findViewById(R.id.MatnePasoxTextView) ;
-        TextView CountLike  =(TextView)view.findViewById(R.id.LikeCountTextView) ;
-        TextView CountdisLike  =(TextView)view.findViewById(R.id.disLikeCountTextView) ;
+        CountLike  =(TextView)view.findViewById(R.id.LikeCountTextView) ;
+        CountdisLike  =(TextView)view.findViewById(R.id.disLikeCountTextView) ;
         TextView TarixeJavab  =(TextView)view.findViewById(R.id.TarixepasoxTextview) ;
 
         Pasox Ittem = reportItemList.get(position);
@@ -83,12 +97,27 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
         CountdisLike.setText(Ittem.getCountdisLike());
         TarixeJavab.setText(Ittem.getTarixeJavab());
 
+
+
         return view;
     }
 
     private void dislikepost() {
 
         //userid , contentid , contenttype , status , deviceid
+
+
+        //requestData(userid , contentid , "-1");
+        String s=CountdisLike.getText().toString();
+        if(s==null || s=="null"){
+            CountdisLike.setText("1");
+        }else {
+            try{
+
+                CountdisLike.setText(Integer.getInteger(s)+1);
+
+            }catch (Exception e){}
+        }
 
 
 
@@ -129,15 +158,18 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
 
     }*/
 
-    private void updateview(String response) {
-
-
-
-    }
 
     private void likepost() {
 
-
+        //requestData(userid , contentid , "1");
+        String s=CountLike.getText().toString();
+        if(s==null || s=="null"){
+            CountLike.setText("1");
+        }else {
+            try{
+                CountLike.setText(Integer.getInteger(s)+1);
+            }catch (Exception e){}
+        }
 
     }
 
@@ -165,7 +197,5 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
             bmImage.setImageBitmap(result);
         }
     }
-
-
 
 }

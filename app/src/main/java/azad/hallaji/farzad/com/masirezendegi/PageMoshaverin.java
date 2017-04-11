@@ -80,19 +80,19 @@ public class PageMoshaverin extends TabActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
+            startActivity(new Intent(PageMoshaverin.this , MarakeZ.class));
         }else if (id == R.id.nav_profile) {
-            startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
+            //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
         } else if (id == R.id.nav_setting) {
-            startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
+            //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
         } else if (id == R.id.nav_login) {
             startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
         } else if (id == R.id.nav_moshaverin) {
-            startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
+            startActivity(new Intent(PageMoshaverin.this , PageMoshaverin.class));
         } else if (id == R.id.nav_porseshha) {
-            startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
+            startActivity(new Intent(PageMoshaverin.this , PagePorseshha.class));
         } else if (id == R.id.nav_logout){
-            startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
+            //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

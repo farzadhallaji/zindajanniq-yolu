@@ -8,10 +8,23 @@
     android:background="@drawable/menupage"
     tools:context="azad.hallaji.farzad.com.masirezendegi.Pagemenu">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:id="@+id/menuButton"
+                android:src="@drawable/menu_icon"/>
+        </LinearLayout>
 
     </LinearLayout>
     
@@ -50,5 +63,7 @@
 
 
     </LinearLayout>
+
+
 
 </LinearLayout>
