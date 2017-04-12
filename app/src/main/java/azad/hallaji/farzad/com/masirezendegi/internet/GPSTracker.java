@@ -1,16 +1,13 @@
 package azad.hallaji.farzad.com.masirezendegi.internet;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -19,7 +16,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 /**
@@ -76,6 +72,8 @@ public class GPSTracker extends Service implements LocationListener {
     public void getLocation() {
 
         try {
+
+
             locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
 
             //getting GPS status
@@ -90,11 +88,11 @@ public class GPSTracker extends Service implements LocationListener {
 
                 Log.d(TAG, "Application use GPS Service");
 
-				/*
-				 * This provider determines location using
-				 * satellites. Depending on conditions, this provider may take a while to return
-				 * a location fix.
-				 */
+                /*
+                 * This provider determines location using
+                 * satellites. Depending on conditions, this provider may take a while to return
+                 * a location fix.
+                 */
 
                 provider_info = LocationManager.GPS_PROVIDER;
 
@@ -103,11 +101,11 @@ public class GPSTracker extends Service implements LocationListener {
 
                 Log.d(TAG, "Application use Network State to get GPS coordinates");
 
-				/*
-				 * This provider determines location based on
-				 * availability of cell tower and WiFi access points. Results are retrieved
-				 * by means of a network lookup.
-				 */
+                /*
+                 * This provider determines location based on
+                 * availability of cell tower and WiFi access points. Results are retrieved
+                 * by means of a network lookup.
+                 */
                 provider_info = LocationManager.NETWORK_PROVIDER;
 
             }
@@ -221,6 +219,7 @@ public class GPSTracker extends Service implements LocationListener {
         });
 
         alertDialog.show();*/
+        Log.i("alertdialog","diyalog");
 
     }
 
