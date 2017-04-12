@@ -9,14 +9,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,16 +34,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import azad.hallaji.farzad.com.masirezendegi.helper.ListeTaxassoshaAdapter;
-import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
-import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.Comment;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
@@ -66,6 +59,17 @@ public class ExplainMoshaver extends TabActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explain_moshaver);
+
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        ImageView imageView = (ImageView) findViewById(R.id.menuButton);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(Gravity.END);
+            }
+        });
 
 
         userimg = (ImageView)findViewById(R.id.adviser_image);
@@ -111,8 +115,8 @@ public class ExplainMoshaver extends TabActivity
             intent2.putExtra("adviseridm",adviseridm);
             tabSpec2.setContent(intent2);
 
-            tabSpec3.setIndicator("نقشه");
-            Intent intent = new Intent(ExplainMoshaver.this, MapsActivity.class);
+            tabSpec3.setIndicator("تخصص ها");
+            Intent intent = new Intent(this, Taxassosexusus.class);
             intent.putExtra("adviseridm",adviseridm);
             tabSpec3.setContent(intent);
 
@@ -178,15 +182,20 @@ public class ExplainMoshaver extends TabActivity
     private void updatelistview(String response) {
 
 
+
+
         try {
             JSONObject  jsonObject= new JSONObject(response);
 
 
             List<String> strings=new ArrayList<>();
             JSONArray jsonArray = new JSONArray(jsonObject.getJSONArray("Tag").toString());
+            Log.i("asasfdghnghjyujyuj",response);
+
             try {
                 for(int i= 0 ; i<jsonArray.length() ; i++){
                     strings.add((String) jsonArray.get(i));
+                    Log.i("asasfdghnghjyujyuj",strings.get(0));
                 }
             }catch (Exception ignored){}
 
@@ -243,7 +252,28 @@ public class ExplainMoshaver extends TabActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
+        int id = item.getItemId();
+
+        if (id == R.id.nav_marakez) {
+            startActivity(new Intent(ExplainMoshaver.this , PageMarakez.class));
+        }else if (id == R.id.nav_profile) {
+            //startActivity(new Intent(ExplainMoshaver.this , MainActivity.class));
+        } else if (id == R.id.nav_setting) {
+            //startActivity(new Intent(ExplainMoshaver.this , MainActivity.class));
+        } else if (id == R.id.nav_login) {
+            startActivity(new Intent(ExplainMoshaver.this , MainActivity.class));
+        } else if (id == R.id.nav_moshaverin) {
+            startActivity(new Intent(ExplainMoshaver.this , PageMoshaverin.class));
+        } else if (id == R.id.nav_porseshha) {
+            startActivity(new Intent(ExplainMoshaver.this , PagePorseshha.class));
+        } else if (id == R.id.nav_logout){
+            //startActivity(new Intent(Pagemenu.this , Test1.class));
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.END);
+        return true;
+
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {

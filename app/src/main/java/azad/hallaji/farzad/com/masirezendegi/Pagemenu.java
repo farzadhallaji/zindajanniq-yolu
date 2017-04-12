@@ -83,7 +83,7 @@ public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavi
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            startActivity(new Intent(Pagemenu.this , MarakeZ.class));
+            startActivity(new Intent(Pagemenu.this , PageMarakez.class));
         }else if (id == R.id.nav_profile) {
             //startActivity(new Intent(Pagemenu.this , MainActivity.class));
         } else if (id == R.id.nav_setting) {

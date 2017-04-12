@@ -80,7 +80,7 @@ public class PageMoshaverin extends TabActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            startActivity(new Intent(PageMoshaverin.this , MarakeZ.class));
+            startActivity(new Intent(PageMoshaverin.this , PageMarakez.class));
         }else if (id == R.id.nav_profile) {
             //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
         } else if (id == R.id.nav_setting) {

@@ -1,6 +1,5 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
-import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -15,7 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 
-public class PageMarakez extends Activity
+public class PageMarakez extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawer;
@@ -42,8 +41,10 @@ public class PageMarakez extends Activity
 
         TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
 
+//        Log.i("asasasa",tabHost.getCurrentTabTag());
+
         TabHost.TabSpec tabSpec1 = tabHost.newTabSpec("Map");
-        TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("Partners");
+        TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("List");
 
         tabSpec1.setIndicator("نقشه مراکز");
         tabSpec1.setContent(new Intent(this, MapsActivity.class));
@@ -83,7 +84,7 @@ public class PageMarakez extends Activity
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            startActivity(new Intent(PageMarakez.this , MarakeZ.class));
+            startActivity(new Intent(PageMarakez.this , PageMarakez.class));
         }else if (id == R.id.nav_profile) {
             //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
         } else if (id == R.id.nav_setting) {
