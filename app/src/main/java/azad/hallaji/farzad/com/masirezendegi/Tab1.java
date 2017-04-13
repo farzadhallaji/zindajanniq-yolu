@@ -1,142 +1,145 @@
 package azad.hallaji.farzad.com.masirezendegi;
-import android.content.IntentSender;
+import android.app.Activity;
+import android.content.Context;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.GoogleMap;
+import java.security.Provider;
 
-public class Tab1 extends AppCompatActivity implements
-        ConnectionCallbacks,
-        OnConnectionFailedListener,
-        LocationListener {
+import azad.hallaji.farzad.com.masirezendegi.internet.GPSTracker;
+import azad.hallaji.farzad.com.masirezendegi.internet.GpsTracker3;
+import azad.hallaji.farzad.com.masirezendegi.internet.MyLocationListener;
 
-    //Define a request code to send to Google Play services
-    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
-    private double currentLatitude;
-    private double currentLongitude;
+public class Tab1 extends Activity {
 
+    private Object lov;
+
+    public static float distFrom(float lat1, float lng1, float lat2, float lng2) {
+        double earthRadius = 6371000; //meters
+        double dLat = Math.toRadians(lat2-lat1);
+        double dLng = Math.toRadians(lng2-lng1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLng/2) * Math.sin(dLng/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        float dist = (float) (earthRadius * c);
+
+        return dist;
+    }
+
+
+    // GPSTracker class
+    GPSTracker gps;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab1);
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                // The next two lines tell the new client that “this” current class will handle connection stuff
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                //fourth line adds the LocationServices API endpoint from GooglePlayServices
-                .addApi(LocationServices.API)
-                .build();
+        //getlov();
 
-        // Create the LocationRequest object
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
-                .setFastestInterval(1 * 1000); // 1 second, in milliseconds
+        //setLocation();
 
+        get2();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //Now lets connect to the API
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.v(this.getClass().getSimpleName(), "onPause()");
-
-        //Disconnect from API onPause()
-        if (mGoogleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-            mGoogleApiClient.disconnect();
-        }
+    public void setLocation() {
 
 
-    }
-
-    /**
-     * If connected get lat and long
-     *
-     */
-    @Override
-    public void onConnected(Bundle bundle) {
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-        if (location == null) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-            Toast.makeText(this, "null geytardi", Toast.LENGTH_LONG).show();
-
-        } else {
-            //If everything went fine lets get latitude and longitude
-            currentLatitude = location.getLatitude();
-            currentLongitude = location.getLongitude();
-
-            Toast.makeText(this, currentLatitude + " WORKS " + currentLongitude + "", Toast.LENGTH_LONG).show();
-        }
-    }
 
 
-    @Override
-    public void onConnectionSuspended(int i) {}
+        LocationManager LM;
+        String provider;
+        Location Loc;
 
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-         /*
-          * Google Play services can resolve some errors it detects.
-          * If the error has a resolution, try sending an Intent to
-          * start a Google Play services activity that can resolve
-          * error.
-          */
-        if (connectionResult.hasResolution()) {
-            try {
-                // Start an Activity that tries to resolve the error
-                connectionResult.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
-                 /*
-                  * Thrown if Google Play services canceled the original
-                  * PendingIntent
-                  */
-            } catch (IntentSender.SendIntentException e) {
-                // Log the error
-                e.printStackTrace();
+        LM = (LocationManager) this
+                .getSystemService(Context.LOCATION_SERVICE);
+
+        Criteria criteria = new Criteria();
+        // adjust ur criteria with ur desired features
+
+        provider = LM.getBestProvider(criteria, true);
+
+        try {
+            if(provider!=null) {
+                Location location = LM.getLastKnownLocation(provider);
             }
+
+            MyLocationListener locationListener = new MyLocationListener();
+
+            LM.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
+                    0, locationListener);
+
+            //LM.requestLocationUpdates(provider, 1000, 1, (LocationListener) this);
+
+            Loc = LM.getLastKnownLocation(provider);
+
+            if (Loc != null) {
+
+                Toast.makeText(getApplicationContext(), (Loc.getLatitude())+" : "+(Loc.getLongitude()) , Toast.LENGTH_LONG).show();
+
+
+
+            }
+
+        } catch (Exception e) {
+            //DisplayUnexpected();
+            e.printStackTrace();
+            return;
+        }
+
+        LM.removeUpdates((LocationListener) this);
+    }
+
+    private void get2() {
+
+        GpsTracker3 gps = new GpsTracker3(Tab1.this);
+        if(gps.canGetLocation()){
+            String latitude = Double.toString(gps.getLatitude());
+            String longitude = Double.toString(gps.getLongitude());
+            // \n is for new line
+            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude + " " , Toast.LENGTH_LONG).show();
+
+
+
+        }else{
+            // can't get location
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            gps.showAlertDialog();
+        }
+
+    }
+
+
+    public void getlov() {
+
+        // create class object
+        gps = new GPSTracker(Tab1.this);
+
+        // check if GPS enabled
+        if (gps.canGetLocation()) {
+
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+
+            double Distance;
+            Distance = distFrom((float) 36.5925907, 2.9051544f, 36.5805505f, 2.914749f);
+
+            // \n is for new line
+            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude + " " +
+                    "  diastance " + Distance, Toast.LENGTH_LONG).show();
         } else {
-             /*
-              * If no resolution is available, display a dialog to the
-              * user with the error.
-              */
-            Log.e("Error", "Location services connection failed with code " + connectionResult.getErrorCode());
+            // can't get location
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            gps.showSettingsAlert();
         }
     }
-
-    /**
-     * If locationChanges change lat and long
-     *
-     *
-     * @param location
-     */
-    @Override
-    public void onLocationChanged(Location location) {
-        currentLatitude = location.getLatitude();
-        currentLongitude = location.getLongitude();
-
-        Toast.makeText(this, currentLatitude + " WORKS " + currentLongitude + "", Toast.LENGTH_LONG).show();
-    }
-
-
 }

@@ -1,74 +1,76 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
 import android.content.Context;
+
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-import java.security.Provider;
-import azad.hallaji.farzad.com.masirezendegi.internet.GPSTracker;
-import azad.hallaji.farzad.com.masirezendegi.internet.GpsTracker;
+import java.util.ArrayList;
+import java.util.List;
+
+import azad.hallaji.farzad.com.masirezendegi.helper.ListemarakezAdapter;
 import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
 import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
-
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
+import azad.hallaji.farzad.com.masirezendegi.model.Markaz;
 
 
-public class ListeMarakez extends AppCompatActivity implements
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+public class ListeMarakez extends AppCompatActivity {
 
-    private GoogleApiClient mGoogleApiClient;
+    boolean isGPSEnabled=false;
+    boolean isNetworkEnabled=false;
+    boolean canGetLocation=false;
+    Location location;
+    double longitude,latitude;
+    int MIN_TIME_BW_UPDATES=1000,MIN_DISTANCE_CHANGE_FOR_UPDATES=2000;
+
+    ListView ListeMarakezListView;
+    List <Markaz> markazs=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_marakez);
 
+        //getLocation();
 
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-
-
-        Intent intent = new Intent(ListeMarakez.this,Tab1.class);
-        startActivity(intent);
-
-        /*LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        String provider = service.getBestProvider(criteria, false);
-        Location location = service.getLastKnownLocation(provider);
-        //LatLng userLocation = new LatLng();*/
-
+        ListeMarakezListView= (ListView)findViewById(R.id.ListeMarakezListView);
         //Log.i("asaas",location.getLatitude()+" / " +location.getLongitude());
         if (isOnline()) {
             requestData("0", "0", "0", "0", "0");
-//            getLocation();
+
+            ListeMarakezListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    Intent intent = new Intent(ListeMarakez.this,ExplainMarkaz.class);
+                    intent.putExtra("placeid",markazs.get(position).getMID());
+                    startActivity(intent);
+
+                }
+            });
+
+
         } else {
             Toast.makeText(getApplicationContext(), "internet isn't available !", Toast.LENGTH_LONG).show();
         }
@@ -109,27 +111,6 @@ public class ListeMarakez extends AppCompatActivity implements
 
     }
 
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-    }
-
-
     private class LoginAsyncTask extends AsyncTask<RequestPackage, String, String> {
 
 
@@ -149,6 +130,7 @@ public class ListeMarakez extends AppCompatActivity implements
             try {
                 JSONArray jsonArray = new JSONArray(result);
                 JSONObject tmp;
+                markazs= new ArrayList<>();
                 String PicAddress , MID, Address, AboutMainPlace,MainPlaceName,Telephone,Lat,Long,Distance="";
                 if(jsonArray.length()>0){
                     for(int i = 0 ; i < jsonArray.length() ; i++){
@@ -165,7 +147,14 @@ public class ListeMarakez extends AppCompatActivity implements
                             Long=tmp.getString("Long");
                             Distance=tmp.getString("Distance");
 
+                            Markaz markaz = new Markaz(Lat,  Long,  PicAddress,  MID,  Address,
+                                    AboutMainPlace,  MainPlaceName, Telephone,  Distance);
+                            markazs.add(markaz);
                         }catch (Exception ignored){}
+                        ListemarakezAdapter listemarakezAdapter = new ListemarakezAdapter(ListeMarakez.this,markazs);
+                        ListeMarakezListView.setAdapter(listemarakezAdapter);
+
+
 
                     }
                 }
@@ -180,6 +169,63 @@ public class ListeMarakez extends AppCompatActivity implements
 
     }
 
+    public Location getLocation() {
+        try {
+            LocationManager locationManager = (LocationManager) getBaseContext()
+                    .getSystemService(LOCATION_SERVICE);
+            // getting GPS status
+            isGPSEnabled = locationManager
+                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
+            // getting network status
+            isNetworkEnabled = locationManager
+                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            if (!isGPSEnabled && !isNetworkEnabled) {
+                // no network provider is enabled
+            } else {
+                this.canGetLocation = true;
+                // First get destination from Network Provider
+                if (isNetworkEnabled) {
+                    locationManager.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            MIN_TIME_BW_UPDATES,
+                            MIN_DISTANCE_CHANGE_FOR_UPDATES, (LocationListener) this);
+                    //  Log.d("Network", "Network");
+                    if (locationManager != null) {
+                        location = locationManager.getLastKnownLocation(
+                                LocationManager.NETWORK_PROVIDER);
+                        if (location != null) {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+                        }
+                    }
+                }
+                // if GPS Enabled get lat/long using GPS Services
+                if (isGPSEnabled) {
+                    if (location == null) {
+                        locationManager.requestLocationUpdates(
+                                LocationManager.GPS_PROVIDER,
+                                MIN_TIME_BW_UPDATES,
+                                MIN_DISTANCE_CHANGE_FOR_UPDATES, (LocationListener) this);
+                        // Log.d("GPS Enabled", "GPS Enabled");
+                        if (locationManager != null) {
+                            location = locationManager.getLastKnownLocation(
+                                    LocationManager.GPS_PROVIDER);
+                            if (location != null) {
+
+                                latitude = location.getLatitude();
+                                longitude = location.getLongitude();
+                                Toast.makeText(getApplicationContext(),latitude + " : "+ longitude, Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return location;
+    }
 
 
 }
