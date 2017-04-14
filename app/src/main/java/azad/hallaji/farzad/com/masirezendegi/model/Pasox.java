@@ -8,7 +8,22 @@ import java.util.PriorityQueue;
 
 public class Pasox {
 
-    String userimg,Name ,Matnepasox,CountLike , CountdisLike , TarixeJavab;
+    String userimg;
+    String Name;
+    String Matnepasox;
+    String CountLike;
+    String CountdisLike;
+    String TarixeJavab;
+
+    public String getQid() {
+        return qid;
+    }
+
+    public void setQid(String qid) {
+        this.qid = qid;
+    }
+
+    String qid;
 
     public Pasox(String userimg, String name, String matnepasox, String countLike, String countdisLike, String tarixeJavab) {
         this.userimg = userimg;

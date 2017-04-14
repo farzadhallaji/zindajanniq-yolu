@@ -10,5 +10,7 @@ public class PageAlaghemandiha extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alaghemandiha_page);
 
+        //Get_favourite
+        //input : userid , contenttype , deviceid
     }
 }

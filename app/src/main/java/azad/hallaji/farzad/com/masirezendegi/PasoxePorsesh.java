@@ -137,6 +137,7 @@ public class PasoxePorsesh extends AppCompatActivity {
                         , jsonObject1.getString("LikeCount"), jsonObject1.getString("DisLikeCount")
                         , jsonObject1.getString("RegTime"));
 
+                pasox.setQid(qid);
                 templist.add(pasox);
 
             }
@@ -147,18 +148,7 @@ public class PasoxePorsesh extends AppCompatActivity {
 
         ListePasoxhayeksoalAdapter listePasoxhayeksoalAdapter = new ListePasoxhayeksoalAdapter(PasoxePorsesh.this,templist);
         listView.setAdapter(listePasoxhayeksoalAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if(view.getId()==R.id.likeImageview){
-
-
-
-                }
-
-            }
-        });
 
 
     }

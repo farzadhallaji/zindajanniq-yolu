@@ -224,7 +224,7 @@ public class ExplainMarkaz extends TabActivity
     private void updatelistview(String response) {
 
 
-        Log.i("asasasadfdghkllkjhgfdfghjkjhgjyuj",response);
+        Log.i("asasasadfdghk",response);
 
 
         try {
@@ -299,7 +299,7 @@ public class ExplainMarkaz extends TabActivity
         if (id == R.id.nav_marakez) {
             startActivity(new Intent(ExplainMarkaz.this , PageMarakez.class));
         }else if (id == R.id.nav_profile) {
-            //startActivity(new Intent(ExplainMarakez.this , MainActivity.class));
+            startActivity(new Intent(ExplainMarkaz.this , PageVirayesh.class));
         } else if (id == R.id.nav_setting) {
             //startActivity(new Intent(ExplainMarakez.this , MainActivity.class));
         } else if (id == R.id.nav_login) {

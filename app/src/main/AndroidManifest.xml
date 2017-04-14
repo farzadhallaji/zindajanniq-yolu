@@ -84,7 +84,8 @@
         <activity android:name=".ListeComments" />
         <activity android:name=".PageLiecence" />
         <activity android:name=".Taxassosexusus" />
-        <activity android:name=".ExplainMarkaz"></activity>
+        <activity android:name=".ExplainMarkaz" />
+        <activity android:name=".PageVirayesh"></activity>
     </application>
 
 </manifest>

@@ -257,7 +257,7 @@ public class ExplainMoshaver extends TabActivity
         if (id == R.id.nav_marakez) {
             startActivity(new Intent(ExplainMoshaver.this , PageMarakez.class));
         }else if (id == R.id.nav_profile) {
-            //startActivity(new Intent(ExplainMoshaver.this , MainActivity.class));
+            startActivity(new Intent(ExplainMoshaver.this , PageVirayesh.class));
         } else if (id == R.id.nav_setting) {
             //startActivity(new Intent(ExplainMoshaver.this , MainActivity.class));
         } else if (id == R.id.nav_login) {

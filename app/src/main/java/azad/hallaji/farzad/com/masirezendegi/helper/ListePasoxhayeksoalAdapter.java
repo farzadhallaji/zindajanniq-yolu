@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -56,8 +57,7 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
         this.reportItemList=objects;
     }
 
-    TextView CountLike;
-    TextView CountdisLike;
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -71,22 +71,38 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
         CircleImageView userimg = (CircleImageView)view.findViewById(R.id.user_img);
         TextView Name =(TextView)view.findViewById(R.id.NameMoshaverTExtView) ;
         TextView Matnepasox  =(TextView)view.findViewById(R.id.MatnePasoxTextView) ;
-        CountLike  =(TextView)view.findViewById(R.id.LikeCountTextView) ;
-        CountdisLike  =(TextView)view.findViewById(R.id.disLikeCountTextView) ;
+        final TextView CountLike  =(TextView)view.findViewById(R.id.LikeCountTextView) ;
+        final TextView CountdisLike  =(TextView)view.findViewById(R.id.disLikeCountTextView) ;
         TextView TarixeJavab  =(TextView)view.findViewById(R.id.TarixepasoxTextview) ;
 
-        Pasox Ittem = reportItemList.get(position);
+        final Pasox Ittem = reportItemList.get(position);
 
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                likepost();
+                postgetData(Ittem.getQid(),userid , contentid , "1");
+                String s=CountLike.getText().toString();
+                if(s==null || s=="null"){
+                    CountLike.setText("1");
+                }else {
+                    try{
+                        CountLike.setText(String.valueOf(Integer.parseInt(s)+1));
+                    }catch (Exception ignored){}
+                }
             }
         });
         dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dislikepost();
+                postgetData(Ittem.getQid(),userid , contentid , "-1");
+                String s=CountdisLike.getText().toString();
+                if(s==null || s=="null"){
+                    CountdisLike.setText("1");
+                }else {
+                    try{
+                        CountdisLike.setText(String.valueOf(Integer.parseInt(s)+1));
+                    }catch (Exception ignored){}
+                }
             }
         });
 
@@ -97,48 +113,35 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
         CountdisLike.setText(Ittem.getCountdisLike());
         TarixeJavab.setText(Ittem.getTarixeJavab());
 
-
-
         return view;
     }
 
-    private void dislikepost() {
-
-        //userid , contentid , contenttype , status , deviceid
+    void postgetData(final String qid , final String deviceid, final String likdis, final String contentid){
 
 
-        //requestData(userid , contentid , "-1");
-        String s=CountdisLike.getText().toString();
-        if(s==null || s=="null"){
-            CountdisLike.setText("1");
-        }else {
-            try{
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(mContext);
 
-                CountdisLike.setText(Integer.getInteger(s)+1);
-
-            }catch (Exception e){}
-        }
-
-
-
-    }
-
-    /*void postgetData(final String qid , final String deviceid){
-
-
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
-
-        String url = "http://telyar.dmedia.ir/webservice/get_question_answer";
+        String url = "http://telyar.dmedia.ir/webservice/Set_like_dislike";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //This code is executed if the server responds, whether or not the response contains data.
                 //The String 'response' contains the server's response.
-                Log.i("ahmad",response);
+                Log.i("qwqaasasaeq",response);
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    String Message=jsonObject.getString("Message");
+                    Toast.makeText(mContext, Message, Toast.LENGTH_SHORT).show();
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
-                updateview(response);
-
-
+                //updateview(response);
             }
         }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
             @Override
@@ -147,31 +150,22 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
             }
         }) {
             protected Map<String, String> getParams() {
+                //Input: userid , contentid , contenttype , status , deviceid
                 Map<String, String> MyData = new HashMap<String, String>();
                 MyData.put("questionid", qid); //Add the data you'd like to send to the server.
                 MyData.put("deviceid",deviceid); //Add the data you'd like to send to the server.
+                MyData.put("status",likdis); //Add the data you'd like to send to the server.
+                MyData.put("contenttype","question"); //Add the data you'd like to send to the server.
+                MyData.put("contentid",contentid); //Add the data you'd like to send to the server.
+                MyData.put("userid",GlobalVar.getUserID()); //Add the data you'd like to send to the server.
                 return MyData;
             }
         };
 
         MyRequestQueue.add(MyStringRequest);
 
-    }*/
-
-
-    private void likepost() {
-
-        //requestData(userid , contentid , "1");
-        String s=CountLike.getText().toString();
-        if(s==null || s=="null"){
-            CountLike.setText("1");
-        }else {
-            try{
-                CountLike.setText(Integer.getInteger(s)+1);
-            }catch (Exception e){}
-        }
-
     }
+
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;

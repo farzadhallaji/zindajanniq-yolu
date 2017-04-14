@@ -124,9 +124,9 @@ public class ListeMarakez extends AppCompatActivity {
         protected void onPostExecute(String result) {
 
             //Toast.makeText(getApplicationContext(), "0"+result+"0", Toast.LENGTH_LONG).show();
-            Log.i("ahmadigum","0000ahmadigum");
+            /*Log.i("ahmadigum","0000ahmadigum");
             Log.i("ahmadigum",result);
-
+*/
             try {
                 JSONArray jsonArray = new JSONArray(result);
                 JSONObject tmp;
