@@ -147,14 +147,40 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_weight="1"/>
-            <EditText
+
+            <RadioGroup
+                android:id="@+id/radioGrp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="جنسیت"
-                android:id="@+id/genderTextViewVirayesh"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_weight="1"/>
+                android:orientation="horizontal"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+                <RadioButton
+                    android:id="@+id/radioM"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:checked="true"
+                    android:text="مرد"
+                    android:gravity="left|center"
+                    android:layout_weight="1"/>
+                <RadioButton
+                    android:id="@+id/radioF"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:checked="false"
+                    android:gravity="left|center"
+                    android:text="زن"
+                    android:layout_weight="1"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+            </RadioGroup>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -207,6 +233,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:fitsSystemWindows="true"
+        android:visibility="gone"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
 

@@ -53,7 +53,7 @@ public class ListePorseshhaAdapter extends ArrayAdapter<Question>  {
 
         Question Ittem = reportItemList.get(position);
 
-        //new DownloadImageTask(userimg).execute(Ittem.getPicAddress()); //TODO ?*
+        //new DownloadImageTask(userimg).execute(Ittem.getPicAddress()); //TODO
         Name.setText(Ittem.getQuestionSubject());
         text.setText(Ittem.getText());  //TODO
         Count.setText(Ittem.getAnswerCount());

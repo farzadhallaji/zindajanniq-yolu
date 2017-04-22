@@ -198,7 +198,7 @@ public class ExplainMarkaz extends TabActivity
             public void onResponse(String response) {
                 //This code is executed if the server responds, whether or not the response contains data.
                 //The String 'response' contains the server's response.
-                //Log.i("ahmad",response);
+                Log.i("ahmsdnmmmad",response);
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
                 updatelistview(response);
 
@@ -214,7 +214,9 @@ public class ExplainMarkaz extends TabActivity
                 Map<String, String> MyData = new HashMap<String, String>();
                 //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
                 MyData.put("placeid", pid); //Add the data you'd like to send to the server.
+  //              MyData.put("placeid", pid); //Add the data you'd like to send to the server.
                 MyData.put("deviceid",GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
+//                MyData.put("deviceid",GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
                 return MyData;
             }
         };

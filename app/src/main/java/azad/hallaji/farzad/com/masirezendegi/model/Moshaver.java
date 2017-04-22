@@ -1,10 +1,13 @@
 package azad.hallaji.farzad.com.masirezendegi.model;
 
+import android.graphics.Bitmap;
 import android.os.Parcelable;
 
 import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Moshaver implements Serializable {
 
@@ -14,6 +17,15 @@ public class Moshaver implements Serializable {
     String PicAddress;
     String CommentCount;
 
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
+
+    Bitmap bitmap;
     public String getTelephone() {
         return Telephone;
     }

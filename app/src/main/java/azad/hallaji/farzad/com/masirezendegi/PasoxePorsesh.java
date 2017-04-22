@@ -61,6 +61,8 @@ public class PasoxePorsesh extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), qid, Toast.LENGTH_LONG).show();
 
+        Log.i("aasasasasaaaaa",qid);
+
         if(isOnline()){
             //requestData();
             postgetData(qid,GlobalVar.getDeviceID());

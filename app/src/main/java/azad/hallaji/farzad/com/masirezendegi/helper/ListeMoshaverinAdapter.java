@@ -52,7 +52,11 @@ public class ListeMoshaverinAdapter extends ArrayAdapter<Moshaver> {
 
         Moshaver Ittem = reportItemList.get(position);
 
-        new DownloadImageTask(moshaverimg).execute(Ittem.getPicAddress());
+        //new DownloadImageTask(moshaverimg).execute(Ittem.getPicAddress());
+
+        new DownloadImageTaske().execute(Ittem);
+        moshaverimg.setImageBitmap(Ittem.getBitmap());
+
         Name.setText(Ittem.getAdviserName());
         String ss="";
         for(String s:Ittem.getTag())
@@ -91,4 +95,32 @@ public class ListeMoshaverinAdapter extends ArrayAdapter<Moshaver> {
             bmImage.setImageBitmap(result);
         }
     }
+
+    private class DownloadImageTaske extends AsyncTask<Moshaver, Void, Bitmap> {
+        Bitmap bmImage;
+        Moshaver moshaver;
+
+
+
+        @Override
+        protected Bitmap doInBackground(Moshaver... params) {
+
+            moshaver=params[0];
+            String urldisplay = params[0].getPicAddress();
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+        protected void onPostExecute(Bitmap result) {
+
+            moshaver.setBitmap(result);
+        }
+    }
+
 }

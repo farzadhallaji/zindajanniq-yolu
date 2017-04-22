@@ -45,34 +45,39 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
 
     private Context mContext;
     private List<Pasox> reportItemList = new ArrayList<>();
-    public static String userid="100";
+    private static String userid="100";
     public static String contentid="";
-
-
+    private List<ViewHolder> viewHolders=new ArrayList<>();
 
     public ListePasoxhayeksoalAdapter(Context context, List<Pasox> objects) {
 
         super(context,0, objects);
         this.mContext=context;
         this.reportItemList=objects;
+
     }
 
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = vi.inflate(R.layout.pasoxesola_item,null);
 
         ImageView like = (ImageView)view.findViewById(R.id.likeImageview);
-        final ImageView dislike = (ImageView)view.findViewById(R.id.dislikeImageview);
+        ImageView dislike = (ImageView)view.findViewById(R.id.dislikeImageview);
 
         CircleImageView userimg = (CircleImageView)view.findViewById(R.id.user_img);
+
         TextView Name =(TextView)view.findViewById(R.id.NameMoshaverTExtView) ;
         TextView Matnepasox  =(TextView)view.findViewById(R.id.MatnePasoxTextView) ;
-        final TextView CountLike  =(TextView)view.findViewById(R.id.LikeCountTextView) ;
-        final TextView CountdisLike  =(TextView)view.findViewById(R.id.disLikeCountTextView) ;
+
+        TextView CountLike  =(TextView)view.findViewById(R.id.LikeCountTextView) ;
+        TextView CountdisLike  =(TextView)view.findViewById(R.id.disLikeCountTextView) ;
+
+        viewHolders.add(new ViewHolder(CountLike,CountdisLike,like,dislike));
+
         TextView TarixeJavab  =(TextView)view.findViewById(R.id.TarixepasoxTextview) ;
 
         final Pasox Ittem = reportItemList.get(position);
@@ -80,29 +85,14 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                postgetData(Ittem.getQid(),userid , contentid , "1");
-                String s=CountLike.getText().toString();
-                if(s==null || s=="null"){
-                    CountLike.setText("1");
-                }else {
-                    try{
-                        CountLike.setText(String.valueOf(Integer.parseInt(s)+1));
-                    }catch (Exception ignored){}
-                }
+                postgetData(Ittem.getQid(),userid , "1", contentid ,position);
+                Log.i("1111111","1");
             }
         });
         dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                postgetData(Ittem.getQid(),userid , contentid , "-1");
-                String s=CountdisLike.getText().toString();
-                if(s==null || s=="null"){
-                    CountdisLike.setText("1");
-                }else {
-                    try{
-                        CountdisLike.setText(String.valueOf(Integer.parseInt(s)+1));
-                    }catch (Exception ignored){}
-                }
+                postgetData(Ittem.getQid(),userid  , "-1", contentid, position);
             }
         });
 
@@ -116,7 +106,7 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
         return view;
     }
 
-    void postgetData(final String qid , final String deviceid, final String likdis, final String contentid){
+    void postgetData(final String qid , final String deviceid, final String likdis, final String contentid , final int pozishen){
 
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(mContext);
@@ -133,13 +123,38 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
                     JSONObject jsonObject = new JSONObject(response);
 
                     String Message=jsonObject.getString("Message");
+                    if(jsonObject.getString("Status").equals("1")) {
+
+                        if(likdis.equals("1")){
+                            String s=viewHolders.get(pozishen).getCountLikee().getText().toString();
+                            Log.i("1111111","2"+likdis+".");
+                            if (s == null || s == "null") {
+                                viewHolders.get(pozishen).getCountLikee().setText("1");
+                            } else {
+                                try {
+                                    viewHolders.get(pozishen).getCountLikee()
+                                            .setText(String.valueOf(Integer.parseInt(s) + 1));
+                                } catch (Exception ignored) {
+                                }
+                            }
+                        }else if(likdis.equals("-1")) {
+                            Log.i("111111111","3");
+                            String s=viewHolders.get(pozishen).getCountdisLikee().getText().toString();
+                            if (s == null || s == "null") {
+                                viewHolders.get(pozishen).getCountdisLikee().setText("1");
+                            } else {
+                                try {
+                                    viewHolders.get(pozishen).getCountdisLikee()
+                                            .setText(String.valueOf(Integer.parseInt(s) + 1));
+                                } catch (Exception ignored) {
+                                }
+                            }
+                        }
+                    }
                     Toast.makeText(mContext, Message, Toast.LENGTH_SHORT).show();
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
                 //updateview(response);
             }
@@ -189,6 +204,54 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
 
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
+        }
+    }
+
+
+    class ViewHolder {
+
+        TextView CountLikee ;
+        TextView CountdisLikee;
+        ImageView like;
+        ImageView dislike;
+
+        public ViewHolder(TextView countLikee, TextView countdisLikee, ImageView like, ImageView dislike) {
+            CountLikee = countLikee;
+            CountdisLikee = countdisLikee;
+            this.like = like;
+            this.dislike = dislike;
+        }
+
+        public TextView getCountLikee() {
+            return CountLikee;
+        }
+
+        public void setCountLikee(TextView countLikee) {
+            CountLikee = countLikee;
+        }
+
+        public TextView getCountdisLikee() {
+            return CountdisLikee;
+        }
+
+        public void setCountdisLikee(TextView countdisLikee) {
+            CountdisLikee = countdisLikee;
+        }
+
+        public ImageView getLike() {
+            return like;
+        }
+
+        public void setLike(ImageView like) {
+            this.like = like;
+        }
+
+        public ImageView getDislike() {
+            return dislike;
+        }
+
+        public void setDislike(ImageView dislike) {
+            this.dislike = dislike;
         }
     }
 

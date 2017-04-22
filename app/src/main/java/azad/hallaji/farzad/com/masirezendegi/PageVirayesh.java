@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,10 +39,9 @@ public class PageVirayesh extends AppCompatActivity
     EditText nameTextViewVirayesh,nameXanevadeTextViewVirayesh,marefiyejmaliTextViewVirayesh;
     CircleImageView imageviewuserVirayesh;
     EditText emailTextViewVirayesh , telefonTextViewVirayesh , gushuTextViewVirayesh;
-    EditText introTextViewVirayesh , genderTextViewVirayesh , maxtimeTextViewVirayesh;
+    EditText introTextViewVirayesh  , maxtimeTextViewVirayesh;
     EditText costimeTextViewVirayesh , marefiTextViewVirayesh;
-
-//Input :
+    RadioGroup radioSexGroup;
 
     String userid="100" , name , familyname , telephone , email , gender , picaddress=" "
             , aboutme , costpermin , license , tag , dialect , advisermaxtim="";
@@ -74,16 +75,26 @@ public class PageVirayesh extends AppCompatActivity
                 @Override
                 public void onClick(View v) {
                     name=nameTextViewVirayesh.getText().toString();
-                    familyname=nameTextViewVirayesh.getText().toString();
-                    telephone=nameTextViewVirayesh.getText().toString();
-                    email=nameTextViewVirayesh.getText().toString();
-                    gender=nameTextViewVirayesh.getText().toString();
-                    aboutme=nameTextViewVirayesh.getText().toString();
-                    costpermin=nameTextViewVirayesh.getText().toString();
-                    license=nameTextViewVirayesh.getText().toString();
-                    tag=nameTextViewVirayesh.getText().toString();
-                    dialect=nameTextViewVirayesh.getText().toString();
-                    advisermaxtim=nameTextViewVirayesh.getText().toString();
+                    familyname=nameXanevadeTextViewVirayesh.getText().toString();
+                    telephone=telefonTextViewVirayesh.getText().toString();
+                    email=emailTextViewVirayesh.getText().toString();
+                    aboutme=marefiyejmaliTextViewVirayesh.getText().toString();
+                    costpermin=costimeTextViewVirayesh.getText().toString();
+                    license=introTextViewVirayesh.getText().toString();
+                    tag=marefiTextViewVirayesh.getText().toString();
+                    dialect=gushuTextViewVirayesh.getText().toString();
+                    advisermaxtim=maxtimeTextViewVirayesh.getText().toString();
+//TODO parametr lari bir chech elamali
+
+                    int selectedId = radioSexGroup.getCheckedRadioButtonId();
+                    // find the radiobutton by returned id
+
+                    if(selectedId==(R.id.radioM)){
+                        gender="مرد";
+                    }else {
+                        gender="زن";
+                    }
+                    Log.i("gender",gender);
 
                     requestData();
 
@@ -152,7 +163,9 @@ public class PageVirayesh extends AppCompatActivity
         telefonTextViewVirayesh=(EditText)findViewById(R.id.telefonTextViewVirayesh);
         gushuTextViewVirayesh=(EditText)findViewById(R.id.gushuTextViewVirayesh);
         introTextViewVirayesh=(EditText)findViewById(R.id.introTextViewVirayesh);
-        genderTextViewVirayesh=(EditText)findViewById(R.id.genderTextViewVirayesh);
+        //=(EditText)findViewById(R.id.genderTextViewVirayesh);
+        radioSexGroup = (RadioGroup) findViewById(R.id.radioGrp);
+
         maxtimeTextViewVirayesh=(EditText)findViewById(R.id.maxtimeTextViewVirayesh);
         costimeTextViewVirayesh=(EditText)findViewById(R.id.costimeTextViewVirayesh);
         marefiTextViewVirayesh=(EditText)findViewById(R.id.marefiTextViewVirayesh);

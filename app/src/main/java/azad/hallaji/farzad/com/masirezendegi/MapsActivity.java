@@ -113,10 +113,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         protected void onPostExecute(String result) {
 
             try {
+                //Log.i("qweerty",result);
                 JSONArray jsonArray = new JSONArray(result);
                 JSONObject tmp;
                 markazs= new ArrayList<>();
                 String PicAddress , MID, Address, AboutMainPlace,MainPlaceName,Telephone,Lat,Long,Distance="";
+
                 if(jsonArray.length()>0){
                     for(int i = 0 ; i < jsonArray.length() ; i++){
 
@@ -155,7 +157,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
             } catch (JSONException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
 
 
