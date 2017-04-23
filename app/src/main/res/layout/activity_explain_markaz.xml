@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="end"
-    tools:context="azad.hallaji.farzad.com.masirezendegi.ExplainMarakez">
+    tools:context="azad.hallaji.farzad.com.masirezendegi.ExplainMarkaz">
 
     <include layout="@layout/content_explain_marakez" />
 

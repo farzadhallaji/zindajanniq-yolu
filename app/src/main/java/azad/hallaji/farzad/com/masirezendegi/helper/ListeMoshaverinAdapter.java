@@ -100,8 +100,6 @@ public class ListeMoshaverinAdapter extends ArrayAdapter<Moshaver> {
         Bitmap bmImage;
         Moshaver moshaver;
 
-
-
         @Override
         protected Bitmap doInBackground(Moshaver... params) {
 
