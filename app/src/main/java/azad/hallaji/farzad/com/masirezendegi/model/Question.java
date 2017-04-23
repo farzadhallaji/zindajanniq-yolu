@@ -14,6 +14,24 @@ public class Question implements Serializable{
     String Text;
     String RegTime;
     String AnswerCount;
+    String LikeCount;
+    String DisLikeCount;
+
+    public String getLikeCount() {
+        return LikeCount;
+    }
+
+    public void setLikeCount(String likeCount) {
+        LikeCount = likeCount;
+    }
+
+    public String getDisLikeCount() {
+        return DisLikeCount;
+    }
+
+    public void setDisLikeCount(String disLikeCount) {
+        DisLikeCount = disLikeCount;
+    }
 
     public Question(String QID, String subjectID, String questionSubject, String text, String regTime, String answerCount) {
         this.QID = QID;
@@ -22,6 +40,16 @@ public class Question implements Serializable{
         Text = text;
         RegTime = regTime;
         AnswerCount = answerCount;
+    }
+    public Question(int n,String QID, String questionSubject, String text, String regTime, String LikeCount , String DisLikeCount, String AnswerCount) {
+        this.QID = QID;
+        QuestionSubject = questionSubject;
+        this.AnswerCount=AnswerCount;
+        Text = text;
+        RegTime = regTime;
+        this.LikeCount = LikeCount ;
+        this.DisLikeCount = DisLikeCount ;
+
     }
 
     public String getQID() {

@@ -20,7 +20,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,12 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import azad.hallaji.farzad.com.masirezendegi.ListeMoshaverin;
 import azad.hallaji.farzad.com.masirezendegi.R;
-import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
-import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
-import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 import azad.hallaji.farzad.com.masirezendegi.model.Pasox;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -63,7 +58,7 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = vi.inflate(R.layout.pasoxesola_item,null);
+        View view = vi.inflate(R.layout.item_pasoxesola,null);
 
         ImageView like = (ImageView)view.findViewById(R.id.likeImageview);
         ImageView dislike = (ImageView)view.findViewById(R.id.dislikeImageview);

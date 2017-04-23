@@ -52,7 +52,7 @@ public class ProductListAdapter extends BaseAdapter {
 
 
         LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = vi.inflate(R.layout.porseshha_item,null);
+        View view = vi.inflate(R.layout.item_porseshha,null);
 
         CircleImageView userimg = (CircleImageView)view.findViewById(R.id.user_img);
         TextView Name =(TextView)view.findViewById(R.id.OnvanePorseshTextView) ;

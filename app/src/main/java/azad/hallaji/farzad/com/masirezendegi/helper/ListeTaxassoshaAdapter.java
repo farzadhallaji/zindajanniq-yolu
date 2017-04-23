@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import azad.hallaji.farzad.com.masirezendegi.R;
-import azad.hallaji.farzad.com.masirezendegi.model.Question;
 import azad.hallaji.farzad.com.masirezendegi.model.Taxassos;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -37,7 +36,7 @@ public class ListeTaxassoshaAdapter extends ArrayAdapter<Taxassos> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = vi.inflate(R.layout.taxassos_item,null);
+        View view = vi.inflate(R.layout.item_taxassos,null);
 
         CircleImageView userimg = (CircleImageView)view.findViewById(R.id.user_img);
         TextView Name =(TextView)view.findViewById(R.id.OnvanePorseshTextView) ;

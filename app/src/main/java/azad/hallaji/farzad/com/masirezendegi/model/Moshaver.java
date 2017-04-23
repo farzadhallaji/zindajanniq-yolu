@@ -16,6 +16,22 @@ public class Moshaver implements Serializable {
     List<String> Tag;
     String PicAddress;
     String CommentCount;
+    String AdviserMaxTime , RegTime;
+
+
+    public Moshaver(String aid, String userName, List<String> tags, String picAddress, String commentCount, String telephone, String rating, String adviserMaxTime, String regTime) {
+
+        AID= aid;
+        AdviserName= userName;
+        Tag=tags;
+        PicAddress=picAddress;
+        CommentCount =commentCount;
+        Telephone= telephone;
+        Rating= rating;
+        AdviserMaxTime=adviserMaxTime;
+        RegTime=regTime;
+
+    }
 
     public Bitmap getBitmap() {
         return bitmap;
@@ -66,6 +82,22 @@ public class Moshaver implements Serializable {
 
     public String getDialect() {
         return Dialect;
+    }
+
+    public String getAdviserMaxTime() {
+        return AdviserMaxTime;
+    }
+
+    public void setAdviserMaxTime(String adviserMaxTime) {
+        AdviserMaxTime = adviserMaxTime;
+    }
+
+    public String getRegTime() {
+        return RegTime;
+    }
+
+    public void setRegTime(String regTime) {
+        RegTime = regTime;
     }
 
     public void setDialect(String dialect) {
