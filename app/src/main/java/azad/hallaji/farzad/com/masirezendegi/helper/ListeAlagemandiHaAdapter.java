@@ -25,14 +25,12 @@ public class ListeAlagemandiHaAdapter extends ArrayAdapter<ALagemandi> {
     private Context mContext;
     private List<ALagemandi> reportItemList = new ArrayList<>();
 
-    ALagemandi aLagemandi;
 
     public ListeAlagemandiHaAdapter(Context context, List<ALagemandi> objects) {
 
         super(context,0, objects);
         this.mContext=context;
         this.reportItemList=objects;
-        aLagemandi = reportItemList.get(0);
 
     }
 
@@ -47,21 +45,18 @@ public class ListeAlagemandiHaAdapter extends ArrayAdapter<ALagemandi> {
         TextView typeAlagemandiTextView  =(TextView)view.findViewById(R.id.typeAlagemandiTextView) ;
 
 
-        new DownloadImageTask(moshaverimg).execute(aLagemandi.getMoshavers().get(position).getPicAddress());
-        Name.setText(aLagemandi.getMoshavers().get(position).getAdviserName());
-        typeAlagemandiTextView.setText("مشاور");
+        new DownloadImageTask(moshaverimg).execute(reportItemList.get(position).getPicAddress());
+        Name.setText(reportItemList.get(position).getUserName());
+        typeAlagemandiTextView.setText(reportItemList.get(position).getType());
 
         /*new DownloadImageTaske().execute(Ittem);
         moshaverimg.setImageBitmap(Ittem.getBitmap());
-
         Name.setText(Ittem.getAdviserName());
         String ss="";
         for(String s:Ittem.getTag())
             ss+=","+s;
-
         Tag.setText(ss.substring(1));
-        IDCOmment.setText(Ittem.getCommentCount() + "    " + Ittem.getAID()+ " کد کارشناس : ");
-*/
+        IDCOmment.setText(Ittem.getCommentCount() + "    " + Ittem.getAID()+ " کد کارشناس : ");*/
 
         return view;
     }

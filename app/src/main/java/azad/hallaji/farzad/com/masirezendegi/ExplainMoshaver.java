@@ -47,7 +47,7 @@ public class ExplainMoshaver extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
 
 
-    String adviseridm="0";
+    String adviseridm="100";
     ImageView userimg;
     TextView name_moshaver_textview;
     TextView taxassose_moshaver_textview;

@@ -1,7 +1,5 @@
 package azad.hallaji.farzad.com.masirezendegi.model;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by fayzad on 4/23/17.
@@ -9,40 +7,47 @@ import java.util.List;
 
 public class ALagemandi {
 
-    private List<Moshaver> moshavers=new ArrayList<>();
-    private List<Markaz> markazs=new ArrayList<>();
-    private List<Question> questions=new ArrayList<>();
+    private String ID;
+    private String UserName;
+    private String Type;
+    private String PicAddress;
 
-    public ALagemandi(List<Moshaver> moshavers, List<Markaz> markazs, List<Question> questions) {
-        this.moshavers = moshavers;
-        this.markazs = markazs;
-        this.questions = questions;
+    public ALagemandi(String ID, String userName, String type, String picAddress) {
+        this.ID = ID;
+        UserName = userName;
+        Type = type;
+        PicAddress = picAddress;
     }
 
-    public ALagemandi() {
+    public String getID() {
+        return ID;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
+    public String getUserName() {
+        return UserName;
     }
 
-    public List<Moshaver> getMoshavers() {
-        return moshavers;
+    public void setUserName(String userName) {
+        UserName = userName;
     }
 
-    public void setMoshavers(List<Moshaver> moshavers) {
-        this.moshavers = moshavers;
+    public String getType() {
+        return Type;
     }
 
-    public List<Markaz> getMarkazs() {
-        return markazs;
+    public void setType(String type) {
+        Type = type;
     }
 
-    public void setMarkazs(List<Markaz> markazs) {
-        this.markazs = markazs;
+    public String getPicAddress() {
+        return PicAddress;
+    }
+
+    public void setPicAddress(String picAddress) {
+        PicAddress = picAddress;
     }
 }

@@ -43,7 +43,7 @@
         </LinearLayout>
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/adviser_image"
+            android:id="@+id/markaz_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/user_image"
@@ -60,9 +60,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="نام مشاور در این قسمت است"
+                android:text="نام مرکز در این قسمت است"
                 android:textColor="#f3f3fa"
-                android:id="@+id/name_moshaver_textview"
+                android:id="@+id/name_markaz_textview"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:layout_weight="1"/>
@@ -71,7 +71,7 @@
                 android:layout_height="match_parent"
                 android:text="کارشناس زبان"
                 android:textColor="#f3f3fa"
-                android:id="@+id/taxassose_moshaver_textview"
+                android:id="@+id/taxassose_markaz_textview"
                 android:gravity="center"
                 android:layout_weight="1"/>
             <TextView
@@ -79,7 +79,7 @@
                 android:layout_height="match_parent"
                 android:text="کد کارشناس 245"
                 android:textColor="#f3f3fa"
-                android:id="@+id/code_moshaver_textview"
+                android:id="@+id/code_markaz_textview"
                 android:gravity="center"
                 android:layout_weight="1"/>
 
@@ -115,7 +115,7 @@
                     android:layout_height="match_parent">
 
                     <LinearLayout
-                        android:id="@+id/tabexplaimoshaver1"
+                        android:id="@+id/tabeNagshe"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
@@ -123,18 +123,12 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/tabexplaimoshaver2"
+                        android:id="@+id/tabeHamKaran"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/tabexplaimoshaver3"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-                    </LinearLayout>
                 </FrameLayout>
             </LinearLayout>
         </TabHost>

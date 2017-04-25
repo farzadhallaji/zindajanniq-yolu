@@ -28,6 +28,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,23 +48,27 @@ import azad.hallaji.farzad.com.masirezendegi.model.Comment;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 import azad.hallaji.farzad.com.masirezendegi.model.Question;
+import cz.msebera.android.httpclient.Header;
 
 public class ExplainMarkaz extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
+    private static AsyncHttpClient client = new AsyncHttpClient();
 
 
     String placeid="0";
     ImageView userimg;
-    TextView name_moshaver_textview;
-    TextView taxassose_moshaver_textview;
-    TextView code_moshaver_textview;
-    String License="";
-    List<Comment> comments=new ArrayList<>();
+    String Adviser;
+    TextView name_markaz_textview;
+    TextView taxassose_markaz_textview;
+    TextView code_markaz_textview;
+
+    String PicAddress ,Address,AboutMainplace,MainPlaceName= " ";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_explain_moshaver);
+        setContentView(R.layout.activity_explain_markaz);
 
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -75,10 +82,10 @@ public class ExplainMarkaz extends TabActivity
         });
 
 
-        userimg = (ImageView)findViewById(R.id.adviser_image);
-        name_moshaver_textview =(TextView) findViewById(R.id.name_moshaver_textview);
-        taxassose_moshaver_textview =(TextView) findViewById(R.id.taxassose_moshaver_textview);
-        code_moshaver_textview =(TextView) findViewById(R.id.code_moshaver_textview);
+        userimg = (ImageView)findViewById(R.id.markaz_image);
+        name_markaz_textview =(TextView) findViewById(R.id.name_markaz_textview);
+        taxassose_markaz_textview =(TextView) findViewById(R.id.taxassose_markaz_textview);
+        code_markaz_textview =(TextView) findViewById(R.id.code_markaz_textview);
 
 
         if (savedInstanceState == null) {
@@ -95,33 +102,23 @@ public class ExplainMarkaz extends TabActivity
         //Toast.makeText(getApplicationContext(), "+"+adviseridm+"+", Toast.LENGTH_LONG).show();
 
         if(isOnline()){
-            //requestData(placeid);
-            postgetData(placeid);
-
-
-            /*TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
-
+            requestData();
+            //postgetData(placeid);
+            TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
             TabHost.TabSpec tabSpec1 = tabHost.newTabSpec("nazar");
             TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("madarek");
-            TabHost.TabSpec tabSpec3 = tabHost.newTabSpec("map");
 
-
-
-            tabSpec1.setIndicator("نظرات");
+            tabSpec1.setIndicator("همکاران");
             Intent intent1 =new Intent(this, ListeComments.class);
+            intent1.putExtra("Adviser",Adviser);
             tabSpec1.setContent(intent1);
 
-            tabSpec2.setIndicator("مدارک");
+            tabSpec2.setIndicator("نقشه");
             Intent intent2 =new Intent(this, PageLiecence.class);
             tabSpec2.setContent(intent2);
 
-            tabSpec3.setIndicator("تخصص ها");
-            Intent intent = new Intent(this, Taxassosexusus.class);
-            tabSpec3.setContent(intent);
-
             tabHost.addTab(tabSpec1);
             tabHost.addTab(tabSpec2);
-            tabHost.addTab(tabSpec3);*/
 
 
         } else {
@@ -130,52 +127,51 @@ public class ExplainMarkaz extends TabActivity
 
     }
 
+    private void requestData() {
+        RequestParams params = new RequestParams();
+        params.put("placeid",  String.valueOf(placeid));
+        params.put("deviceid", GlobalVar.getDeviceID());
+        client.post("http://telyar.dmedia.ir/webservice/Get_mainplaceID", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    JSONObject jsonObject = new JSONObject(new String(responseBody));
+                    Log.i("asdfghytrewiuytr",jsonObject.toString());
 
+                    try {
+                        MainPlaceName = jsonObject.getString("MainPlaceName");
 
-    private void requestData(String pid) {
+                    }catch (Exception ignored){}
+                    try {
+                        PicAddress = jsonObject.getString("PicAddress");
+                    }catch (Exception ignored){}
+                    try {
+                        Address = jsonObject.getString("Address");
 
-        RequestPackage p = new RequestPackage();
-        p.setMethod("POST");
-        p.setUri("http://telyar.dmedia.ir/webservice/Get_mainplaceID");
-        p.setParam("placeid",  String.valueOf(pid));
-        p.setParam("deviceid", GlobalVar.getDeviceID());
+                    }catch (Exception ignored){}
+                    try {
+                        AboutMainplace = jsonObject.getString("AboutMainplace");
 
+                    }catch (Exception ignored){}
+                    Log.i("asads",PicAddress + Address + AboutMainplace + MainPlaceName);
 
+                    Adviser=jsonObject.getString("Adviser");
 
-        LoginAsyncTask task = new LoginAsyncTask();
-        task.execute(p);
-
-    }
-    private class LoginAsyncTask extends AsyncTask<RequestPackage, String, String> {
-
-
-        @Override
-        protected String doInBackground(RequestPackage... params) {
-            String content = HttpManager.getData(params[0]);
-            return content;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            //Toast.makeText(getApplicationContext(), "0"+result+"0", Toast.LENGTH_LONG).show();
-
-            Log.i("asassdfgfhfgfcdsahnbgvc", result);
-
-            List<Question> templist = new ArrayList<>();
-
-            try {
-
-                JSONArray jsonArray = new JSONArray(result);
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+                    new DownloadImageTask(userimg).execute(PicAddress);
+                    name_markaz_textview.setText(MainPlaceName);
+                    taxassose_markaz_textview.setText(Address);
+                    code_markaz_textview.setText(AboutMainplace);
+                    Log.i("uldu","miu");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
-        }
-    }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {}
+        });
 
+    }
 
     private boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager)
@@ -185,112 +181,6 @@ public class ExplainMarkaz extends TabActivity
             return true;
         }
         return false;
-    }
-
-    void postgetData(final String pid){
-
-
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
-
-        String url = "http://telyar.dmedia.ir/webservice/Get_adviser_profile/";
-        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //This code is executed if the server responds, whether or not the response contains data.
-                //The String 'response' contains the server's response.
-                Log.i("ahmsdnmmmad",response);
-                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
-                updatelistview(response);
-
-
-            }
-        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //This code is executed if there is an error.
-            }
-        }) {
-            protected Map<String, String> getParams() {
-                Map<String, String> MyData = new HashMap<String, String>();
-                //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
-                MyData.put("placeid", pid); //Add the data you'd like to send to the server.
-  //              MyData.put("placeid", pid); //Add the data you'd like to send to the server.
-                MyData.put("deviceid",GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
-//                MyData.put("deviceid",GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
-                return MyData;
-            }
-        };
-
-        MyRequestQueue.add(MyStringRequest);
-    }
-    private void updatelistview(String response) {
-
-
-        Log.i("asasasadfdghk",response);
-
-
-        try {
-            JSONObject  jsonObject= new JSONObject(response);
-
-
-            List<String> strings=new ArrayList<>();
-            JSONArray jsonArray = new JSONArray(jsonObject.getJSONArray("Tag").toString());
-
-            try {
-                for(int i= 0 ; i<jsonArray.length() ; i++){
-                    strings.add((String) jsonArray.get(i));
-                    Log.i("asasfdghnghjyujyuj",strings.get(0));
-                }
-            }catch (Exception ignored){}
-
-            License = jsonObject.getString("License");
-            Log.i("Lieseesene",License);
-            String AID = jsonObject.get("AID").toString();
-            String Dialect = jsonObject.get("Dialect").toString();
-            String Rating = jsonObject.getString("Rating");
-            String PicAddress = jsonObject.getString("PicAddress");
-            String AboutMe = jsonObject.get("AboutMe").toString();
-            String AdviserName = jsonObject.get("AdviserName").toString();
-            String Telephone = jsonObject.getString("Telephone");
-            String UniqueID = jsonObject.getString("UniqueID");
-            String CostPerMin = jsonObject.get("AdviserName").toString();
-            String IsFavourite = jsonObject.getString("Telephone");
-
-            comments=new ArrayList<>();
-            JSONArray jsonArray2 =new JSONArray(jsonObject.getJSONArray("Comment").toString());
-            try{
-                for(int i= 0 ; i<jsonArray2.length() ; i++){
-                    JSONObject object = (JSONObject) jsonArray2.get(i);
-                    Comment comment = new Comment(object.getString("comment"),object.getString("RegTime"),
-                            object.getString("UserName"),object.getString("UserFamilyName"));
-                    comments.add((comment));
-                }
-                Log.i("aasasasassddfgfgyjyua",comments.size()+" ");
-            }catch (Exception e){
-
-            }
-
-
-            name_moshaver_textview.setText(AdviserName);
-            taxassose_moshaver_textview.setText(AboutMe);
-            code_moshaver_textview.setText(UniqueID);
-
-            Moshaver moshaver = new Moshaver(AID,AdviserName ,strings,PicAddress,"");
-
-            moshaver.setCostPerMin(CostPerMin);
-            moshaver.setTelephone(Telephone);
-            moshaver.setIsFavourite(IsFavourite);
-            moshaver.setDialect(Dialect);
-            moshaver.setRating(Rating);
-
-            new DownloadImageTask(userimg).execute(PicAddress);
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
     }
 
 

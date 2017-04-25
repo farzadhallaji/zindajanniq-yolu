@@ -1,12 +1,15 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -37,27 +40,25 @@ import azad.hallaji.farzad.com.masirezendegi.model.Question;
 
 public class PageAlaghemandiha extends AppCompatActivity {
 
-    private  ALagemandi aLagemandi= new ALagemandi();
-
+    RequestQueue MyRequestQueue ;
+    List<ALagemandi> aLagemandis =new ArrayList<>();
+    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alaghemandiha_page);
 
-        ListView listView = (ListView)findViewById(R.id.ListeAlagemandiHaListView);
+        listView = (ListView)findViewById(R.id.ListeAlagemandiHaListView);
 
         //Get_favourite
         //input : userid , contenttype , deviceid
 
         if(isOnline()){
             postgetData1();
+            //Log.i("elabella1",aLagemandis.size()+ " ");
             postgetData2();
             postgetData3();
-
-            List<ALagemandi>aLagemandis=new ArrayList<>();
-            aLagemandis.add(aLagemandi);
-            ListeAlagemandiHaAdapter listeAlagemandiHaAdapter = new ListeAlagemandiHaAdapter(PageAlaghemandiha.this,aLagemandis);
-            listView.setAdapter(listeAlagemandiHaAdapter);
+            Log.i("tutal",aLagemandis.size()+ " ");
 
             //requestData();
 
@@ -77,12 +78,10 @@ public class PageAlaghemandiha extends AppCompatActivity {
         return false;
     }
     private void postgetData1(){
-
-
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
-
+        MyRequestQueue = Volley.newRequestQueue(this);
         String url = "http://telyar.dmedia.ir/webservice/Get_favourite/";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
             @Override
             public void onResponse(String response) {
                 //This code is executed if the server responds, whether or not the response contains data.
@@ -91,6 +90,7 @@ public class PageAlaghemandiha extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
 
                 updatelistview1(response);
+
 
             }
         }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
@@ -116,34 +116,32 @@ public class PageAlaghemandiha extends AppCompatActivity {
 
         try {
             JSONArray jsonArray = new JSONArray(response);
-            List<Question> questions=new ArrayList<>();
+            Log.i("mansansasasaa",jsonArray.length()+"s");
             for(int i = 0 ; i < jsonArray.length() ; i++){
 
                 JSONObject jsonObject =jsonArray.getJSONObject(i);
                 String QID =jsonObject.getString("QID");
                 String QuestionSubject = jsonObject.getString("QuestionSubject");
-                String Text= jsonObject.getString("Text");
+                /*String Text= jsonObject.getString("Text");
                 String RegTime=jsonObject.getString("RegTime");
                 String LikeCount=jsonObject.getString("LikeCount");
                 String DisLikeCount=jsonObject.getString("DisLikeCount");
-                String AnswerCount=jsonObject.getString("AnswerCount");
-
-                Question question = new Question(0,QID,QuestionSubject,Text,RegTime,LikeCount,DisLikeCount,AnswerCount);
-                questions.add(question);
+                String AnswerCount=jsonObject.getString("AnswerCount");*/
+                ALagemandi aLagemandi = new ALagemandi(QID,QuestionSubject,"پرسش","");
+                aLagemandis.add(aLagemandi);
 
             }
-            aLagemandi.setQuestions(questions);
+
+            Log.i("elabella",aLagemandis.size()+ " ");
+
 
         } catch (JSONException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
 
     }
 
     private void postgetData2(){
-
-
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
 
         String url = "http://telyar.dmedia.ir/webservice/Get_favourite/";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -180,7 +178,6 @@ public class PageAlaghemandiha extends AppCompatActivity {
 
         try {
             JSONArray jsonArray = new JSONArray(response);
-            List<Moshaver> mushavir=new ArrayList<>();
             for(int i = 0 ; i < jsonArray.length() ; i++){
 
                 JSONObject jsonObject =jsonArray.getJSONObject(i);
@@ -202,12 +199,11 @@ public class PageAlaghemandiha extends AppCompatActivity {
                 String RegTime=jsonObject.getString("RegTime");
                 String CommentCount=jsonObject.getString("CommentCount");
 
-                Moshaver question = new Moshaver(AID,UserName,Tags,PicAddress,CommentCount , Telephone , Rating , AdviserMaxTime , RegTime);
-                mushavir.add(question);
-
+                ALagemandi question = new ALagemandi(AID,UserName,"مشاور",PicAddress);
+                aLagemandis.add(question);
 
             }
-            aLagemandi.setMoshavers(mushavir);
+            Log.i("elabella2",aLagemandis.size()+ " ");
 
         } catch (JSONException e) {
             //e.printStackTrace();
@@ -216,9 +212,6 @@ public class PageAlaghemandiha extends AppCompatActivity {
     }
 
     private void postgetData3(){
-
-
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
 
         String url = "http://telyar.dmedia.ir/webservice/Get_favourite/";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -253,47 +246,54 @@ public class PageAlaghemandiha extends AppCompatActivity {
 
     private void updatelistview3(String response) {
 
-        /*try {
+        try {
             JSONArray jsonArray = new JSONArray(response);
-            List<Markaz> markazs=new ArrayList<>();
             for(int i = 0 ; i < jsonArray.length() ; i++){
 
                 JSONObject jsonObject =jsonArray.getJSONObject(i);
-                String AID =jsonObject.getString("AID");
-                String UserName = jsonObject.getString("UserName");
+                String AID =jsonObject.getString("MID");
+                String UserName = jsonObject.getString("MainPlaceName");
                 String PicAddress= jsonObject.getString("PicAddress");
-                String Telephone=jsonObject.getString("Telephone");
-
-                List<String>Tags=new ArrayList<>();
-                JSONArray tags = new JSONArray(jsonObject.getJSONArray("Tag").toString());
-                try {
-                    for (int ii= 0 ; ii < tags.length() ; ii++){
-                        Tags.add(tags.getString(ii));
-                    }
-                }catch (Exception ignored){}
-
                 String Rating=jsonObject.getString("Rating");
                 String AdviserMaxTime=jsonObject.getString("AdviserMaxTime");
                 String RegTime=jsonObject.getString("RegTime");
                 String CommentCount=jsonObject.getString("CommentCount");
 
-                //Markaz mush = new Markaz(AID,UserName,Tags,PicAddress,CommentCount , Telephone , Rating , AdviserMaxTime , RegTime);
-                //markazs.add(mush);
-
-
+                ALagemandi mush = new ALagemandi(AID,UserName,"مرکز",PicAddress);
+                aLagemandis.add(mush);
             }
-            aLagemandi.setMarkazs(markazs);
+            Log.i("elabella3",aLagemandis.size()+ " ");
+
+            ListeAlagemandiHaAdapter listeAlagemandiHaAdapter = new ListeAlagemandiHaAdapter(PageAlaghemandiha.this,aLagemandis);
+            listView.setAdapter(listeAlagemandiHaAdapter);
 
         } catch (JSONException e) {
             //e.printStackTrace();
-        }*/
+        }
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                ALagemandi aLagemandi = aLagemandis.get(position);
+                String typee = aLagemandi.getType();
+                if(typee.equals("مشاور")){
+                    Intent intent = new Intent(PageAlaghemandiha.this,ExplainMoshaver.class);
+                    intent.putExtra("adviserid",aLagemandi.getID());
+                    startActivity(intent);
+                }else if (typee.equals("پرسش")){
+                    Intent intent = new Intent(PageAlaghemandiha.this,PasoxePorsesh.class);
+                    intent.putExtra("questionid",aLagemandi.getID());
+                    startActivity(intent);
+                }else if (typee.equals("مرکز")){
+                    Intent intent = new Intent(PageAlaghemandiha.this,ExplainMarkaz.class);
+                    intent.putExtra("placeid",aLagemandi.getID());
+                    startActivity(intent);
+                }
+
+            }
+        });
 
     }
-
-
-
-
-
 
 
 
@@ -311,8 +311,6 @@ public class PageAlaghemandiha extends AppCompatActivity {
         p.setParam("contenttype", "question");
         p.setParam("userid", "100");
         p.setParam("deviceid", GlobalVar.getDeviceID());
-
-
 
         LoginAsyncTask task = new LoginAsyncTask();
         task.execute(p);
