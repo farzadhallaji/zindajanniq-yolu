@@ -107,7 +107,6 @@ public class ListeTaxassosHa extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
         }
 
-
     }
 
 

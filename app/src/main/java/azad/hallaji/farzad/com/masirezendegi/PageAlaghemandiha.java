@@ -364,19 +364,19 @@ public class PageAlaghemandiha extends AppCompatActivity
 
         if (id == R.id.nav_marakez) {
             startActivity(new Intent(this , PageMarakez.class));
-        }else if (id == R.id.nav_profile) {
+        }/*else if (id == R.id.nav_profile) {
             startActivity(new Intent(this , PageVirayesh.class));
         } else if (id == R.id.nav_setting) {
             //startActivity(new Intent(ExplainMoshaver.this , MainActivity.class));
-        } else if (id == R.id.nav_login) {
+        } */else if (id == R.id.nav_login) {
             startActivity(new Intent(this , MainActivity.class));
         } else if (id == R.id.nav_moshaverin) {
             startActivity(new Intent(this , PageMoshaverin.class));
         } else if (id == R.id.nav_porseshha) {
             startActivity(new Intent(this , PagePorseshha.class));
-        } else if (id == R.id.nav_logout){
+        } /*else if (id == R.id.nav_logout){
             //startActivity(new Intent(Pagemenu.this , Test1.class));
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.END);

@@ -85,19 +85,19 @@ public class PageMarakez extends TabActivity
 
         if (id == R.id.nav_marakez) {
             startActivity(new Intent(PageMarakez.this , PageMarakez.class));
-        }else if (id == R.id.nav_profile) {
+        }/*else if (id == R.id.nav_profile) {
             startActivity(new Intent(this , PageVirayesh.class));
         } else if (id == R.id.nav_setting) {
             //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
-        } else if (id == R.id.nav_login) {
+        }*/ else if (id == R.id.nav_login) {
             startActivity(new Intent(PageMarakez.this , MainActivity.class));
         } else if (id == R.id.nav_moshaverin) {
             startActivity(new Intent(PageMarakez.this , PageMoshaverin.class));
         } else if (id == R.id.nav_porseshha) {
             startActivity(new Intent(PageMarakez.this , PagePorseshha.class));
-        } else if (id == R.id.nav_logout){
+        } /*else if (id == R.id.nav_logout){
             //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.END);
