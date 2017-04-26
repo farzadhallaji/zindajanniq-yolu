@@ -63,7 +63,7 @@ public class ListeMoshaverinAdapter extends ArrayAdapter<Moshaver> {
             Tag.setText(ss.substring(1));
 
         }catch (Exception ignored){}
-        IDCOmment.setText(Ittem.getCommentCount() + "    " + Ittem.getAID()+ " کد کارشناس : ");
+        IDCOmment.setText(Ittem.getCommentCount() + "                             "+" کد کارشناس : " + Ittem.getAID());
 
 
         return view;

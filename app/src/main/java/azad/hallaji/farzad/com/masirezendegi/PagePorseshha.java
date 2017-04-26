@@ -39,6 +39,15 @@ public class PagePorseshha extends TabActivity
             }
         });
 
+        ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PagePorseshha.this , Pagemenu.class);
+                startActivity(intent);
+            }
+        });
+
         TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
 
         TabHost.TabSpec tabSpec1 = tabHost.newTabSpec("Map");
@@ -52,6 +61,8 @@ public class PagePorseshha extends TabActivity
 
         tabHost.addTab(tabSpec1);
         tabHost.addTab(tabSpec2);
+
+        tabHost.setCurrentTab(1);
 
     }
 

@@ -17,13 +17,12 @@
 
         <ProgressBar
             android:id="@+id/loadprogs"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:indeterminate="true"
             android:indeterminateDrawable="@drawable/loadprogress"/>
 
     </RelativeLayout>
-
 </LinearLayout>

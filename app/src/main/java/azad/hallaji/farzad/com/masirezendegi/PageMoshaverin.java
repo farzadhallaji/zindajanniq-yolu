@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 public class PageMoshaverin extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -39,19 +40,34 @@ public class PageMoshaverin extends TabActivity
             }
         });
 
+        ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PageMoshaverin.this , Pagemenu.class);
+                startActivity(intent);
+            }
+        });
+
+        TextView textView = (TextView)findViewById(R.id.dashshshaqx);
+        textView.setText("مشاورین");
+
+
         TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
 
         TabHost.TabSpec tabSpec1 = tabHost.newTabSpec("Map");
         TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("Partners");
 
-        tabSpec1.setIndicator("نقشه مراکز");
-        tabSpec1.setContent(new Intent(this, MapsActivity.class));
+        tabSpec1.setIndicator("تخصص ها");
+        tabSpec1.setContent(new Intent(this, ListeTaxassosHa.class));
 
         tabSpec2.setIndicator("لیست مشاورین");
         tabSpec2.setContent(new Intent(this, ListeMoshaverin.class));
 
         tabHost.addTab(tabSpec1);
         tabHost.addTab(tabSpec2);
+
+        tabHost.setCurrentTab(1);
 
     }
 

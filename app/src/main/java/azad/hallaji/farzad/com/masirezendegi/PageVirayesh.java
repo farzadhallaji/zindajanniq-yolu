@@ -54,6 +54,15 @@ public class PageVirayesh extends AppCompatActivity
         TextView virayeshTextinToolbar=(TextView) findViewById(R.id.virayeshTextinToolbar);
         init();
 
+        ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PageVirayesh.this , Pagemenu.class);
+                startActivity(intent);
+            }
+        });
+
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);

@@ -60,6 +60,16 @@ public class ExplainMoshaver extends TabActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explain_moshaver);
 
+
+        ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ExplainMoshaver.this , Pagemenu.class);
+                startActivity(intent);
+            }
+        });
+
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);

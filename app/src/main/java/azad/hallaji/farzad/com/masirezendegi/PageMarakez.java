@@ -24,6 +24,16 @@ public class PageMarakez extends TabActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
+
+        ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PageMarakez.this , Pagemenu.class);
+                startActivity(intent);
+            }
+        });
+
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);

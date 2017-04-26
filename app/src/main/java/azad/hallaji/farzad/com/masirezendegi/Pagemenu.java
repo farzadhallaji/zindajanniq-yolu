@@ -27,6 +27,9 @@ public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavi
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+
+
         ImageView imageView = (ImageView) findViewById(R.id.menuButton);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
