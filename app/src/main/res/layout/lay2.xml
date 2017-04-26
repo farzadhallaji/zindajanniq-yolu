@@ -3,6 +3,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/marakez"
+    android:layoutDirection="ltr"
     android:baselineAligned="false"
     android:id="@+id/lay2"
     android:orientation="vertical"

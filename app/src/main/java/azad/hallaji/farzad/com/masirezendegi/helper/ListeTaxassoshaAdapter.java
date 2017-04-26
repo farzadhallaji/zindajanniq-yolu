@@ -38,18 +38,16 @@ public class ListeTaxassoshaAdapter extends ArrayAdapter<Taxassos> {
         LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = vi.inflate(R.layout.item_taxassos,null);
 
-        CircleImageView userimg = (CircleImageView)view.findViewById(R.id.user_img);
         TextView Name =(TextView)view.findViewById(R.id.OnvanePorseshTextView) ;
         TextView Count  =(TextView)view.findViewById(R.id.HasChildTextView) ;
-        TextView IDsub  =(TextView)view.findViewById(R.id.SID) ;
-
         Taxassos Ittem = reportItemList.get(position);
 
-        //new DownloadImageTask(userimg).execute(Ittem.getPicAddress()); //TODO ?*
+        if(Ittem.getHasChild().equals("0")){
+            Count.setText("ندارد");
+        }else {
+            Count.setText("دارد");
+        }
         Name.setText(Ittem.getName());
-        Count.setText(Ittem.getHasChild());
-        IDsub.setText(Ittem.getSID());
-
         return view;
     }
 

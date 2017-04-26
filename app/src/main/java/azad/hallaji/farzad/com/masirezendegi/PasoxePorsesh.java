@@ -59,7 +59,7 @@ public class PasoxePorsesh extends AppCompatActivity {
         listView=(ListView)findViewById(R.id.ListepasoxhaListView);
 
 
-        Toast.makeText(getApplicationContext(), qid, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), qid, Toast.LENGTH_LONG).show();
 
         Log.i("aasasasasaaaaa",qid);
 

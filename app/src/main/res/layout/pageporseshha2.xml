@@ -2,6 +2,7 @@
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layoutDirection="ltr"
     android:background="@drawable/mohaverinpage"
     android:baselineAligned="false"
     android:id="@+id/lay2"
@@ -34,7 +35,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="پرسش ها"
+                    android:text="مراکز"
                     android:id="@+id/dashshshaqx"
                     android:layout_gravity="center"
                     android:textColor="#ffffff"

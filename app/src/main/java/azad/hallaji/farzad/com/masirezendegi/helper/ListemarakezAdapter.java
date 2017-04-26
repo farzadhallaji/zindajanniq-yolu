@@ -49,7 +49,7 @@ public class ListemarakezAdapter extends ArrayAdapter<Markaz> {
         Markaz Ittem = reportItemList.get(position);
 
         Name.setText(Ittem.getMainPlaceName());
-        Tag.setText(Ittem.getAboutMainPlace());
+        //Tag.setText(Ittem.getAboutMainPlace());
         IDCOmment.setText(Ittem.getTelephone());
 
 
