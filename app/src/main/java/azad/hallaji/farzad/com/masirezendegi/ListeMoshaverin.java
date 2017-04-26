@@ -92,7 +92,7 @@ public class ListeMoshaverin extends AppCompatActivity {
                         }else{
                             listView.addFooterView(ftView);
                             requestData(finalPorseshemoredenazar,((totalList.size()/20+1)*20));
-                        }
+                        }       //TODO TEST sine den yazma
                     }
 
                 }
@@ -115,6 +115,7 @@ public class ListeMoshaverin extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -140,7 +141,6 @@ public class ListeMoshaverin extends AppCompatActivity {
         RequestPackage p = new RequestPackage();
         p.setMethod("POST");
         p.setUri("http://telyar.dmedia.ir/webservice/get_adviser");
-
 
         p.setParam("subjectid",  subid);
         p.setParam("start", String.valueOf(start));

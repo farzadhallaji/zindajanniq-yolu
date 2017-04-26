@@ -56,7 +56,6 @@
             android:layout_width="match_parent"
             android:layout_height="100sp"
             android:id="@+id/user_img"
-            android:src="@drawable/user_image"
             app:civ_border_color="#a54"
             android:layout_weight="2.6"/>
     </LinearLayout>

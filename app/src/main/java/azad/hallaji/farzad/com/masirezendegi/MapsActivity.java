@@ -19,6 +19,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -139,16 +140,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     }
 
-                    for(int i= 0 ; i < markazs.size() ; i++){
+                    for(int i= 0 ; i < markazs.size() ; i++) {
 
 
                         try {
-                            mMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(markazs.get(i).getLat()),Double.valueOf(markazs.get(i).getLongg())))
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(markazs.get(i).getLat()), Double.valueOf(markazs.get(i).getLongg())))
                                     .title(markazs.get(i).getMainPlaceName()));
-                        }catch (Exception e){
-                            Log.i("null","di ona gore");
-                        }
 
+                        } catch (Exception e) {
+                            Log.i("null", "di ona gore");
+                        }
 
                     }
                 }

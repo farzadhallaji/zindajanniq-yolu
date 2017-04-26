@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 
 public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    LinearLayout linearLayout1,linearLayout2,linearLayout3,linearLayout4 ;
+    ImageView linearLayout1,linearLayout2,linearLayout3,linearLayout4 ;
 
 
     @Override
@@ -38,10 +38,10 @@ public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavi
         });
 
 
-        linearLayout1= (LinearLayout) findViewById(R.id.alagemandihabutton);
-        linearLayout2= (LinearLayout) findViewById(R.id.porseshhabutton);
-        linearLayout3= (LinearLayout) findViewById(R.id.marakezbutton);
-        linearLayout4= (LinearLayout) findViewById(R.id.moshaverinbutton);
+        linearLayout1= (ImageView) findViewById(R.id.alagemandihabutton);
+        linearLayout2= (ImageView) findViewById(R.id.porseshhabutton);
+        linearLayout3= (ImageView) findViewById(R.id.marakezbutton);
+        linearLayout4= (ImageView) findViewById(R.id.moshaverinbutton);
 
 
         linearLayout1.setOnClickListener(new View.OnClickListener() {
@@ -84,19 +84,19 @@ public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavi
 
         if (id == R.id.nav_marakez) {
             startActivity(new Intent(Pagemenu.this , PageMarakez.class));
-        }else if (id == R.id.nav_profile) {
+        }/*else if (id == R.id.nav_profile) {
             startActivity(new Intent(Pagemenu.this , PageVirayesh.class));
-        } else if (id == R.id.nav_setting) {
+        }*/ /*else if (id == R.id.nav_setting) {
             //startActivity(new Intent(Pagemenu.this , MainActivity.class));
-        } else if (id == R.id.nav_login) {
+        }*/ else if (id == R.id.nav_login) {
             startActivity(new Intent(Pagemenu.this , MainActivity.class));
         } else if (id == R.id.nav_moshaverin) {
             startActivity(new Intent(Pagemenu.this , PageMoshaverin.class));
         } else if (id == R.id.nav_porseshha) {
             startActivity(new Intent(Pagemenu.this , PagePorseshha.class));
-        } else if (id == R.id.nav_logout){
+        } /*else if (id == R.id.nav_logout){
             //startActivity(new Intent(Pagemenu.this , Test1.class));
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.END);

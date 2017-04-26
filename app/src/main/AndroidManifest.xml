@@ -85,7 +85,8 @@
         <activity android:name=".PageLiecence" />
         <activity android:name=".Taxassosexusus" />
         <activity android:name=".ExplainMarkaz" />
-        <activity android:name=".PageVirayesh"></activity>
+        <activity android:name=".PageVirayesh" />
+        <activity android:name=".Liste_Moshaverine_Markaz"></activity>
     </application>
 
 </manifest>

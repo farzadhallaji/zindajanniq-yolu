@@ -54,7 +54,6 @@ public class ExplainMarkaz extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
     private static AsyncHttpClient client = new AsyncHttpClient();
 
-
     String placeid="0";
     ImageView userimg;
     String Adviser;
@@ -80,7 +79,6 @@ public class ExplainMarkaz extends TabActivity
                 drawer.openDrawer(Gravity.END);
             }
         });
-
 
         userimg = (ImageView)findViewById(R.id.markaz_image);
         name_markaz_textview =(TextView) findViewById(R.id.name_markaz_textview);
@@ -108,14 +106,16 @@ public class ExplainMarkaz extends TabActivity
             TabHost.TabSpec tabSpec1 = tabHost.newTabSpec("nazar");
             TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("madarek");
 
-            tabSpec1.setIndicator("همکاران");
-            Intent intent1 =new Intent(this, ListeComments.class);
-            intent1.putExtra("Adviser",Adviser);
-            tabSpec1.setContent(intent1);
+
 
             tabSpec2.setIndicator("نقشه");
-            Intent intent2 =new Intent(this, PageLiecence.class);
+            Intent intent2 =new Intent(this, Liste_Moshaverine_Markaz.class);
             tabSpec2.setContent(intent2);
+
+            tabSpec1.setIndicator("همکاران");
+            Intent intent1 =new Intent(this, Liste_Moshaverine_Markaz.class);
+            intent1.putExtra("placeid",placeid);
+            tabSpec1.setContent(intent1);
 
             tabHost.addTab(tabSpec1);
             tabHost.addTab(tabSpec2);
@@ -183,26 +183,25 @@ public class ExplainMarkaz extends TabActivity
         return false;
     }
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
             startActivity(new Intent(ExplainMarkaz.this , PageMarakez.class));
-        }else if (id == R.id.nav_profile) {
+        }/*else if (id == R.id.nav_profile) {
             startActivity(new Intent(ExplainMarkaz.this , PageVirayesh.class));
         } else if (id == R.id.nav_setting) {
             //startActivity(new Intent(ExplainMarakez.this , MainActivity.class));
-        } else if (id == R.id.nav_login) {
+        }*/ else if (id == R.id.nav_login) {
             startActivity(new Intent(ExplainMarkaz.this , MainActivity.class));
         } else if (id == R.id.nav_moshaverin) {
             startActivity(new Intent(this , PageMoshaverin.class));
         } else if (id == R.id.nav_porseshha) {
             startActivity(new Intent(this , PagePorseshha.class));
-        } else if (id == R.id.nav_logout){
+        } /*else if (id == R.id.nav_logout){
             //startActivity(new Intent(ExplainMarakez.this , Test1.class));
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.END);

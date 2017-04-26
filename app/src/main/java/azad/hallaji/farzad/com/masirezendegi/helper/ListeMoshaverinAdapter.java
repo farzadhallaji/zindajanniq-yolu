@@ -49,17 +49,20 @@ public class ListeMoshaverinAdapter extends ArrayAdapter<Moshaver> {
 
         Moshaver Ittem = reportItemList.get(position);
 
-        //new DownloadImageTask(moshaverimg).execute(Ittem.getPicAddress());
+        new DownloadImageTask(moshaverimg).execute(Ittem.getPicAddress());
 
-        new DownloadImageTaske().execute(Ittem);
-        moshaverimg.setImageBitmap(Ittem.getBitmap());
+        /*new DownloadImageTaske().execute(Ittem);
+        moshaverimg.setImageBitmap(Ittem.getBitmap());*/
 
         Name.setText(Ittem.getAdviserName());
         String ss="";
-        for(String s:Ittem.getTag())
-           ss+=","+s;
 
-        Tag.setText(ss.substring(1));
+        try {
+            for(String s:Ittem.getTag())
+                ss+=","+s;
+            Tag.setText(ss.substring(1));
+
+        }catch (Exception ignored){}
         IDCOmment.setText(Ittem.getCommentCount() + "    " + Ittem.getAID()+ " کد کارشناس : ");
 
 

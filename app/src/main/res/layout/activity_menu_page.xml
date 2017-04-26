@@ -23,7 +23,7 @@
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
                 android:id="@+id/menuButton"
-                android:src="@drawable/menu_icon"/>
+                android:src="@drawable/ic_menu_white"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -32,35 +32,56 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:background="@drawable/menupagemenu"
-        android:layout_weight="5">
-
-
+        android:layout_weight="5"
+        android:layout_margin="20dp">
         <LinearLayout
             android:layout_width="match_parent"
-            android:id="@+id/alagemandihabutton"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="1"/>
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/alagemandihabutton"
+                android:src="@drawable/alage"
+                android:layout_gravity="center"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:id="@+id/porseshhabutton"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="1"/>
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/porseshhabutton"
+                android:src="@drawable/porsesh"
+                android:layout_gravity="center"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:id="@+id/marakezbutton"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="1"/>
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/marakezbutton"
+                android:src="@drawable/markaz"
+                android:layout_gravity="center"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:id="@+id/moshaverinbutton"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="1" />
-
+            android:layout_weight="1" >
+            <ImageView
+                android:layout_width="match_parent"
+                android:id="@+id/moshaverinbutton"
+                android:layout_height="match_parent"
+                android:src="@drawable/moshaver"
+                android:layout_gravity="center"/>
+        </LinearLayout>
 
     </LinearLayout>
 

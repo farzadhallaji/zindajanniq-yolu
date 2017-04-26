@@ -5,11 +5,18 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,6 +26,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,9 +47,12 @@ import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Markaz;
 import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 import azad.hallaji.farzad.com.masirezendegi.model.Question;
+import cz.msebera.android.httpclient.Header;
 
-public class PageAlaghemandiha extends AppCompatActivity {
+public class PageAlaghemandiha extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static AsyncHttpClient client = new AsyncHttpClient();
     RequestQueue MyRequestQueue ;
     List<ALagemandi> aLagemandis =new ArrayList<>();
     ListView listView;
@@ -48,6 +61,25 @@ public class PageAlaghemandiha extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alaghemandiha_page);
 
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        ImageView imageView = (ImageView) findViewById(R.id.menuButton);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(Gravity.END);
+            }
+        });
+
+        ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PageAlaghemandiha.this , Pagemenu.class);
+                startActivity(intent);
+            }
+        });
         listView = (ListView)findViewById(R.id.ListeAlagemandiHaListView);
 
         //Get_favourite
@@ -58,6 +90,10 @@ public class PageAlaghemandiha extends AppCompatActivity {
             //Log.i("elabella1",aLagemandis.size()+ " ");
             postgetData2();
             postgetData3();
+            //requestDataa();
+
+            //requestDatsssa();
+
             Log.i("tutal",aLagemandis.size()+ " ");
 
             //requestData();
@@ -248,19 +284,28 @@ public class PageAlaghemandiha extends AppCompatActivity {
 
         try {
             JSONArray jsonArray = new JSONArray(response);
-            for(int i = 0 ; i < jsonArray.length() ; i++){
+            Log.i("elabella34",jsonArray.length()+ " ");
 
-                JSONObject jsonObject =jsonArray.getJSONObject(i);
-                String AID =jsonObject.getString("MID");
-                String UserName = jsonObject.getString("MainPlaceName");
-                String PicAddress= jsonObject.getString("PicAddress");
-                String Rating=jsonObject.getString("Rating");
+            for(int i = 0 ; i < jsonArray.length() ; i++) {
+                JSONObject jsonObject;
+                String AID="";
+                String UserName="";
+                String PicAddress="";
+                try {
+                    jsonObject= jsonArray.getJSONObject(i);
+                    AID= jsonObject.getString("MID");
+                    UserName = jsonObject.getString("MainPlaceName");
+                    PicAddress = jsonObject.getString("PicAddress");
+                }catch (Exception ignored){}
+                /*String Rating=jsonObject.getString("Rating");
                 String AdviserMaxTime=jsonObject.getString("AdviserMaxTime");
                 String RegTime=jsonObject.getString("RegTime");
-                String CommentCount=jsonObject.getString("CommentCount");
+                String CommentCount=jsonObject.getString("CommentCount");*/
 
-                ALagemandi mush = new ALagemandi(AID,UserName,"مرکز",PicAddress);
+                ALagemandi mush = new ALagemandi(AID, UserName, "مرکز", PicAddress);
                 aLagemandis.add(mush);
+                Log.i("elabella3", aLagemandis.size() + " ");
+
             }
             Log.i("elabella3",aLagemandis.size()+ " ");
 
@@ -296,10 +341,6 @@ public class PageAlaghemandiha extends AppCompatActivity {
     }
 
 
-
-
-
-
     private void requestData() {
 
         RequestPackage p = new RequestPackage();
@@ -315,6 +356,31 @@ public class PageAlaghemandiha extends AppCompatActivity {
         LoginAsyncTask task = new LoginAsyncTask();
         task.execute(p);
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_marakez) {
+            startActivity(new Intent(this , PageMarakez.class));
+        }else if (id == R.id.nav_profile) {
+            startActivity(new Intent(this , PageVirayesh.class));
+        } else if (id == R.id.nav_setting) {
+            //startActivity(new Intent(ExplainMoshaver.this , MainActivity.class));
+        } else if (id == R.id.nav_login) {
+            startActivity(new Intent(this , MainActivity.class));
+        } else if (id == R.id.nav_moshaverin) {
+            startActivity(new Intent(this , PageMoshaverin.class));
+        } else if (id == R.id.nav_porseshha) {
+            startActivity(new Intent(this , PagePorseshha.class));
+        } else if (id == R.id.nav_logout){
+            //startActivity(new Intent(Pagemenu.this , Test1.class));
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.END);
+        return true;
     }
 
 
@@ -338,5 +404,37 @@ public class PageAlaghemandiha extends AppCompatActivity {
 
     }
 
+
+    private void requestDataa() {
+        RequestParams params = new RequestParams();
+
+        params.put("contenttype", "mainplace"); //Add the data you'd like to send to the server.
+        params.put("userid", "100");
+        params.put("deviceid", GlobalVar.getDeviceID());
+        client.post("http://telyar.dmedia.ir/webservice/Get_favourite/", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    JSONObject jsonObject = new JSONObject(new String(responseBody));
+
+                    Log.i("aassdfghjuytrew",new String(responseBody));
+
+                    JSONArray advisers =new JSONArray(jsonObject.getString("Adviser"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                Log.i("aassdfghjuytrew","1");
+
+
+            }
+        });
+
+    }
 
 }

@@ -27,11 +27,18 @@
                 android:layout_margin="10dp"
                 android:id="@+id/backButton"
                 android:layout_gravity="right"
-                android:src="@drawable/menu_icon"/>
+                android:src="@drawable/ic_chevron_left_white"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="2">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="مرکز"
+                    android:layout_gravity="center"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp"/>
             </LinearLayout>
             <ImageView
                 android:layout_width="30dp"
@@ -39,14 +46,13 @@
                 android:layout_margin="10dp"
                 android:id="@+id/menuButton"
                 android:layout_gravity="right"
-                android:src="@drawable/menu_icon"/>
+                android:src="@drawable/ic_menu_white"/>
         </LinearLayout>
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/markaz_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/user_image"
             app:civ_border_width="2dp"
             app:civ_border_color="#ccbbbb"
             android:layout_weight="3"/>

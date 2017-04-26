@@ -103,8 +103,6 @@ public class ExplainMoshaver extends TabActivity
             TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("madarek");
             TabHost.TabSpec tabSpec3 = tabHost.newTabSpec("map");
 
-
-
             tabSpec1.setIndicator("نظرات");
             Intent intent1 =new Intent(this, ListeComments.class);
             intent1.putExtra("adviseridm",adviseridm);
@@ -256,19 +254,19 @@ public class ExplainMoshaver extends TabActivity
 
         if (id == R.id.nav_marakez) {
             startActivity(new Intent(ExplainMoshaver.this , PageMarakez.class));
-        }else if (id == R.id.nav_profile) {
+        }/*else if (id == R.id.nav_profile) {
             startActivity(new Intent(ExplainMoshaver.this , PageVirayesh.class));
         } else if (id == R.id.nav_setting) {
             //startActivity(new Intent(ExplainMoshaver.this , MainActivity.class));
-        } else if (id == R.id.nav_login) {
+        }*/ else if (id == R.id.nav_login) {
             startActivity(new Intent(ExplainMoshaver.this , MainActivity.class));
         } else if (id == R.id.nav_moshaverin) {
             startActivity(new Intent(ExplainMoshaver.this , PageMoshaverin.class));
         } else if (id == R.id.nav_porseshha) {
             startActivity(new Intent(ExplainMoshaver.this , PagePorseshha.class));
-        } else if (id == R.id.nav_logout){
+        } /*else if (id == R.id.nav_logout){
             //startActivity(new Intent(Pagemenu.this , Test1.class));
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.END);
