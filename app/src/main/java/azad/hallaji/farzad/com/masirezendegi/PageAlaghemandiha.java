@@ -369,7 +369,7 @@ public class PageAlaghemandiha extends AppCompatActivity
         } else if (id == R.id.nav_setting) {
             //startActivity(new Intent(ExplainMoshaver.this , MainActivity.class));
         } */else if (id == R.id.nav_login) {
-            startActivity(new Intent(this , MainActivity.class));
+            startActivity(new Intent(this , PageLogin.class));
         } else if (id == R.id.nav_moshaverin) {
             startActivity(new Intent(this , PageMoshaverin.class));
         } else if (id == R.id.nav_porseshha) {

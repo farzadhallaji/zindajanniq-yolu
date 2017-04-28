@@ -204,7 +204,7 @@ public class ExplainMarkaz extends TabActivity
         } else if (id == R.id.nav_setting) {
             //startActivity(new Intent(ExplainMarakez.this , MainActivity.class));
         }*/ else if (id == R.id.nav_login) {
-            startActivity(new Intent(ExplainMarkaz.this , MainActivity.class));
+            startActivity(new Intent(ExplainMarkaz.this , PageLogin.class));
         } else if (id == R.id.nav_moshaverin) {
             startActivity(new Intent(this , PageMoshaverin.class));
         } else if (id == R.id.nav_porseshha) {

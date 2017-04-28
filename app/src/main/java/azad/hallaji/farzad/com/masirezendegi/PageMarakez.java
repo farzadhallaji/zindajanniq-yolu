@@ -100,7 +100,7 @@ public class PageMarakez extends TabActivity
         } else if (id == R.id.nav_setting) {
             //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
         }*/ else if (id == R.id.nav_login) {
-            startActivity(new Intent(PageMarakez.this , MainActivity.class));
+            startActivity(new Intent(PageMarakez.this , PageLogin.class));
         } else if (id == R.id.nav_moshaverin) {
             startActivity(new Intent(PageMarakez.this , PageMoshaverin.class));
         } else if (id == R.id.nav_porseshha) {

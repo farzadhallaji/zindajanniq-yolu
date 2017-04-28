@@ -97,7 +97,7 @@ public class PagePorseshha extends TabActivity
         } else if (id == R.id.nav_setting) {
             //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
         } */else if (id == R.id.nav_login) {
-            startActivity(new Intent(PagePorseshha.this , MainActivity.class));
+            startActivity(new Intent(PagePorseshha.this , PageLogin.class));
         } else if (id == R.id.nav_moshaverin) {
             startActivity(new Intent(PagePorseshha.this , PageMoshaverin.class));
         } else if (id == R.id.nav_porseshha) {

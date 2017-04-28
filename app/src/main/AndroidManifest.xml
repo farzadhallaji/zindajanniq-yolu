@@ -34,11 +34,13 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity android:name=".Tab1" />
         <!--
@@ -86,7 +88,9 @@
         <activity android:name=".Taxassosexusus" />
         <activity android:name=".ExplainMarkaz" />
         <activity android:name=".PageVirayesh" />
-        <activity android:name=".Liste_Moshaverine_Markaz"></activity>
+        <activity android:name=".Liste_Moshaverine_Markaz" />
+        <activity android:name=".PageLogin">
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/loginlay"
+    android:layout_height="match_parent"
+    tools:context="azad.hallaji.farzad.com.masirezendegi.PageLogin">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/toolbar2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:layout_weight="5">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:id="@+id/backButton"
+                android:layout_gravity="right|bottom"
+                android:src="@drawable/ic_chevron_left_white"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:gravity="right"
+                android:layout_weight="2">
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:id="@+id/menuButton"
+                android:layout_gravity="right|bottom"
+                android:src="@drawable/ic_menu_white"/>
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.37"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lutfanimiyiText"
+                android:layout_centerHorizontal="true"
+                android:text="شماره موبایل خود را وارد نمایید"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+            
+            <EditText
+                android:layout_width="200dp"
+                android:layout_centerHorizontal="true"
+                android:inputType="phone"
+                android:hint="09*********"
+                android:gravity="center"
+                android:maxLength="11"
+                android:id="@+id/ahbarinshumarasiEdit"
+                android:layout_height="40dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <Button
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:text="تایید"
+                android:textColor="#fff"
+                android:id="@+id/loginBut"
+                android:background="@drawable/login_button"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.5"/>
+
+</LinearLayout>

@@ -102,7 +102,7 @@ public class PageMoshaverin extends TabActivity
         } else if (id == R.id.nav_setting) {
             //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
         } */else if (id == R.id.nav_login) {
-            startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
+            startActivity(new Intent(PageMoshaverin.this , PageLogin.class));
         } else if (id == R.id.nav_moshaverin) {
             startActivity(new Intent(PageMoshaverin.this , PageMoshaverin.class));
         } else if (id == R.id.nav_porseshha) {

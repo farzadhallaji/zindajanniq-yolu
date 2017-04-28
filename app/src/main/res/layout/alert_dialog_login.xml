@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="تبریک"
+        android:layout_margin="20dp"
+        android:id="@+id/aT"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="22dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="مثلا حرفای تو "
+        android:id="@+id/aaT"
+        android:textColor="#000"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/aT"/>
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="بستن"
+        android:id="@+id/buttombastan"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:background="#fff"
+        android:textColor="#2991ff"
+        android:layout_margin="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/aaT"/>
+
+</RelativeLayout>
