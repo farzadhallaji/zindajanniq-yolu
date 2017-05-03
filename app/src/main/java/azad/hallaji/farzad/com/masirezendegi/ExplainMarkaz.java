@@ -1,5 +1,6 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
+import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +16,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -38,10 +41,12 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import azad.hallaji.farzad.com.masirezendegi.helper.ListeMoshaverinAdapter;
 import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
 import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.Comment;
@@ -53,7 +58,9 @@ import cz.msebera.android.httpclient.Header;
 public class ExplainMarkaz extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
     private static AsyncHttpClient client = new AsyncHttpClient();
+    private static AsyncHttpClient client2 = new AsyncHttpClient();
 
+    String hanyayo="0";
     String placeid="0";
     ImageView userimg;
     String Adviser;
@@ -111,6 +118,9 @@ public class ExplainMarkaz extends TabActivity
 
         if(isOnline()){
             requestData();
+
+            //Set_favourite();
+
             //postgetData(placeid);
             TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
             TabHost.TabSpec tabSpec1 = tabHost.newTabSpec("nazar");
@@ -130,10 +140,172 @@ public class ExplainMarkaz extends TabActivity
             tabHost.addTab(tabSpec1);
             tabHost.addTab(tabSpec2);
 
-
+            ImageView imageView2 = (ImageView)findViewById(R.id.alagestarmarkaz);
+            imageView2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //requestDataa();
+                    //requestData("asdfghjh",1);
+                    Set_favourite();
+                }
+            });
         } else {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
         }
+
+    }
+
+    private void requestData(String subid , int start) {
+
+        RequestPackage p = new RequestPackage();
+        p.setMethod("POST");
+        p.setUri("http://telyar.dmedia.ir/webservice/Set_favourite/");
+
+        p.setParam("deviceid", GlobalVar.getDeviceID());
+        p.setParam("contenttype", "mainplace");
+        p.setParam("status", hanyayo);
+        p.setParam("contentid", placeid);
+        p.setParam("userid",  GlobalVar.getUserID());
+
+
+        LoginAsyncTask task = new LoginAsyncTask();
+        task.execute(p);
+
+    }
+
+
+    private class LoginAsyncTask extends AsyncTask<RequestPackage, String, String> {
+
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+            String content = HttpManager.getData(params[0]);
+            return content;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            Log.i("saasasa",result) ;
+
+        }
+
+    }
+
+    private void requestDataa() {
+
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
+
+        String url = "http://telyar.dmedia.ir/webservice/Set_favourite/";
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //This code is executed if the server responds, whether or not the response contains data.
+                //The String 'response' contains the server's response.
+                Log.i("ahmasdfghggfdad",response);
+                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
+                //updatelistview(response);
+
+
+            }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //This code is executed if there is an error.
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
+                MyData.put("deviceid", GlobalVar.getDeviceID());
+                MyData.put("contenttype", "mainplace");
+                MyData.put("status", hanyayo);
+                MyData.put("contentid", placeid);
+                MyData.put("userid",  GlobalVar.getUserID());
+
+                return MyData;
+            }
+        };
+
+        MyRequestQueue.add(MyStringRequest);
+    }
+
+    private void Set_favourite() {
+
+        //userid=100 & status=1 & contenttype=adviser & contentid=2 & deviceid=3
+
+        /*RequestParams params = new RequestParams();
+        params.put("userid",  GlobalVar.getUserID());
+        params.put("deviceid", GlobalVar.getDeviceID());
+        params.put("contenttype", "mainplace");
+        params.put("status", hanyayo);
+        params.put("contentid", placeid);*/
+        RequestParams params = new RequestParams();
+        params.put("userid",  "100");
+        params.put("deviceid", "3");
+        params.put("contenttype", "mainplace");
+        params.put("status", "1");
+        params.put("contentid", "2");
+
+        client2.post("http://telyar.dmedia.ir/webservice/set_favourite/", params, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    Log.i(";asdfghgf","hfdsa" + responseBody.length);
+
+                    Log.i("qwertyu",new String(responseBody));
+
+                    JSONObject jsonObject = new JSONObject(new String(responseBody));
+                    /*LayoutInflater inflater = getLayoutInflater();
+                    View dialogView = inflater.inflate(R.layout.alert_dialog_login, null);
+
+                    final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getApplicationContext());
+
+                    dialogBuilder.setView(dialogView);
+
+                    TextView textView =(TextView)dialogView.findViewById(R.id.aaT);
+                    textView.setText(jsonObject.getString("Message"));
+
+                    if(jsonObject.getString("Status").equals("-1")){
+
+                        TextView textViews =(TextView)dialogView.findViewById(R.id.aT);
+                        textView.setText("خطا");
+
+                    }else{
+                        hanyayo=String.valueOf(-1*Integer.parseInt(hanyayo));
+                        ImageView imageView = (ImageView)findViewById(R.id.alagestar);
+                        if(hanyayo.equals("1")){
+                            imageView.setImageResource(R.drawable.alage0);
+                        }else {
+                            imageView.setImageResource(R.drawable.alage1);
+                        }
+                    }
+                    Button button = (Button)dialogView.findViewById(R.id.buttombastan);
+
+                    final AlertDialog alertDialog = dialogBuilder.create();
+                    alertDialog.show();
+
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            alertDialog.cancel();
+                        }
+                    });*/
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                Log.i(";asdfghgf","asdfghfdsa");
+
+            }
+        });
+
 
     }
 
@@ -164,6 +336,17 @@ public class ExplainMarkaz extends TabActivity
 
                     }catch (Exception ignored){}
                     Log.i("asads",PicAddress + Address + AboutMainplace + MainPlaceName);
+
+                    String IsFavourite= jsonObject.getString("IsFavourite");
+                    if(IsFavourite.equals("-1")){
+                        hanyayo="1";
+                        ImageView imageView = (ImageView)findViewById(R.id.alagestarmarkaz);
+                        imageView.setImageResource(R.drawable.alage0);
+                    }else if(IsFavourite.equals("1")){
+                        hanyayo="-1";
+                        ImageView imageView = (ImageView)findViewById(R.id.alagestarmarkaz);
+                        imageView.setImageResource(R.drawable.alage1);
+                    }
 
                     Adviser=jsonObject.getString("Adviser");
 

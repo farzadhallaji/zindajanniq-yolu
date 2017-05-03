@@ -12,7 +12,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="50dp"
         android:layout_weight="10"
         android:orientation="vertical">
         <LinearLayout
@@ -21,7 +20,7 @@
             android:gravity="right"
             android:padding="5dp"
             android:orientation="horizontal"
-            android:layout_weight="4.5">
+            android:layout_weight="5.7">
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -32,7 +31,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2">
+                android:layout_weight="2.5">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -56,12 +55,12 @@
             android:layout_height="match_parent"
             app:civ_border_width="2dp"
             app:civ_border_color="#ccbbbb"
-            android:layout_weight="3"/>
+            android:layout_weight="5"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:layout_margin="5dp"
+            android:layout_marginBottom="30dp"
             android:orientation="vertical">
 
             <TextView
@@ -73,22 +72,39 @@
                 android:gravity="center"
                 android:textStyle="bold"
                 android:layout_weight="1"/>
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="کارشناس زبان"
-                android:textColor="#f3f3fa"
-                android:id="@+id/taxassose_markaz_textview"
-                android:gravity="center"
-                android:layout_weight="1"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="کد کارشناس 245"
-                android:textColor="#f3f3fa"
-                android:id="@+id/code_markaz_textview"
-                android:gravity="center"
-                android:layout_weight="1"/>
+                android:layout_weight=".9">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="کارشناس زبان"
+                    android:textColor="#f3f3fa"
+                    android:id="@+id/taxassose_markaz_textview"
+                    android:gravity="center"
+                    android:layout_centerHorizontal="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="کد کارشناس 245"
+                    android:layout_margin="5dp"
+                    android:textColor="#f3f3fa"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/taxassose_markaz_textview"
+                    android:id="@+id/code_markaz_textview"
+                    android:gravity="center"/>
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:id="@+id/alagestarmarkaz"/>
+
+
+            </RelativeLayout>
+
+
 
         </LinearLayout>
 

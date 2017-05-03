@@ -97,6 +97,7 @@ public class Liste_Moshaverine_Markaz extends AppCompatActivity {
 
                             Intent intent = new Intent(Liste_Moshaverine_Markaz.this , ExplainMoshaver.class);
                             intent.putExtra("adviserid", list.get(position).getAID());
+                            intent.putExtra("placeid",placeid);
                             startActivity(intent);
 
                         }

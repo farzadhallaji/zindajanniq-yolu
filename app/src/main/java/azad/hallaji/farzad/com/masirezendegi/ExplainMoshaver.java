@@ -28,6 +28,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,12 +45,14 @@ import java.util.Map;
 import azad.hallaji.farzad.com.masirezendegi.model.Comment;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
+import cz.msebera.android.httpclient.Header;
 
 public class ExplainMoshaver extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
 
+    private static AsyncHttpClient client = new AsyncHttpClient();
 
-    String adviseridm="100";
+    String adviseridm="100",placeid="";
     ImageView userimg;
     TextView name_moshaver_textview;
     TextView taxassose_moshaver_textview;
@@ -59,6 +64,18 @@ public class ExplainMoshaver extends TabActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explain_moshaver);
+
+
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                placeid= "";
+            } else {
+                placeid= extras.getString("placeid");
+            }
+        } else {
+            placeid= (String) savedInstanceState.getSerializable("placeid");
+        }
 
 
         ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
@@ -124,7 +141,7 @@ public class ExplainMoshaver extends TabActivity
             tabSpec2.setContent(intent2);
 
             tabSpec3.setIndicator("تخصص ها");
-            Intent intent = new Intent(this, Taxassosexusus.class);
+            final Intent intent = new Intent(this, Taxassosexusus.class);
             intent.putExtra("adviseridm",adviseridm);
             tabSpec3.setContent(intent);
 
@@ -133,6 +150,20 @@ public class ExplainMoshaver extends TabActivity
             tabHost.addTab(tabSpec3);
 
 
+            ImageView imageView2 = (ImageView)findViewById(R.id.adviser_about_img);
+            imageView2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //requestDataa();
+
+                    Intent intent3 = new Intent(ExplainMoshaver.this,PageRezerv.class);
+                    intent3.putExtra("adviseridm",adviseridm);
+                    intent3.putExtra("placeid",placeid);
+                    startActivity(intent3);
+
+                }
+            });
+
         } else {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
         }
@@ -140,6 +171,36 @@ public class ExplainMoshaver extends TabActivity
     }
 
 
+    private void requestDataa() {
+        RequestParams params = new RequestParams();
+        //‫‪Input:‬‬ ‫‪adviserid‬‬ ‫‪،‬‬ ‫‪deviceid‬‬ ‫‪،placeid‬‬
+        params.put("adviserid",adviseridm); //Add the data you'd like to send to the server.
+        params.put("placeid", placeid);
+        params.put("deviceid", GlobalVar.getDeviceID());
+        client.post("http://telyar.dmedia.ir/webservice/Show_adviser_time/", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+
+                    Log.i("wertyuio",new String(responseBody));
+
+                    JSONObject jsonObject = new JSONObject(new String(responseBody));
+
+                    String Message = jsonObject.getString("Message");
+                    String s= jsonObject.getString("Status");
+
+                    //updategraf(Message,s,editText.getText().toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.i("aassdfghjuytrew","1");
+            }
+        });
+    }
 
 
 
@@ -163,7 +224,7 @@ public class ExplainMoshaver extends TabActivity
             public void onResponse(String response) {
                 //This code is executed if the server responds, whether or not the response contains data.
                 //The String 'response' contains the server's response.
-                //Log.i("ahmad",response);
+                Log.i("ExplainMoshaver",response);
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
                 updatelistview(response);
 
