@@ -93,7 +93,8 @@ public class PageVirayesh extends AppCompatActivity
                     tag=marefiTextViewVirayesh.getText().toString();
                     dialect=gushuTextViewVirayesh.getText().toString();
                     advisermaxtim=maxtimeTextViewVirayesh.getText().toString();
-//TODO parametr lari bir chech elamali
+
+                    //TODO parametr lari bir chech elamali
 
                     int selectedId = radioSexGroup.getCheckedRadioButtonId();
                     // find the radiobutton by returned id
@@ -140,27 +141,27 @@ public class PageVirayesh extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
             startActivity(new Intent(this , PageMarakez.class));
-        }/*else if (id == R.id.nav_profile) {
+        } else if (id == R.id.nav_profile) {
             startActivity(new Intent(this , PageVirayesh.class));
-        } else if (id == R.id.nav_setting) {
-            //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
-        }*/ else if (id == R.id.nav_login) {
-            startActivity(new Intent(this , MainActivity.class));
+        } else if (id == R.id.nav_login) {
+            startActivity(new Intent(this , PageLogin.class));
         } else if (id == R.id.nav_moshaverin) {
             startActivity(new Intent(this , PageMoshaverin.class));
         } else if (id == R.id.nav_porseshha) {
             startActivity(new Intent(this , PagePorseshha.class));
-        } /*else if (id == R.id.nav_logout){
-            //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
-        }*/
+        } else if (id == R.id.nav_logout){
+            startActivity(new Intent(this , PageLogout.class));
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.END);
         return true;
+
     }
 
     private void init() {

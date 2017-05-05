@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
+
 public class PageMoshaverin extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -48,6 +50,24 @@ public class PageMoshaverin extends TabActivity
                 startActivity(intent);
             }
         });
+
+        if(GlobalVar.getUserID().equals("100")){
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
+        }else{
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(true);
+            nav_Menu.findItem(R.id.nav_login).setVisible(false);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+        }
 
         TextView textView = (TextView)findViewById(R.id.dashshshaqx);
         textView.setText("مشاورین");
@@ -93,27 +113,27 @@ public class PageMoshaverin extends TabActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            startActivity(new Intent(PageMoshaverin.this , PageMarakez.class));
-        }/*else if (id == R.id.nav_profile) {
-            startActivity(new Intent(PageMoshaverin.this , PageVirayesh.class));
-        } else if (id == R.id.nav_setting) {
-            //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
-        } */else if (id == R.id.nav_login) {
-            startActivity(new Intent(PageMoshaverin.this , PageLogin.class));
+            startActivity(new Intent(this , PageMarakez.class));
+        } else if (id == R.id.nav_profile) {
+            startActivity(new Intent(this , PageVirayesh.class));
+        } else if (id == R.id.nav_login) {
+            startActivity(new Intent(this , PageLogin.class));
         } else if (id == R.id.nav_moshaverin) {
-            startActivity(new Intent(PageMoshaverin.this , PageMoshaverin.class));
+            startActivity(new Intent(this , PageMoshaverin.class));
         } else if (id == R.id.nav_porseshha) {
-            startActivity(new Intent(PageMoshaverin.this , PagePorseshha.class));
-        } /*else if (id == R.id.nav_logout){
-            //startActivity(new Intent(PageMoshaverin.this , MainActivity.class));
-        }*/
+            startActivity(new Intent(this , PagePorseshha.class));
+        } else if (id == R.id.nav_logout){
+            startActivity(new Intent(this , PageLogout.class));
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.END);
         return true;
+
     }
 
 

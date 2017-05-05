@@ -40,6 +40,7 @@ public class ListePorseshha extends AppCompatActivity {
     ListePorseshhaAdapter adapter;
     List<Question> totalList=new ArrayList<>();
     int tempcount=0;
+    String subjectid="";
 
 
     @Override
@@ -47,13 +48,15 @@ public class ListePorseshha extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_porseshha);
 
-        /*String moshaveremoredenazar="";
-        try {
-            Question question= (Question) getIntent().getSerializableExtra("porseshemoredenazar");
-            moshaveremoredenazar=question.getSubjectID();
-        }catch (Exception e){
-            Log.i("tag","no obj ques");
-        }*/
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) subjectid = "0";
+            else {
+                subjectid= extras.getString("subjectid");
+            }
+        } else {
+            subjectid= (String) savedInstanceState.getSerializable("subjectid");
+        }
 
         listView=(ListView)findViewById(R.id.ListePorseshhaListView);
 
@@ -62,7 +65,7 @@ public class ListePorseshha extends AppCompatActivity {
 
         if (isOnline()) {
 
-           requestData(0,0);
+           requestData(subjectid,0);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -90,7 +93,7 @@ public class ListePorseshha extends AppCompatActivity {
 
                         }else{
                             listView.addFooterView(ftView);
-                            requestData(0,((totalList.size()/20+1)*20));
+                            requestData(subjectid,((totalList.size()/20+1)*20));
                         }
                     }
 
@@ -115,9 +118,15 @@ public class ListePorseshha extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                Intent intent = new Intent(ListePorseshha.this,AddQuestion.class);
-                startActivity(intent);
+                if(GlobalVar.getUserType().equals("user")){ //ToDO what type is valid?
+                    //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    Intent intent = new Intent(ListePorseshha.this,PagePorseshha.class);
+                    intent.putExtra("soallllll","1");
+                    Log.i("asdfghjefwqdtytjhrgefembvc","asdfghmhjgdfss");
+                    startActivity(intent);
+
+                }
+
             }
         });
     }
@@ -134,7 +143,7 @@ public class ListePorseshha extends AppCompatActivity {
         return false;
     }
 
-    private void requestData(int pid , int start) {
+    private void requestData(String pid , int start) {
 
         RequestPackage p = new RequestPackage();
         p.setMethod("POST");
@@ -142,7 +151,7 @@ public class ListePorseshha extends AppCompatActivity {
 
         p.setUri("http://telyar.dmedia.ir/webservice/get_all_question");
 
-        p.setParam("subjectid",  String.valueOf(pid));
+        p.setParam("subjectid", pid);
         p.setParam("start", String.valueOf(start));
         p.setParam("deviceid", GlobalVar.getDeviceID());
 

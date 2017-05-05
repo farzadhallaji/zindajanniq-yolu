@@ -87,8 +87,9 @@
         <activity android:name=".ExplainMarkaz" />
         <activity android:name=".PageVirayesh" />
         <activity android:name=".Liste_Moshaverine_Markaz" />
-        <activity android:name=".PageLogin"></activity>
-        <activity android:name=".PageRezerv"></activity>
+        <activity android:name=".PageLogin" />
+        <activity android:name=".PageRezerv" />
+        <activity android:name=".PageLogout"></activity>
     </application>
 
 </manifest>

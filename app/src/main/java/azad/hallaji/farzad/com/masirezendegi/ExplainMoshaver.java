@@ -15,6 +15,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -52,7 +53,8 @@ public class ExplainMoshaver extends TabActivity
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
-    String adviseridm="100",placeid="";
+    String hanyayo="0";
+    String adviseridm="100",placeid="",namemoshaver="";
     ImageView userimg;
     TextView name_moshaver_textview;
     TextView taxassose_moshaver_textview;
@@ -98,7 +100,23 @@ public class ExplainMoshaver extends TabActivity
             }
         });
 
-
+        if(GlobalVar.getUserID().equals("100")){
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
+        }else{
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(true);
+            nav_Menu.findItem(R.id.nav_login).setVisible(false);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+        }
         userimg = (ImageView)findViewById(R.id.adviser_image);
         name_moshaver_textview =(TextView) findViewById(R.id.name_moshaver_textview);
         taxassose_moshaver_textview =(TextView) findViewById(R.id.taxassose_moshaver_textview);
@@ -159,6 +177,7 @@ public class ExplainMoshaver extends TabActivity
                     Intent intent3 = new Intent(ExplainMoshaver.this,PageRezerv.class);
                     intent3.putExtra("adviseridm",adviseridm);
                     intent3.putExtra("placeid",placeid);
+                    intent3.putExtra("namemoshaver",namemoshaver);
                     startActivity(intent3);
 
                 }
@@ -250,9 +269,6 @@ public class ExplainMoshaver extends TabActivity
 
     private void updatelistview(String response) {
 
-
-
-
         try {
             JSONObject  jsonObject= new JSONObject(response);
 
@@ -276,11 +292,20 @@ public class ExplainMoshaver extends TabActivity
             String PicAddress = jsonObject.getString("PicAddress");
             String AboutMe = jsonObject.get("AboutMe").toString();
             String AdviserName = jsonObject.get("AdviserName").toString();
+            namemoshaver= AdviserName;
             String Telephone = jsonObject.getString("Telephone");
             String UniqueID = jsonObject.getString("UniqueID");
             String CostPerMin = jsonObject.get("AdviserName").toString();
-            String IsFavourite = jsonObject.getString("Telephone");
-
+            String IsFavourite= jsonObject.getString("IsFavourite");
+            if(IsFavourite.equals("-1")){
+                hanyayo="1";
+                ImageView imageView = (ImageView)findViewById(R.id.alagestarmarkaz);
+                imageView.setImageResource(R.drawable.alage0);
+            }else if(IsFavourite.equals("1")){
+                hanyayo="-1";
+                ImageView imageView = (ImageView)findViewById(R.id.alagestarmarkaz);
+                imageView.setImageResource(R.drawable.alage1);
+            }
             comments=new ArrayList<>();
             JSONArray jsonArray2 =new JSONArray(jsonObject.getJSONArray("Comment").toString());
             try{
@@ -321,27 +346,27 @@ public class ExplainMoshaver extends TabActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            startActivity(new Intent(ExplainMoshaver.this , PageMarakez.class));
-        }/*else if (id == R.id.nav_profile) {
-            startActivity(new Intent(ExplainMoshaver.this , PageVirayesh.class));
-        } else if (id == R.id.nav_setting) {
-            //startActivity(new Intent(ExplainMoshaver.this , MainActivity.class));
-        }*/ else if (id == R.id.nav_login) {
-            startActivity(new Intent(ExplainMoshaver.this , PageLogin.class));
+            startActivity(new Intent(this , PageMarakez.class));
+        } else if (id == R.id.nav_profile) {
+            startActivity(new Intent(this , PageVirayesh.class));
+        } else if (id == R.id.nav_login) {
+            startActivity(new Intent(this , PageLogin.class));
         } else if (id == R.id.nav_moshaverin) {
-            startActivity(new Intent(ExplainMoshaver.this , PageMoshaverin.class));
+            startActivity(new Intent(this , PageMoshaverin.class));
         } else if (id == R.id.nav_porseshha) {
-            startActivity(new Intent(ExplainMoshaver.this , PagePorseshha.class));
-        } /*else if (id == R.id.nav_logout){
-            //startActivity(new Intent(Pagemenu.this , Test1.class));
-        }*/
+            startActivity(new Intent(this , PagePorseshha.class));
+        } else if (id == R.id.nav_logout){
+            startActivity(new Intent(this , PageLogout.class));
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.END);
         return true;
+
 
     }
 

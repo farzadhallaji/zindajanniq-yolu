@@ -10,7 +10,5 @@ public class Taxassosexusus extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_taxassosha);
 
-
-
     }
 }

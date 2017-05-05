@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -73,6 +74,25 @@ public class PageLogin extends AppCompatActivity
             }
         });
 
+
+        if(GlobalVar.getUserID().equals("100")){
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
+        }else{
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(true);
+            nav_Menu.findItem(R.id.nav_login).setVisible(false);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+        }
+
         if(isOnline()){
             //Log.i("elabella1",aLagemandis.size()+ " ");
 
@@ -113,19 +133,17 @@ public class PageLogin extends AppCompatActivity
 
         if (id == R.id.nav_marakez) {
             startActivity(new Intent(this , PageMarakez.class));
-        }/*else if (id == R.id.nav_profile) {
+        } else if (id == R.id.nav_profile) {
             startActivity(new Intent(this , PageVirayesh.class));
-        } else if (id == R.id.nav_setting) {
-            //startActivity(new Intent(ExplainMoshaver.this , MainActivity.class));
-        } */else if (id == R.id.nav_login) {
+        } else if (id == R.id.nav_login) {
             startActivity(new Intent(this , PageLogin.class));
         } else if (id == R.id.nav_moshaverin) {
             startActivity(new Intent(this , PageMoshaverin.class));
         } else if (id == R.id.nav_porseshha) {
             startActivity(new Intent(this , PagePorseshha.class));
-        } /*else if (id == R.id.nav_logout){
-            //startActivity(new Intent(Pagemenu.this , Test1.class));
-        }*/
+        } else if (id == R.id.nav_logout){
+            startActivity(new Intent(this , PageLogout.class));
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.END);
@@ -249,6 +267,7 @@ public class PageLogin extends AppCompatActivity
 
                     Log.i("974861329+46",new String(responseBody));
 
+
                     try {
 
                         String Message = jsonObject.getString("Message");
@@ -270,6 +289,16 @@ public class PageLogin extends AppCompatActivity
                             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("UserType", UserType).apply();
                             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("UID", UID).apply();
                             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("PicAddress", PicAddress).apply();
+
+                            GlobalVar.setPicAddress(PicAddress);
+                            GlobalVar.setUserID(UID);
+                            GlobalVar.setUserType(UserType);
+
+
+                            Intent intent = new Intent(PageLogin.this,Pagemenu.class);
+                            startActivity(intent);
+
+
 
                         }catch (Exception ignored){}
 

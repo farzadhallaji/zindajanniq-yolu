@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -47,6 +49,7 @@ import java.util.List;
 import java.util.Map;
 
 import azad.hallaji.farzad.com.masirezendegi.helper.ListeMoshaverinAdapter;
+import azad.hallaji.farzad.com.masirezendegi.internet.CustomRequest;
 import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
 import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.Comment;
@@ -59,6 +62,8 @@ public class ExplainMarkaz extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
     private static AsyncHttpClient client = new AsyncHttpClient();
     private static AsyncHttpClient client2 = new AsyncHttpClient();
+
+
 
     String hanyayo="0";
     String placeid="0";
@@ -85,7 +90,6 @@ public class ExplainMarkaz extends TabActivity
             }
         });
 
-
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -96,6 +100,24 @@ public class ExplainMarkaz extends TabActivity
                 drawer.openDrawer(Gravity.END);
             }
         });
+
+        if(GlobalVar.getUserID().equals("100")){
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
+        }else{
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(true);
+            nav_Menu.findItem(R.id.nav_login).setVisible(false);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+        }
 
         userimg = (ImageView)findViewById(R.id.markaz_image);
         name_markaz_textview =(TextView) findViewById(R.id.name_markaz_textview);
@@ -144,9 +166,10 @@ public class ExplainMarkaz extends TabActivity
             imageView2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //requestDataa();
                     //requestData("asdfghjh",1);
+                    //requestDataa();
                     Set_favourite();
+
                 }
             });
         } else {
@@ -186,6 +209,7 @@ public class ExplainMarkaz extends TabActivity
         @Override
         protected void onPostExecute(String result) {
 
+            Log.i("saasasa","asdf") ;
             Log.i("saasasa",result) ;
 
         }
@@ -196,7 +220,7 @@ public class ExplainMarkaz extends TabActivity
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
 
-        String url = "http://telyar.dmedia.ir/webservice/Set_favourite/";
+        String url = "http://telyar.dmedia.ir/webservice/Set_favourite";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -212,9 +236,12 @@ public class ExplainMarkaz extends TabActivity
             @Override
             public void onErrorResponse(VolleyError error) {
                 //This code is executed if there is an error.
+                Log.i("ahmasdfghggfdad","asd");
             }
         }) {
-            protected Map<String, String> getParams() {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> MyData = new HashMap<String, String>();
                 //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
                 MyData.put("deviceid", GlobalVar.getDeviceID());
@@ -224,6 +251,28 @@ public class ExplainMarkaz extends TabActivity
                 MyData.put("userid",  GlobalVar.getUserID());
 
                 return MyData;
+            }
+
+            /*@Override
+            *//**
+             * Returns the raw POST or PUT body to be sent.
+             *
+             * @throws AuthFailureError in the event of auth failure
+             *//*
+            public byte[] getBody() throws AuthFailureError {
+                //        Map<String, String> params = getParams();
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("id","1");
+                params.put("name", "myname");
+                if (params != null && params.size() > 0) {
+                    return encodeParameters(params, getParamsEncoding());
+                }
+                return null;
+
+            }*/
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=UTF-8";
             }
         };
 
@@ -241,18 +290,19 @@ public class ExplainMarkaz extends TabActivity
         params.put("status", hanyayo);
         params.put("contentid", placeid);*/
         RequestParams params = new RequestParams();
-        params.put("userid",  "100");
+        /*params.put("userid",  "100");
         params.put("deviceid", "3");
         params.put("contenttype", "mainplace");
         params.put("status", "1");
-        params.put("contentid", "2");
+        params.put("contentid", "2");*/
+        params.put("contenttype", "mainplace");
 
-        client2.post("http://telyar.dmedia.ir/webservice/set_favourite/", params, new AsyncHttpResponseHandler() {
+        client2.post("http://telyar.dmedia.ir/webservice/Set_favourite/", params, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
-                    Log.i(";asdfghgf","hfdsa" + responseBody.length);
+                    Log.i(";asdfghgf","hfdsa " + responseBody.length);
 
                     Log.i("qwertyu",new String(responseBody));
 
@@ -301,7 +351,7 @@ public class ExplainMarkaz extends TabActivity
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
-                Log.i(";asdfghgf","asdfghfdsa");
+                Log.i(";asdfghgf",new String(responseBody));
 
             }
         });
@@ -378,28 +428,26 @@ public class ExplainMarkaz extends TabActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            startActivity(new Intent(ExplainMarkaz.this , PageMarakez.class));
-        }/*else if (id == R.id.nav_profile) {
-            startActivity(new Intent(ExplainMarkaz.this , PageVirayesh.class));
-        } else if (id == R.id.nav_setting) {
-            //startActivity(new Intent(ExplainMarakez.this , MainActivity.class));
-        }*/ else if (id == R.id.nav_login) {
-            startActivity(new Intent(ExplainMarkaz.this , PageLogin.class));
+            startActivity(new Intent(this , PageMarakez.class));
+        } else if (id == R.id.nav_profile) {
+            startActivity(new Intent(this , PageVirayesh.class));
+        } else if (id == R.id.nav_login) {
+            startActivity(new Intent(this , PageLogin.class));
         } else if (id == R.id.nav_moshaverin) {
             startActivity(new Intent(this , PageMoshaverin.class));
         } else if (id == R.id.nav_porseshha) {
             startActivity(new Intent(this , PagePorseshha.class));
-        } /*else if (id == R.id.nav_logout){
-            //startActivity(new Intent(ExplainMarakez.this , Test1.class));
-        }*/
+        } else if (id == R.id.nav_logout){
+            startActivity(new Intent(this , PageLogout.class));
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.END);
         return true;
-
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {

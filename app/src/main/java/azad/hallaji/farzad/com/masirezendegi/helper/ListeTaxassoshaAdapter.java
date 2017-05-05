@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -39,13 +40,13 @@ public class ListeTaxassoshaAdapter extends ArrayAdapter<Taxassos> {
         View view = vi.inflate(R.layout.item_taxassos,null);
 
         TextView Name =(TextView)view.findViewById(R.id.OnvanePorseshTextView) ;
-        TextView Count  =(TextView)view.findViewById(R.id.HasChildTextView) ;
+        ImageView Count  =(ImageView) view.findViewById(R.id.haschildimageview) ;
         Taxassos Ittem = reportItemList.get(position);
 
         if(Ittem.getHasChild().equals("0")){
-            Count.setText("ندارد");
+            Count.setVisibility(View.GONE);
         }else {
-            Count.setText("دارد");
+            Count.setVisibility(View.VISIBLE);
         }
         Name.setText(Ittem.getName());
         return view;

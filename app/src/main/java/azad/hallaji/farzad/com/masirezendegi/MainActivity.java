@@ -3,6 +3,7 @@ package azad.hallaji.farzad.com.masirezendegi;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
@@ -10,6 +11,7 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
@@ -37,6 +39,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_bar_main);
+
+
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String UserType = preferences.getString("UserType","");
+        String UID = preferences.getString("UID","");
+        String PicAddress = preferences.getString("PicAddress","");
+        if(!UID.equalsIgnoreCase(""))
+        {
+            GlobalVar.setUserID(UID);
+            GlobalVar.setPicAddress(PicAddress);
+            GlobalVar.setUserType(UserType);
+            Log.i("ashewsjhewyukynr","ashfkjtrhwef");
+
+
+        }else{
+            GlobalVar.setUserID("100");
+            GlobalVar.setPicAddress("");
+            GlobalVar.setUserType("");
+            Log.i("tytuyjhtgrfed","ashfkjtrhwef");
+        }
 
         initial();
 

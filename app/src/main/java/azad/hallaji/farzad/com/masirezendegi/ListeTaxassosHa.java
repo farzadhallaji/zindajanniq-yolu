@@ -1,6 +1,7 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -54,6 +55,7 @@ public class ListeTaxassosHa extends AppCompatActivity {
         setContentView(R.layout.activity_liste_taxassosha);
         listView=(ListView)findViewById(R.id.ListeTxassoshaListView);
 
+
         LayoutInflater li = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ftView = li.inflate(R.layout.footer_view, null);
         //mHandler = new MyHandler();
@@ -68,8 +70,24 @@ public class ListeTaxassosHa extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     //Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
+                    if(totalList.get(position).getHasChild().equals("1")){
 
-                    //Todo
+                        /*Intent intent = new Intent(ListeTaxassosHa.this,PagePorseshha.class);
+                        intent.putExtra("subjectid",totalList.get(position).getSID());
+                        intent.putExtra("soallllllll","0");
+                        startActivity(intent);*/
+                        String s =totalList.get(position).getSID();
+                        totalList=new ArrayList<Taxassos>();
+                        postgetData(s,"0",GlobalVar.getDeviceID());
+                        adapter=new ListeTaxassoshaAdapter(getApplicationContext(),totalList);
+                        listView.setAdapter(adapter);
+
+                    }else {
+                        //postgetData(totalList.get(position).getSID(),"0",GlobalVar.getDeviceID());
+                        Intent intent = new Intent(ListeTaxassosHa.this,AddQuestion.class);
+                        intent.putExtra("subjectid",totalList.get(position).getSID());
+                        startActivity(intent);
+                    }
 
 
                 }
@@ -84,9 +102,8 @@ public class ListeTaxassosHa extends AppCompatActivity {
                     if(view.getLastVisiblePosition() == totalList.size()-1 ) {
                         //Toast.makeText(getApplicationContext(), view.getLastVisiblePosition(), Toast.LENGTH_LONG).show();
 
-                        if(totalList.size()<19){
-
-                        }else{
+                        if(totalList.size()<19){}
+                        else{
                             listView.addFooterView(ftView);
                             postgetData("0",String.valueOf((totalList.size()/20+1)*20),GlobalVar.getDeviceID());
 
@@ -132,7 +149,7 @@ public class ListeTaxassosHa extends AppCompatActivity {
             public void onResponse(String response) {
                 //This code is executed if the server responds, whether or not the response contains data.
                 //The String 'response' contains the server's response.
-                //Log.i("ahmad",response);
+                Log.i("ahsdfghmad",response);
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
                 updatelistview(response);
 

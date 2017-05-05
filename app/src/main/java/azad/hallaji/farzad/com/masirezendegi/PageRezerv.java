@@ -8,9 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -33,13 +35,14 @@ public class PageRezerv extends AppCompatActivity {
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
-    String adviseridm="100",placeid="";
+    String adviseridm="100",placeid="",namemoshaver="0";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_rezerv);
+
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -48,11 +51,16 @@ public class PageRezerv extends AppCompatActivity {
             } else {
                 placeid= extras.getString("placeid");
                 adviseridm= extras.getString("adviseridm");
+                namemoshaver= extras.getString("namemoshaver");
             }
         } else {
             placeid= (String) savedInstanceState.getSerializable("placeid");
             adviseridm= (String) savedInstanceState.getSerializable("adviseridm");
+            namemoshaver= (String) savedInstanceState.getSerializable("namemoshaver");
         }
+
+        TextView textView = ( TextView) findViewById(R.id.Titlasdfghgfds);
+        textView.setText(textView.getText()+ " "+ namemoshaver);
 
 
         if(isOnline()){
@@ -103,7 +111,6 @@ public class PageRezerv extends AppCompatActivity {
                             rezervable.setAdviserDate(time.getString("AdviserDate"));
                             rezervable.setAdviserTime(time.getString("AdviserTime"));
                             rezervable.setFree(time.getString("Free"));
-
                             rezervableList.add(rezervable);
 
                         }
@@ -113,6 +120,12 @@ public class PageRezerv extends AppCompatActivity {
                     ListView listView = (ListView)findViewById(R.id.Listerezerva);
                     listView.setAdapter(adapterRezerv);
                     //updategraf(Message,s,editText.getText().toString());
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        }
+                    });
 
                 } catch (JSONException e) {
                     e.printStackTrace();
