@@ -40,10 +40,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="4dp"
-                        android:padding="3dp"
                         android:textColor="#e78f02"
                         android:layout_weight="1"
-                        android:textSize="20dp"
+                        android:textSize="17dp"
                         android:id="@+id/OnvanePorseshTextView"
                         android:gravity="right"/>
                     <TextView
