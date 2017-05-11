@@ -43,14 +43,11 @@ public class ListemarakezAdapter extends ArrayAdapter<Markaz> {
         View view = vi.inflate(R.layout.item_markaz,null);
 
         TextView Name =(TextView)view.findViewById(R.id.AdviserName) ;
-        TextView IDCOmment  =(TextView)view.findViewById(R.id.IDCommentCount) ;
-        TextView Tag  =(TextView)view.findViewById(R.id.Tag) ;
-
+        CircleImageView circleImageView= (CircleImageView)view.findViewById(R.id.user_img);
         Markaz Ittem = reportItemList.get(position);
 
         Name.setText(Ittem.getMainPlaceName());
-        //Tag.setText(Ittem.getAboutMainPlace());
-        IDCOmment.setText(Ittem.getTelephone());
+        new DownloadImageTask(circleImageView).execute(reportItemList.get(position).getPicAddress());
 
 
         return view;
@@ -62,6 +59,32 @@ public class ListemarakezAdapter extends ArrayAdapter<Markaz> {
         ImageView bmImage;
 
         public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
+
+    private class DownloadImageTaskaa extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+//        new DownloadImageTask(moshaverimg).execute(reportItemList.get(position).getPicAddress());
+
+        public DownloadImageTaskaa(ImageView bmImage) {
             this.bmImage = bmImage;
         }
 

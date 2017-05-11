@@ -29,6 +29,7 @@ import azad.hallaji.farzad.com.masirezendegi.helper.ListeCommentAdapter;
 import azad.hallaji.farzad.com.masirezendegi.helper.ListePasoxhayeksoalAdapter;
 import azad.hallaji.farzad.com.masirezendegi.model.Comment;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ListeComments extends AppCompatActivity {
 
@@ -69,6 +70,10 @@ public class ListeComments extends AppCompatActivity {
         return false;
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     void postgetData(){
 
 

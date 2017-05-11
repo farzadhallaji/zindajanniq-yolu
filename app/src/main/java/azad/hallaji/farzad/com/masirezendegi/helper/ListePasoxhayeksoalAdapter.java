@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,6 +76,7 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
 
         TextView TarixeJavab  =(TextView)view.findViewById(R.id.TarixepasoxTextview) ;
 
+
         final Pasox Ittem = reportItemList.get(position);
 
         like.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +92,11 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
                 postgetData(Ittem.getQid(),userid  , "-1", contentid, position);
             }
         });
+
+        /*long time = Long.parseLong(Ittem.getTarixeJavab());
+        Date d= new Date(time);
+
+        TarixeJavab.setText(String.valueOf(d));*/
 
         new DownloadImageTask(userimg).execute(Ittem.getUserimg());
         Name.setText(Ittem.getName());

@@ -40,6 +40,7 @@ import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Question;
 import azad.hallaji.farzad.com.masirezendegi.model.Taxassos;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ListeTaxassosHa extends AppCompatActivity {
 
@@ -127,6 +128,10 @@ public class ListeTaxassosHa extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     private boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager)

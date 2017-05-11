@@ -41,10 +41,10 @@ public class ListeMoshaverinAdapter extends ArrayAdapter<Moshaver> {
         LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = vi.inflate(R.layout.item_moshaverin,null);
 
-        CircleImageView icon = (CircleImageView)view.findViewById(R.id.item_icon);
         CircleImageView moshaverimg = (CircleImageView)view.findViewById(R.id.user_img);
         TextView Name =(TextView)view.findViewById(R.id.AdviserName) ;
         TextView IDCOmment  =(TextView)view.findViewById(R.id.IDCommentCount) ;
+        TextView commentinnazrioml  =(TextView)view.findViewById(R.id.commentinnazrioml) ;
         TextView Tag  =(TextView)view.findViewById(R.id.Tag) ;
 
         Moshaver Ittem = reportItemList.get(position);
@@ -57,13 +57,35 @@ public class ListeMoshaverinAdapter extends ArrayAdapter<Moshaver> {
         Name.setText(Ittem.getAdviserName());
         String ss="";
 
+        String date="";
         try {
+            Long aLong ;
+            String dd=Ittem.getRegTime().trim();
+            if (!dd.equals("")){
+                aLong=Long.parseLong(dd);
+                date=new java.text.SimpleDateFormat("yyyy/MM/dd")
+                        .format(new java.util.Date (aLong*1000));
+            }
+        }catch (Exception ignored){}
+        String s="";
+        for (int i = 0 ; i < Ittem.getTag().size() ; i++){
+            s+=Ittem.getTag().get(i);
+            if(i!=Ittem.getTag().size()-1){
+                s+=" , ";
+            }
+        }
+        Tag.setText(s);
+
+
+        /*try {
             for(String s:Ittem.getTag())
                 ss+=","+s;
             Tag.setText(ss.substring(1));
 
-        }catch (Exception ignored){}
-        IDCOmment.setText(Ittem.getAID() + "                            "+" کد کارشناس : " + Ittem.getCommentCount());
+        }catch (Exception ignored){}*/
+
+        IDCOmment.setText(Ittem.getCommentCount());
+        commentinnazrioml.setText(Ittem.getAID());
 
 
         return view;

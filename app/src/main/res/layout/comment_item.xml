@@ -49,6 +49,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="match_parent"
                 android:layout_height="60sp"
+                android:src="@drawable/mastan"
                 android:id="@+id/user_img"
                 app:civ_border_color="#a54"/>
             <TextView

@@ -15,6 +15,7 @@ import java.security.Provider;
 import azad.hallaji.farzad.com.masirezendegi.internet.GPSTracker;
 import azad.hallaji.farzad.com.masirezendegi.internet.GpsTracker3;
 import azad.hallaji.farzad.com.masirezendegi.internet.MyLocationListener;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Tab1 extends Activity {
 
@@ -47,6 +48,11 @@ public class Tab1 extends Activity {
         //setLocation();
 
         get2();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     public void setLocation() {

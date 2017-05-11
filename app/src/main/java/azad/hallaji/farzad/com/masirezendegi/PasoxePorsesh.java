@@ -35,13 +35,13 @@ import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
 import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Pasox;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class PasoxePorsesh extends AppCompatActivity {
 
     TextView MozueSoalTextView ;
     TextView OnvaneSoalTextView;
-    TextView TarixePorsesh;
     ListView listView;
     String qid="";
 
@@ -50,13 +50,24 @@ public class PasoxePorsesh extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pasoxe_porsesh);
 
-        Bundle bundle = getIntent().getExtras();
+        /*Bundle bundle = getIntent().getExtras();
         qid = bundle.getString("questionid");
+*/
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) qid = "0";
+            else {
+                qid= extras.getString("questionid");
+            }
+        } else {
+            qid= (String) savedInstanceState.getSerializable("questionid");
+        }
+
 
         MozueSoalTextView = (TextView)findViewById(R.id.MozueSoalTextView);
         OnvaneSoalTextView = (TextView)findViewById(R.id.OnvaneSoalTextView);
-        TarixePorsesh = (TextView)findViewById(R.id.TarixePorsesh);
         listView=(ListView)findViewById(R.id.ListepasoxhaListView);
+
 
 
         //Toast.makeText(getApplicationContext(), qid, Toast.LENGTH_LONG).show();
@@ -72,6 +83,13 @@ public class PasoxePorsesh extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
         }
 
+    }
+
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private boolean isOnline() {
@@ -129,7 +147,6 @@ public class PasoxePorsesh extends AppCompatActivity {
             MozueSoalTextView.setText(jsonObject.get("QuestionSubject").toString());
             OnvaneSoalTextView.setText(jsonObject.get("Text").toString());
             Log.i("asasaasasasa",jsonObject.get("RegTime").toString());
-            TarixePorsesh.setText(String.valueOf(jsonObject.get("RegTime").toString()));
 
             JSONArray jsonArray = new JSONArray(jsonObject.getJSONArray("Answer").toString());
             for(int i = 0 ; i < jsonArray.length() ; i++){

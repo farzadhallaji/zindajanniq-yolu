@@ -26,9 +26,11 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import azad.hallaji.farzad.com.masirezendegi.helper.TypefaceUtil;
 import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
 import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class AddQuestion extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -91,7 +93,11 @@ public class AddQuestion extends AppCompatActivity
         }else{
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
         }
+    }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private boolean isOnline() {

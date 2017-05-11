@@ -48,6 +48,7 @@ import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Rezervable;
 import cz.msebera.android.httpclient.Header;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PageRezerv extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
@@ -203,6 +204,12 @@ public class PageRezerv extends AppCompatActivity
                 Log.i("aassdfghjuytrew","1");
             }
         });
+    }
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void Reserve(String placeID, String adviserID, String rid) {

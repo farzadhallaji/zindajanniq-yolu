@@ -25,6 +25,7 @@ import android.widget.Toast;
 import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
 import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_bar_main);
-
-
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String UserType = preferences.getString("UserType","");
@@ -72,7 +71,13 @@ public class MainActivity extends AppCompatActivity {
             source =  imei + "/" + wifimac + "/" + uniqueid + "/" + androidid + "/" + simno + "/" + operator + "/" + brand + "/" + model
                     + "/" + android_sdk + "/" + android_version + "/" + height + "/" + width + "/" + device_size + "/" + version + "/" + os;
 
-            requestData();
+            Toast.makeText(getApplicationContext(), source, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), source, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), source, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), source, Toast.LENGTH_LONG).show();
+
+
+            //requestData();
 
         } else {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
@@ -81,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     @SuppressLint("HardwareIds")
     private void initial() {
@@ -90,10 +99,10 @@ public class MainActivity extends AppCompatActivity {
         os = "android";
 
         try {
-            TelephonyManager mngr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            imei = mngr.getDeviceId();
-            operator = mngr.getNetworkOperatorName();
-            simno = mngr.getLine1Number();
+            TelephonyManager mngr = (TelephonyManager) getSystemService(Context.TELECOM_SERVICE);
+            imei = mngr.getDeviceId();                         /**/
+            operator = mngr.getNetworkOperatorName();          /**/
+            simno = mngr.getLine1Number();                     /**/
         } catch (Exception e) {
             Log.i("errorMainActivity", e.toString());
         }
@@ -106,14 +115,14 @@ public class MainActivity extends AppCompatActivity {
             Log.i("errorMainActivity", e.toString());
         }
 
-        try {
+        /*try {
 
             androidid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
             uniqueid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.NAME);
         } catch (Exception e) {
             Log.i("errorMainActivity", e.toString());
         }
-
+*/
         try {
 
             androidid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);

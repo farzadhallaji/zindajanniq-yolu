@@ -33,6 +33,7 @@ import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
 import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Markaz;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -59,6 +60,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

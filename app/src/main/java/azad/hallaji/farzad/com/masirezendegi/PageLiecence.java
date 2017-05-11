@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,19 +29,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import azad.hallaji.farzad.com.masirezendegi.helper.LisenseAdapter;
+import azad.hallaji.farzad.com.masirezendegi.helper.ListeAlagemandiHaAdapter;
 import azad.hallaji.farzad.com.masirezendegi.model.Comment;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PageLiecence extends AppCompatActivity {
-    String adviseridm;
+    String adviseridm,License;
+    ListView listView;
 
-    TextView textView;
+    List<String> comments=new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_liecence);
 
+        listView= (ListView)findViewById(R.id.lisenseid);
 
         if(savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -48,13 +55,28 @@ public class PageLiecence extends AppCompatActivity {
                 adviseridm= "0";
             } else {
                 adviseridm= extras.getString("adviseridm");
+                License= extras.getString("License");
             }
         } else {
             adviseridm= (String) savedInstanceState.getSerializable("adviseridm");
         }
 
         if(isOnline()){
-            postgetData();
+
+            try {
+                JSONArray jsonArray = new JSONArray(License);
+                for (int i= 0 ; i < jsonArray.length() ; i++){
+                    comments.add(jsonArray.get(i).toString());
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            LisenseAdapter listeAlagemandiHaAdapter = new LisenseAdapter(PageLiecence.this,comments);
+            listView.setAdapter(listeAlagemandiHaAdapter);
+
+            //postgetData();
         }else {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
         }
@@ -63,6 +85,10 @@ public class PageLiecence extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     private boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager)
@@ -112,11 +138,19 @@ public class PageLiecence extends AppCompatActivity {
 
 
         try {
-            JSONObject jsonObject= new JSONObject(response);
+            JSONObject jsonObject = new JSONObject(response);
 
-            String License = jsonObject.getString("License");
-            textView= (TextView)findViewById(R.id.licenceTextView);
-            textView.setText(License);
+            JSONArray jsonArray= new JSONArray(jsonObject.getJSONArray("PicAddress").toString());
+
+            for(int i=0 ; i<jsonObject.length() ; i++){
+
+                String License = jsonArray.get(i).toString();
+                comments.add(License);
+
+            }
+            LisenseAdapter listeAlagemandiHaAdapter = new LisenseAdapter(PageLiecence.this,comments);
+            listView.setAdapter(listeAlagemandiHaAdapter);
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -124,7 +158,5 @@ public class PageLiecence extends AppCompatActivity {
 
 
     }
-
-
 
 }

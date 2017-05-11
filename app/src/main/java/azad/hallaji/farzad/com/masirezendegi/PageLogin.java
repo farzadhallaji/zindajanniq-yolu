@@ -37,6 +37,7 @@ import org.json.JSONObject;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpResponse;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PageLogin extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -316,4 +317,9 @@ public class PageLogin extends AppCompatActivity
         });
     }
 
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 }

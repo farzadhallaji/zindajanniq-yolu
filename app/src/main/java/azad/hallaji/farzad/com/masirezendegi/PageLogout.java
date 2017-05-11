@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import cz.msebera.android.httpclient.Header;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PageLogout extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -77,6 +78,11 @@ public class PageLogout extends AppCompatActivity
         return false;
     }
 
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     private void requestDataa() {
         RequestParams params = new RequestParams();
 

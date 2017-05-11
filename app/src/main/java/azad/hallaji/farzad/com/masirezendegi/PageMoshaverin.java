@@ -1,6 +1,7 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -16,6 +17,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PageMoshaverin extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -26,6 +28,15 @@ public class PageMoshaverin extends TabActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
+        ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PageMoshaverin.this , Pagemenu.class);
+                startActivity(intent);
+            }
+        });
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -42,14 +53,6 @@ public class PageMoshaverin extends TabActivity
             }
         });
 
-        ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
-        imageView1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PageMoshaverin.this , Pagemenu.class);
-                startActivity(intent);
-            }
-        });
 
         if(GlobalVar.getUserID().equals("100")){
             Menu nav_Menu = navigationView.getMenu();
@@ -79,7 +82,7 @@ public class PageMoshaverin extends TabActivity
         TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("Partners");
 
         tabSpec1.setIndicator("تخصص ها");
-        tabSpec1.setContent(new Intent(this, ListeTaxassosHa.class));
+        tabSpec1.setContent(new Intent(this, ListeTaxassussss.class));
 
         tabSpec2.setIndicator("لیست مشاورین");
         tabSpec2.setContent(new Intent(this, ListeMoshaverin.class));
@@ -91,6 +94,12 @@ public class PageMoshaverin extends TabActivity
 
     }
 
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     @Override
     public void onBackPressed() {

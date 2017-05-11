@@ -30,6 +30,7 @@ import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
 import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import de.hdodenhof.circleimageview.CircleImageView;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PageVirayesh extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -54,14 +55,7 @@ public class PageVirayesh extends AppCompatActivity
         TextView virayeshTextinToolbar=(TextView) findViewById(R.id.virayeshTextinToolbar);
         init();
 
-        ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
-        imageView1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PageVirayesh.this , Pagemenu.class);
-                startActivity(intent);
-            }
-        });
+
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -77,6 +71,24 @@ public class PageVirayesh extends AppCompatActivity
 
             }
         });
+
+        if(GlobalVar.getUserID().equals("100")){
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
+        }else{
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(true);
+            nav_Menu.findItem(R.id.nav_login).setVisible(false);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+        }
 
         if(isOnline()){
 
@@ -118,6 +130,13 @@ public class PageVirayesh extends AppCompatActivity
 
 
 
+    }
+
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override

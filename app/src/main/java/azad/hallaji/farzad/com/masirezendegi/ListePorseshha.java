@@ -32,6 +32,7 @@ import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 import azad.hallaji.farzad.com.masirezendegi.model.Question;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ListePorseshha extends AppCompatActivity {
 
@@ -132,6 +133,10 @@ public class ListePorseshha extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     private boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager)
@@ -176,6 +181,7 @@ public class ListePorseshha extends AppCompatActivity {
         protected void onPostExecute(String result) {
 
             //Toast.makeText(getApplicationContext(), "0"+result+"0", Toast.LENGTH_LONG).show();
+            Log.i("qwertyuiuhg",result);
 
 
             List<Question> templist=new ArrayList<>();

@@ -1,6 +1,7 @@
 package azad.hallaji.farzad.com.masirezendegi.helper;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import azad.hallaji.farzad.com.masirezendegi.R;
@@ -45,12 +47,29 @@ public class ListePorseshhaAdapter extends ArrayAdapter<Question>  {
         TextView IDsub  =(TextView)view.findViewById(R.id.QID) ;
 
         Question Ittem = reportItemList.get(position);
-
         //new DownloadImageTask(userimg).execute(Ittem.getPicAddress()); //TODO
         Name.setText(Ittem.getQuestionSubject());
         text.setText(Ittem.getText());  //TODO
         Count.setText(Ittem.getAnswerCount());
-        IDsub.setText(Ittem.getQID());
+
+        try {
+
+            long time = Long.parseLong(Ittem.getRegTime());
+            Date d= new Date(time);
+            Log.i("qwertyui9iykjnhgf",String.valueOf(d));
+
+        }catch (Exception ignored){}
+
+
+        String date="";
+        Long aLong ;
+        String dd=Ittem.getRegTime().trim();
+        if (!dd.equals("")){
+            aLong=Long.parseLong(dd);
+            date=new java.text.SimpleDateFormat("yyyy/MM/dd")
+                    .format(new java.util.Date (aLong*1000));
+        }
+        IDsub.setText(String.valueOf(date));
 
         return view;
     }

@@ -47,6 +47,7 @@ import azad.hallaji.farzad.com.masirezendegi.model.Comment;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 import cz.msebera.android.httpclient.Header;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ExplainMoshaver extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
@@ -144,28 +145,31 @@ public class ExplainMoshaver extends TabActivity
 
             TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
 
-            TabHost.TabSpec tabSpec1 = tabHost.newTabSpec("nazar");
+            TabHost.TabSpec tabSpec3 = tabHost.newTabSpec("nazar");
             TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("madarek");
-            TabHost.TabSpec tabSpec3 = tabHost.newTabSpec("map");
+            TabHost.TabSpec tabSpec1 = tabHost.newTabSpec("map");
 
-            tabSpec1.setIndicator("نظرات");
+            tabSpec3.setIndicator("نظرات");
             Intent intent1 =new Intent(this, ListeComments.class);
             intent1.putExtra("adviseridm",adviseridm);
-            tabSpec1.setContent(intent1);
+            tabSpec3.setContent(intent1);
 
             tabSpec2.setIndicator("مدارک");
             Intent intent2 =new Intent(this, PageLiecence.class);
             intent2.putExtra("adviseridm",adviseridm);
+            intent2.putExtra("License",License);
             tabSpec2.setContent(intent2);
 
-            tabSpec3.setIndicator("تخصص ها");
-            final Intent intent = new Intent(this, Taxassosexusus.class);
+            tabSpec1.setIndicator("نقشه");
+            final Intent intent = new Intent(this, MapsActivity.class);
             intent.putExtra("adviseridm",adviseridm);
-            tabSpec3.setContent(intent);
+            tabSpec1.setContent(intent);
 
             tabHost.addTab(tabSpec1);
             tabHost.addTab(tabSpec2);
             tabHost.addTab(tabSpec3);
+
+            tabHost.setCurrentTab(2);
 
 
             ImageView imageView2 = (ImageView)findViewById(R.id.adviser_about_img);
@@ -368,6 +372,12 @@ public class ExplainMoshaver extends TabActivity
         return true;
 
 
+    }
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {

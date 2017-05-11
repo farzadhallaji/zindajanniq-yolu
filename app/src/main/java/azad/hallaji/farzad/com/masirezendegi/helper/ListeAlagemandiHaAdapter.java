@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.InputStream;
@@ -40,6 +41,7 @@ public class ListeAlagemandiHaAdapter extends ArrayAdapter<ALagemandi> {
         LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = vi.inflate(R.layout.item_alagemandiha,null);
 
+
         CircleImageView moshaverimg = (CircleImageView)view.findViewById(R.id.user_img);
         TextView Name =(TextView)view.findViewById(R.id.AdviserName) ;
         TextView typeAlagemandiTextView  =(TextView)view.findViewById(R.id.typeAlagemandiTextView) ;
@@ -65,6 +67,7 @@ public class ListeAlagemandiHaAdapter extends ArrayAdapter<ALagemandi> {
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
+//        new DownloadImageTask(moshaverimg).execute(reportItemList.get(position).getPicAddress());
 
         public DownloadImageTask(ImageView bmImage) {
             this.bmImage = bmImage;

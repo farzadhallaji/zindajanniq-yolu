@@ -57,6 +57,7 @@ import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 import azad.hallaji.farzad.com.masirezendegi.model.Question;
 import cz.msebera.android.httpclient.Header;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ExplainMarkaz extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
@@ -178,6 +179,10 @@ public class ExplainMarkaz extends TabActivity
 
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     private void requestData(String subid , int start) {
 
         RequestPackage p = new RequestPackage();

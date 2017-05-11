@@ -29,6 +29,7 @@ import azad.hallaji.farzad.com.masirezendegi.model.ALagemandi;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 import cz.msebera.android.httpclient.Header;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Liste_Moshaverine_Markaz extends AppCompatActivity {
 
@@ -64,6 +65,10 @@ public class Liste_Moshaverine_Markaz extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     private void requestData() {
         RequestParams params = new RequestParams();
         params.put("placeid",  String.valueOf(placeid));

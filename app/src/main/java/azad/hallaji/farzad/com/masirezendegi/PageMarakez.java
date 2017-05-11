@@ -1,6 +1,7 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PageMarakez extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -98,6 +100,11 @@ public class PageMarakez extends TabActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override

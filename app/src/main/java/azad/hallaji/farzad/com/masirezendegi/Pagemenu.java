@@ -1,5 +1,6 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -100,6 +102,12 @@ public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavi
 
 
 
+    }
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override

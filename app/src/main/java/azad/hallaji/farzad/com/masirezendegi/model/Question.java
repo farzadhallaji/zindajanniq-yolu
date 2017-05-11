@@ -12,7 +12,7 @@ public class Question implements Serializable{
     String SubjectID;
     String QuestionSubject;
     String Text;
-    String RegTime;
+    String RegTime="";
     String AnswerCount;
     String LikeCount;
     String DisLikeCount;

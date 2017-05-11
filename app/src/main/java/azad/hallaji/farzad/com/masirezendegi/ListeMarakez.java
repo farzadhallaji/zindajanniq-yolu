@@ -33,6 +33,7 @@ import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
 import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Markaz;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class ListeMarakez extends AppCompatActivity {
@@ -79,6 +80,10 @@ public class ListeMarakez extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     private boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);

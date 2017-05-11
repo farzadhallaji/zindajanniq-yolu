@@ -1,6 +1,7 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -14,8 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PagePorseshha extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,6 +31,10 @@ public class PagePorseshha extends TabActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
+
+        TextView textView = (TextView)findViewById(R.id.dashshshaqx);
+        textView.setText("پرسش ها");
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -104,6 +111,12 @@ public class PagePorseshha extends TabActivity
 
     }
 
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     @Override
     public void onBackPressed() {

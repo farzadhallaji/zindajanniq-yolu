@@ -24,6 +24,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -89,7 +90,8 @@
         <activity android:name=".Liste_Moshaverine_Markaz" />
         <activity android:name=".PageLogin" />
         <activity android:name=".PageRezerv" />
-        <activity android:name=".PageLogout"></activity>
+        <activity android:name=".PageLogout" />
+        <activity android:name=".ListeTaxassussss"></activity>
     </application>
 
 </manifest>
