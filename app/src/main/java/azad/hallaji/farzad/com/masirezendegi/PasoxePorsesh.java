@@ -1,5 +1,6 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -7,10 +8,14 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +42,8 @@ import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Pasox;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static android.R.id.message;
+
 
 public class PasoxePorsesh extends AppCompatActivity {
 
@@ -44,11 +51,23 @@ public class PasoxePorsesh extends AppCompatActivity {
     TextView OnvaneSoalTextView;
     ListView listView;
     String qid="";
+    ImageView sabizshey;
+    LinearLayout layeyeasli;
+    RelativeLayout likedisalage;
+    boolean alage=false;
+    RequestQueue MyRequestQueue;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pasoxe_porsesh);
+
+        layeyeasli=(LinearLayout)findViewById(R.id.layeyeasli);
+        likedisalage=(RelativeLayout)findViewById(R.id.layeyelikalage);
+
+        layeyeasli.setVisibility(View.VISIBLE);
+        likedisalage.setVisibility(View.GONE);
 
         /*Bundle bundle = getIntent().getExtras();
         qid = bundle.getString("questionid");
@@ -71,12 +90,13 @@ public class PasoxePorsesh extends AppCompatActivity {
 
 
         //Toast.makeText(getApplicationContext(), qid, Toast.LENGTH_LONG).show();
-
+        sabizshey= (ImageView)findViewById(R.id.sabizshey);
         Log.i("aasasasasaaaaa",qid);
 
         if(isOnline()){
             //requestData();
             postgetData(qid,GlobalVar.getDeviceID());
+
 
 
         }else{
@@ -104,10 +124,7 @@ public class PasoxePorsesh extends AppCompatActivity {
 
 
     void postgetData(final String qid , final String deviceid){
-
-
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
-
+        MyRequestQueue = Volley.newRequestQueue(this);
         String url = "http://telyar.dmedia.ir/webservice/get_question_answer";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -126,6 +143,59 @@ public class PasoxePorsesh extends AppCompatActivity {
                 //This code is executed if there is an error.
             }
         }) {
+            @Override
+            protected void onFinish() {
+
+                sabizshey.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        layeyeasli.setVisibility(View.GONE);
+                        likedisalage.setVisibility(View.VISIBLE);
+                    }
+                });
+
+                ImageView startalagemandiImageView=(ImageView)findViewById(R.id.startalagemandiImageView);
+                ImageView dislikeimmmm=(ImageView)findViewById(R.id.dislikeimmmm);
+                ImageView likeimmmm=(ImageView)findViewById(R.id.likeimmmm);
+
+                if(alage)
+                    startalagemandiImageView.setImageResource(R.drawable.alage1);
+                else
+                    startalagemandiImageView.setImageResource(R.drawable.alage0);
+
+                startalagemandiImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if(alage)
+                            setAlage("-1");
+                        else
+                            setAlage("1");
+                    }
+                });
+                dislikeimmmm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        likedislike(false);
+                    }
+                });
+                likeimmmm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        likedislike(true);
+                    }
+                });
+                ImageView closeinvisibleimag = (ImageView)findViewById(R.id.closeinvisibleimag);
+                closeinvisibleimag.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        layeyeasli.setVisibility(View.VISIBLE);
+                        likedisalage.setVisibility(View.GONE);
+                    }
+                });
+
+            }
+
             protected Map<String, String> getParams() {
                 Map<String, String> MyData = new HashMap<String, String>();
                 MyData.put("questionid", qid); //Add the data you'd like to send to the server.
@@ -147,11 +217,14 @@ public class PasoxePorsesh extends AppCompatActivity {
             MozueSoalTextView.setText(jsonObject.get("SName").toString());
             OnvaneSoalTextView.setText(jsonObject.get("QuestionSubject").toString());
             //OnvaneSoalTextView.setText(jsonObject.get("TextText").toString());
-            Log.i("asasaasasasa",jsonObject.get("RegTime").toString());
+            Log.i("asastuikjhg",jsonObject.toString());
+            alage = jsonObject.getString("IsFavourite").equals("1");
 
             JSONArray jsonArray = new JSONArray(jsonObject.getJSONArray("Answer").toString());
+
             for(int i = 0 ; i < jsonArray.length() ; i++){
                 JSONObject jsonObject1 =new JSONObject(jsonArray.get(i).toString());
+
                 Pasox pasox = new Pasox(jsonObject1.getString("PicAddress")
                         , jsonObject1.getString("UserName"), jsonObject1.getString("Text")
                         , jsonObject1.getString("LikeCount"), jsonObject1.getString("DisLikeCount")
@@ -173,46 +246,141 @@ public class PasoxePorsesh extends AppCompatActivity {
 
     }
 
-    private void requestData(String userid , String contentid , String status) {
+    void setAlage(final String s) {
 
-        RequestPackage p = new RequestPackage();
-        p.setMethod("POST");
-        p.setUri("http://telyar.dmedia.ir/webservice/Set_like_dislike");
+        String url = "http://telyar.dmedia.ir/webservice/Set_like_dislike/";
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //This code is executed if the server responds, whether or not the response contains data.
+                //The String 'response' contains the server's response.
+                Log.i("aladfffgree", response);
+                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
+                responsesetfavor(response);
 
-        p.setParam("userid",  userid);
-        p.setParam("contentid", contentid);
-        p.setParam("contenttype", "question");
-        p.setParam("status", status);
-        p.setParam("deviceid", GlobalVar.getDeviceID());
 
+            }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //This code is executed if there is an error.
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
+                MyData.put("userid", GlobalVar.getUserID()); //Add the data you'd like to send to the server.
+                MyData.put("contentid", qid); //Add the data you'd like to send to the server.
+                MyData.put("status", s); //Add the data you'd like to send to the server.
+                MyData.put("contenttype", "question"); //Add the data you'd like to send to the server.
+                MyData.put("deviceid", GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
+                return MyData;
+            }
+        };
+        MyRequestQueue.add(MyStringRequest);
+    }
 
-        LoginAsyncTask task = new LoginAsyncTask();
-        task.execute(p);
+    public void likedislike(final boolean like) {
+        String url = "http://telyar.dmedia.ir/webservice/Set_like_dislike/";
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("ahmad",response);
+                responsesetfavor(response);
+            }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                MyData.put("userid", GlobalVar.getUserID());
+                String aaa="-1";
+                if(like)
+                    aaa="1";
+                MyData.put("status", aaa); //Add the data you'd like to send to the server.
+                MyData.put("contenttype", "question"); //Add the data you'd like to send to the server.
+                MyData.put("contentid",qid); //Add the data you'd like to send to the server.
+                MyData.put("deviceid",GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
+                return MyData;
+            }
+        };
+
+        MyRequestQueue.add(MyStringRequest);
 
     }
 
+    private void responsesetfavor(String response) {
 
-    private class LoginAsyncTask extends AsyncTask<RequestPackage, String, String> {
-
-
-        @Override
-        protected String doInBackground(RequestPackage... params) {
-            String content = HttpManager.getData(params[0]);
-            return content;
+        Log.i("asadsfbghh nrjh nsdvsdc",response);
+        String m="-1" ,  mmessage="";
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            m=jsonObject.getString("Status");
+            mmessage=jsonObject.getString("Message");
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_dialog_login, null);
 
-        @Override
-        protected void onPostExecute(String result) {
+        if(m.equals("1")){
 
+            final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
-            //List<Moshaver> templist=new ArrayList<>();
-            Log.i("listeasadsddf",result) ;
+            dialogBuilder.setView(dialogView);
 
+            TextView textView =(TextView)dialogView.findViewById(R.id.aaT);
+            textView.setText(mmessage);
 
+            Button button = (Button)dialogView.findViewById(R.id.buttombastan);
+
+            /*EditText editText = (EditText) dialogView.findViewById(R.id.label_field);
+            editText.setText("test label");*/
+            final AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.show();
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.cancel();
+
+                }
+            });
+        }else if(m.equals("-1")){
+
+            final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+            dialogBuilder.setView(dialogView);
+
+            TextView textView =(TextView)dialogView.findViewById(R.id.aaT);
+            textView.setText(mmessage);
+            TextView te =(TextView)dialogView.findViewById(R.id.aT);
+            te.setText("خطا");
+            Button button = (Button)dialogView.findViewById(R.id.buttombastan);
+
+            /*EditText editText = (EditText) dialogView.findViewById(R.id.label_field);
+            editText.setText("test label");*/
+            final AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.show();
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.cancel();
+
+                }
+            });
 
         }
-
     }
 
 
 }
+
+
+
+
+

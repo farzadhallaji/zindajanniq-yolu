@@ -81,7 +81,7 @@ public class ListeComments extends AppCompatActivity {
             for(int i= 0 ; i<jsonArray2.length() ; i++){
                 JSONObject object = (JSONObject) jsonArray2.get(i);
                 Comment comment = new Comment(object.getString("comment"),object.getString("RegTime"),
-                        object.getString("UserName"),object.getString("UserFamilyName"));
+                        object.getString("UserName"),object.getString("UserFamilyName") , object.getString("UserPicAddress"));
                 comments.add((comment));
             }
             ListView listView = (ListView)findViewById(R.id.commentListView);

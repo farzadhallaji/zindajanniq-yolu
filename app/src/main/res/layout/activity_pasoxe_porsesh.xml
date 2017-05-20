@@ -55,6 +55,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:visibility="visible"
+        android:id="@+id/layeyeasli"
         android:layout_weight="1">
 
         <LinearLayout
@@ -76,8 +78,9 @@
                     android:layout_weight="6">
                     <ImageView
                         android:layout_width="match_parent"
+                        android:id="@+id/sabizshey"
                         android:layout_height="match_parent"
-                        android:src="@drawable/alage0"/>
+                        android:src="@drawable/sabiz"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -93,7 +96,6 @@
                         android:textColor="#fa731e"
                         android:textSize="17dp"
                         android:layout_weight="1"
-                        android:layout_margin="5dp"
                         android:layout_gravity="center"
                         android:text="موضوع سوال : "/>
                     <TextView
@@ -123,12 +125,14 @@
                     android:textSize="15dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="2.5dp"
+                    android:layout_marginRight="5dp"
                     android:text="عنوان سوال :"
                     android:textColor="#000"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:textSize="15dp"
+                    android:layout_marginRight="5dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="2.5dp"
                     android:id="@+id/OnvaneSoalTextView"
@@ -150,5 +154,88 @@
                 android:padding="25dp"/>
         </LinearLayout>
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:id="@+id/layeyelikalage"
+        android:layout_weight="1"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="260dp"
+            android:layout_height="200dp"
+            android:layoutDirection="ltr"
+            android:orientation="vertical"
+            android:background="@drawable/likedisalage"
+            android:layout_centerInParent="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="5dp"
+                    android:id="@+id/closeinvisibleimag"
+                    android:src="@drawable/ok"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layoutDirection="ltr"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:id="@+id/likeimmmm"
+                        android:layout_height="50dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/like"/>
+                    
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:id="@+id/dislikeimmmm"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/dislike"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/startalagemandiImageView"
+                    android:src="@drawable/alage0"
+                    android:layout_height="50dp" />
+                
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>

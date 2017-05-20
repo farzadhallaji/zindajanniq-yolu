@@ -109,10 +109,8 @@ public class PageVirayesh extends AppCompatActivity
         final ImageView imageView1 =(ImageView) findViewById(R.id.onclickeasadinchimastanxanim);
         imageView1.setVisibility(View.GONE);
 
-/*
         if(isOnline() && GlobalVar.getUserType().equals("adviser")){
-*/
-        if(isOnline()){
+        //if(isOnline()){
             setAlage();
             virayeshTextinToolbar.setOnClickListener(new View.OnClickListener() {
                 @Override

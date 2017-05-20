@@ -7,7 +7,15 @@ package azad.hallaji.farzad.com.masirezendegi.model;
 
 public class Comment  {
 
-    String comment,RegTime ,UserName,UserFamilyName;
+    String comment,RegTime ,UserName,UserFamilyName ,UserPicAddress;
+
+    public String getUserPicAddress() {
+        return UserPicAddress;
+    }
+
+    public void setUserPicAddress(String userPicAddress) {
+        UserPicAddress = userPicAddress;
+    }
 
     public String getComment() {
         return comment;
@@ -41,11 +49,12 @@ public class Comment  {
         UserFamilyName = userFamilyName;
     }
 
-    public Comment(String comment, String regTime, String userName, String userFamilyName) {
+    public Comment(String comment, String regTime, String userName, String userFamilyName, String userPicAddress) {
 
         this.comment = comment;
         RegTime = regTime;
         UserName = userName;
         UserFamilyName = userFamilyName;
+        UserPicAddress=userPicAddress;
     }
 }

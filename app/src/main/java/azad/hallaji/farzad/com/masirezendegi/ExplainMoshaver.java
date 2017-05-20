@@ -278,7 +278,6 @@ public class ExplainMoshaver extends TabActivity
     }
     void postgetData(){
 
-
         MyRequestQueue = Volley.newRequestQueue(this);
 
         String url = "http://telyar.dmedia.ir/webservice/Get_adviser_profile/";
@@ -320,7 +319,7 @@ public class ExplainMoshaver extends TabActivity
                 Intent intent1 =new Intent(ExplainMoshaver.this, ListeComments.class);
                 intent1.putExtra("adviseridm",adviseridm);
                 intent1.putExtra("comments",comments);
-                //Log.i("aaaaaaaaaaaaaaa",comments.size()+" ");
+                Log.i("aaaaaaaaaaaaaaa",comments+" ");
                 tabSpec3.setContent(intent1);
 
                 tabSpec2.setIndicator("مدارک");
