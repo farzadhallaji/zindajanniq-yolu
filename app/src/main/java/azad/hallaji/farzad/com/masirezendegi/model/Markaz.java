@@ -30,6 +30,13 @@ public class Markaz {
         Distance = distance;
     }
 
+    public Markaz(String latr, String aLong, String mid, String mainPlaceName) {
+        lat = latr;
+        longg = aLong;
+        MID = mid;
+        MainPlaceName = mainPlaceName;
+    }
+
     public String getLat() {
         return lat;
     }

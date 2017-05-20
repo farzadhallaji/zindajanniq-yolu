@@ -183,6 +183,10 @@ public class AddQuestion extends AppCompatActivity
                 public void onClick(View v) {
                     alertDialog.cancel();
 
+                    Intent intent = new Intent(AddQuestion.this,PagePorseshha.class);
+                    intent.putExtra("soallllll","1");
+                    startActivity(intent);
+
                 }
             });
         }else if(m.equals("-1")){

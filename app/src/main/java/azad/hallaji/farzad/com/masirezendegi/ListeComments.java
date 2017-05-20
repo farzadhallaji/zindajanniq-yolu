@@ -34,6 +34,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class ListeComments extends AppCompatActivity {
 
     String adviseridm;
+    String commentscomments;
     List<Comment> comments=new ArrayList<>();
 
     @Override
@@ -46,92 +47,47 @@ public class ListeComments extends AppCompatActivity {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
                 adviseridm= "0";
+                commentscomments= "";
             } else {
                 adviseridm= extras.getString("adviseridm");
+                commentscomments= extras.getString("comments");
             }
         } else {
             adviseridm= (String) savedInstanceState.getSerializable("adviseridm");
+            commentscomments= (String) savedInstanceState.getSerializable("comments");
         }
 
-        if(isOnline()){
-            postgetData();
-        }else {
-            Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
-        }
+        updatelistview(commentscomments);
+
     }
 
-    private boolean isOnline() {
-        ConnectivityManager connectivityManager = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
-            return true;
-        }
-        return false;
-    }
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-    void postgetData(){
 
-
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
-
-        String url = "http://telyar.dmedia.ir/webservice/Get_adviser_profile/";
-        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //This code is executed if the server responds, whether or not the response contains data.
-                //The String 'response' contains the server's response.
-                //Log.i("ahmad",response);
-                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
-                updatelistview(response);
-
-
-            }
-        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //This code is executed if there is an error.
-            }
-        }) {
-            protected Map<String, String> getParams() {
-                Map<String, String> MyData = new HashMap<String, String>();
-                //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
-                MyData.put("adviserid", adviseridm); //Add the data you'd like to send to the server.
-                MyData.put("deviceid",GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
-                return MyData;
-            }
-        };
-
-        MyRequestQueue.add(MyStringRequest);
-    }
 
     private void updatelistview(String response) {
 
-
+        comments=new ArrayList<>();
+        JSONArray jsonArray2 = null;
         try {
-            JSONObject jsonObject= new JSONObject(response);
-
-            comments=new ArrayList<>();
-            JSONArray jsonArray2 =new JSONArray(jsonObject.getJSONArray("Comment").toString());
-            try{
-                for(int i= 0 ; i<jsonArray2.length() ; i++){
-                    JSONObject object = (JSONObject) jsonArray2.get(i);
-                    Comment comment = new Comment(object.getString("comment"),object.getString("RegTime"),
-                            object.getString("UserName"),object.getString("UserFamilyName"));
-                    comments.add((comment));
-                }
-                ListView listView = (ListView)findViewById(R.id.commentListView);
-                ListeCommentAdapter listePasoxhayeksoalAdapter =new ListeCommentAdapter(ListeComments.this,comments);
-                listView.setAdapter(listePasoxhayeksoalAdapter);
-                Log.i("aasasasassddfgfgyjyua",comments.size()+" ");
-            }catch (Exception e){
-
+            jsonArray2 = new JSONArray(response);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try{
+            for(int i= 0 ; i<jsonArray2.length() ; i++){
+                JSONObject object = (JSONObject) jsonArray2.get(i);
+                Comment comment = new Comment(object.getString("comment"),object.getString("RegTime"),
+                        object.getString("UserName"),object.getString("UserFamilyName"));
+                comments.add((comment));
             }
-
+            ListView listView = (ListView)findViewById(R.id.commentListView);
+            ListeCommentAdapter listePasoxhayeksoalAdapter =new ListeCommentAdapter(ListeComments.this,comments);
+            listView.setAdapter(listePasoxhayeksoalAdapter);
+            Log.i("aasasasassddfgfgyjyua",comments.size()+" ");
 
         } catch (JSONException e) {
             e.printStackTrace();

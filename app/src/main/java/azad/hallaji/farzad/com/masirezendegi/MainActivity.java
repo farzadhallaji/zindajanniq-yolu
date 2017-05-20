@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), source, Toast.LENGTH_LONG).show();
 
 
-            //requestData();
+            requestData();
 
         } else {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();

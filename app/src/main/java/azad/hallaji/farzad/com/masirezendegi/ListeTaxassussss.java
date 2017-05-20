@@ -1,5 +1,6 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -11,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -76,12 +79,13 @@ public class ListeTaxassussss extends AppCompatActivity {
                         adapter=new ListeTaxassoshaAdapter(getApplicationContext(),totalList);
                         listView.setAdapter(adapter);
 
-                    }/*else {
+                    }else {
                         //postgetData(totalList.get(position).getSID(),"0",GlobalVar.getDeviceID());
-                        Intent intent = new Intent(ListeTaxassussss.this,AddQuestion.class);
+                        Intent intent = new Intent(ListeTaxassussss.this,PageMoshaverin.class);
                         intent.putExtra("subjectid",totalList.get(position).getSID());
-                        startActivity(intent);
-                    }*/
+
+                        Allllert(intent);
+                    }
 
 
                 }
@@ -117,6 +121,37 @@ public class ListeTaxassussss extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
         }
+
+    }
+
+    private void Allllert(final Intent intent) {
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_dialog_login, null);
+
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        dialogBuilder.setView(dialogView);
+
+        TextView textView =(TextView)dialogView.findViewById(R.id.aaT);
+        textView.setText("تخصص مورد نظر شما انتخاب شد.");
+
+        Button button = (Button)dialogView.findViewById(R.id.buttombastan);
+
+            /*EditText editText = (EditText) dialogView.findViewById(R.id.label_field);
+            editText.setText("test label");*/
+        final AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.cancel();
+                //changeui(phone);
+                startActivity(intent);
+
+
+            }
+        });
 
     }
 

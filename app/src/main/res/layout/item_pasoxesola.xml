@@ -93,11 +93,20 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="3">
-            <de.hdodenhof.circleimageview.CircleImageView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60sp"
-                android:id="@+id/user_img"
-                app:civ_border_color="#a54"/>
+                android:layout_height="match_parent">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="77dp"
+                    android:layout_height="77dp"
+                    android:id="@+id/user_img"
+                    android:layout_centerInParent="true"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="89dp"
+                    android:layout_height="89dp"
+                    android:background="@drawable/border"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:gravity="center"

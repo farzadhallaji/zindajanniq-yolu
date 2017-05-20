@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -24,7 +25,8 @@ public class LisenseAdapter extends ArrayAdapter<String> {
 
     private Context mContext;
     private List<String> reportItemList = new ArrayList<>();
-
+    private List<ImageView> moshaverimgs = new ArrayList<>();
+    private List<Bitmap> BitmapBitmap = new ArrayList<>();
 
     public LisenseAdapter(Context context, List<String> objects) {
 
@@ -37,24 +39,26 @@ public class LisenseAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        ViewHolder holder;
         LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = vi.inflate(R.layout.itemelisense,null);
 
-        ImageView moshaverimg = (ImageView) view.findViewById(R.id.asdfghjkidghjm);
+        if (convertView == null) {
+            convertView = vi.inflate(R.layout.itemelisense, null);
+            holder = new ViewHolder();
+            holder.moshaverimg = (ImageView) convertView.findViewById(R.id.asdfghjkidghjm);
+            convertView.setTag(holder);
+        }
+        else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+        new DownloadImageTask(holder.moshaverimg).execute(reportItemList.get(position));
 
 
-        new DownloadImageTask(moshaverimg).execute(reportItemList.get(position));
 
-        /*new DownloadImageTaske().execute(Ittem);
-        moshaverimg.setImageBitmap(Ittem.getBitmap());
-        Name.setText(Ittem.getAdviserName());
-        String ss="";
-        for(String s:Ittem.getTag())
-            ss+=","+s;
-        Tag.setText(ss.substring(1));
-        IDCOmment.setText(Ittem.getCommentCount() + "    " + Ittem.getAID()+ " کد کارشناس : ");*/
+        //holder.personImageView.setImageBitmap(person.getImage());
 
-        return view;
+        return convertView;
     }
 
 
@@ -76,6 +80,7 @@ public class LisenseAdapter extends ArrayAdapter<String> {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
             }
+            BitmapBitmap.add(mIcon11);
             return mIcon11;
         }
 
@@ -84,4 +89,8 @@ public class LisenseAdapter extends ArrayAdapter<String> {
         }
     }
 
+    private static class ViewHolder {
+        private ImageView moshaverimg;
+
+    }
 }

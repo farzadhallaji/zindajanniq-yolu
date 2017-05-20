@@ -119,14 +119,18 @@ public class ListePorseshha extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(GlobalVar.getUserType().equals("user")){ //ToDO what type is valid?
+                /*if(GlobalVar.getUserType().equals("user")){ //ToDO what type is valid?
                     //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                    Intent intent = new Intent(ListePorseshha.this,PagePorseshha.class);
-                    intent.putExtra("soallllll","1");
+
                     Log.i("asdfghjefwqdtytjhrgefembvc","asdfghmhjgdfss");
                     startActivity(intent);
 
-                }
+                }*/
+
+                Intent intent = new Intent(ListePorseshha.this,PagePorseshha.class);
+                intent.putExtra("soallllll","1");
+                startActivity(intent);
+
 
             }
         });

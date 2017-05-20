@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
-    android:background="@drawable/backgrnd1"
+    android:background="@drawable/mainpage"
     android:layout_gravity=""
     tools:context="azad.hallaji.farzad.com.masirezendegi.MainActivity">
 

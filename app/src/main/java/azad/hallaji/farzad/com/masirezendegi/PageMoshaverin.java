@@ -23,11 +23,21 @@ public class PageMoshaverin extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawer;
-
+    String subjectid="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) subjectid = "0";
+            else {
+                subjectid= extras.getString("subjectid");
+            }
+        } else {
+            subjectid= (String) savedInstanceState.getSerializable("subjectid");
+        }
 
         ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
         imageView1.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +92,9 @@ public class PageMoshaverin extends TabActivity
         TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("Partners");
 
         tabSpec1.setIndicator("تخصص ها");
-        tabSpec1.setContent(new Intent(this, ListeTaxassussss.class));
+        Intent intent = new Intent(this, ListeTaxassussss.class);
+        intent.putExtra("subjectid",subjectid);
+        tabSpec1.setContent(intent);
 
         tabSpec2.setIndicator("لیست مشاورین");
         tabSpec2.setContent(new Intent(this, ListeMoshaverin.class));

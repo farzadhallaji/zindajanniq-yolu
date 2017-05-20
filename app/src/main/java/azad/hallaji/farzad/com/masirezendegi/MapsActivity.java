@@ -50,14 +50,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        String Mainplace="";
 
-        if (isOnline()) {
-            requestData("0", "0", "0", "0", "0");
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                if (isOnline()) {
+                    requestData("0", "0", "0", "0", "0");
+                } else {
+                    Toast.makeText(getApplicationContext(), "internet isn't available !", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Mainplace= extras.getString("Mainplace");
+                LAsyncTask task = new LAsyncTask();
+                task.execute(Mainplace);
+            }
         } else {
-            Toast.makeText(getApplicationContext(), "internet isn't available !", Toast.LENGTH_LONG).show();
+            Mainplace= (String) savedInstanceState.getSerializable("Mainplace");
+            LAsyncTask task = new LAsyncTask();
+            task.execute(Mainplace);
         }
 
     }
+
+
 
 
     @Override
@@ -120,32 +136,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //Log.i("qweerty",result);
                 JSONArray jsonArray = new JSONArray(result);
                 JSONObject tmp;
-                markazs= new ArrayList<>();
-                String PicAddress , MID, Address, AboutMainPlace,MainPlaceName,Telephone,Lat,Long,Distance="";
+                markazs = new ArrayList<>();
+                String PicAddress, MID, Address, AboutMainPlace, MainPlaceName, Telephone, Lat, Long, Distance = "";
 
-                if(jsonArray.length()>0){
-                    for(int i = 0 ; i < jsonArray.length() ; i++){
+                if (jsonArray.length() > 0) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
 
                         try {
-                            tmp= (JSONObject) jsonArray.get(i);
-                            PicAddress=tmp.getString("PicAddress");
-                            MID=tmp.getString("MID");
-                            Address=tmp.getString("Address");
-                            AboutMainPlace=tmp.getString("AboutMainPlace");
-                            MainPlaceName=tmp.getString("MainPlaceName");
-                            Telephone=tmp.getString("Telephone");
-                            Lat=tmp.getString("Lat");
-                            Long=tmp.getString("Long");
-                            Distance=tmp.getString("Distance");
+                            tmp = (JSONObject) jsonArray.get(i);
+                            PicAddress = tmp.getString("PicAddress");
+                            MID = tmp.getString("MID");
+                            Address = tmp.getString("Address");
+                            AboutMainPlace = tmp.getString("AboutMainPlace");
+                            MainPlaceName = tmp.getString("MainPlaceName");
+                            Telephone = tmp.getString("Telephone");
+                            Lat = tmp.getString("Lat");
+                            Long = tmp.getString("Long");
+                            Distance = tmp.getString("Distance");
 
-                            Markaz markaz = new Markaz(Lat,  Long,  PicAddress,  MID,  Address,
-                                    AboutMainPlace,  MainPlaceName, Telephone,  Distance);
+                            Markaz markaz = new Markaz(Lat, Long, PicAddress, MID, Address,
+                                    AboutMainPlace, MainPlaceName, Telephone, Distance);
                             markazs.add(markaz);
-                        }catch (Exception ignored){}
+                        } catch (Exception ignored) {
+                        }
 
                     }
 
-                    for(int i= 0 ; i < markazs.size() ; i++) {
+                    for (int i = 0; i < markazs.size(); i++) {
 
 
                         try {
@@ -167,6 +184,71 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
 
+    }
+    private class LAsyncTask extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            return params[0];
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            try {
+                //Log.i("qweerty",result);
+                JSONArray jsonArray = new JSONArray(s);
+                JSONObject tmp;
+                markazs= new ArrayList<>();
+                String  MID, MainPlaceName,Lat,Long;
+
+                if(jsonArray.length()>0){
+                    for(int i = 0 ; i < jsonArray.length() ; i++){
+
+                        try {
+                            tmp= (JSONObject) jsonArray.get(i);
+                            MID=tmp.getString("MID");
+                            MainPlaceName=tmp.getString("Name");
+                            Lat=tmp.getString("Lat");
+                            Long=tmp.getString("Long");
+
+                            Markaz markaz = new Markaz(Lat, Long, MID, MainPlaceName);
+                            markazs.add(markaz);
+
+                        }catch (Exception ignored){}
+
+                    }
+                    //Toast.makeText(getApplicationContext(), markazs.size()+"", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), Double.valueOf( , Toast.LENGTH_LONG).show();
+
+                    for(int i= 0 ; i < markazs.size() ; i++) {
+                        try {
+                            //Toast.makeText(getApplicationContext(),"*"+ markazs.get(0).getLat() + "*", Toast.LENGTH_LONG).show();
+
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(markazs.get(i).getLat()),
+                                    Double.valueOf(markazs.get(i).getLongg()))).title(markazs.get(i).getMainPlaceName()));
+
+                            //Toast.makeText(getApplicationContext(), markazs.get(i).getMainPlaceName(), Toast.LENGTH_LONG).show();
+
+
+                        } catch (Exception e) {
+                            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+
+                            Log.i("null", "di ona gore");
+                        }
+
+                    }
+                }
+
+
+            } catch (JSONException e) {
+                //e.printStackTrace();
+            }
+
+        }
     }
 
 }

@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/grp1" android:checkableBehavior="single" >
         <item
             android:id="@+id/nav_profile"
-            android:title="پروفایل"/>
+            android:title="پروفایل">
+
+        </item>
+    </group>
+
+    <group android:id="@+id/grp2" android:checkableBehavior="single" >
         <item
             android:id="@+id/nav_login"
             android:title="ورود به سیستم" />
+        </group>
+    <group android:id="@+id/grp3" android:checkableBehavior="single" >
         <item
             android:id="@+id/nav_marakez"
             android:title="مراکز" />
+        </group>
+    <group android:id="@+id/grp4" android:checkableBehavior="single" >
         <item
             android:id="@+id/nav_moshaverin"
             android:title="مشاورین"/>
+        </group>
+    <group android:id="@+id/grp5" android:checkableBehavior="single" >
         <item
             android:id="@+id/nav_porseshha"
             android:title="پرسش ها" />
+        </group>
+    <group android:id="@+id/grp6" android:checkableBehavior="single" >
         <item
             android:id="@+id/nav_logout"
             android:title="خروج" />
     </group>
-
 
 </menu>

@@ -63,14 +63,31 @@
                 android:src="@drawable/rezerv"
                 android:layout_weight="1"
                 app:civ_border_color="#ccbbbb" />
-            <de.hdodenhof.circleimageview.CircleImageView
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="77dp"
+                    android:layout_height="77dp"
+                    android:id="@+id/adviser_image"
+                    android:layout_centerInParent="true"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="89dp"
+                    android:layout_height="89dp"
+                    android:background="@drawable/border"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
+            <!--<de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_weight="1"
+                android:background="@drawable/border"
                 android:id="@+id/adviser_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:civ_border_width="2dp"
-                app:civ_border_color="#ccbbbb" />
+                app:civ_border_color="#ccbbbb" />-->
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/adviser_reserve_img"

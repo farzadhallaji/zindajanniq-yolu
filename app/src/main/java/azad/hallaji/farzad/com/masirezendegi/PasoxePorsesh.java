@@ -144,8 +144,9 @@ public class PasoxePorsesh extends AppCompatActivity {
 
         try {
             JSONObject jsonObject = new JSONObject(response);
-            MozueSoalTextView.setText(jsonObject.get("QuestionSubject").toString());
-            OnvaneSoalTextView.setText(jsonObject.get("Text").toString());
+            MozueSoalTextView.setText(jsonObject.get("SName").toString());
+            OnvaneSoalTextView.setText(jsonObject.get("QuestionSubject").toString());
+            //OnvaneSoalTextView.setText(jsonObject.get("TextText").toString());
             Log.i("asasaasasasa",jsonObject.get("RegTime").toString());
 
             JSONArray jsonArray = new JSONArray(jsonObject.getJSONArray("Answer").toString());

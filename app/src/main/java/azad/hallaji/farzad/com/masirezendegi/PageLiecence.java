@@ -37,7 +37,7 @@ import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PageLiecence extends AppCompatActivity {
-    String adviseridm,License;
+    String adviseridm,commentscomments="";
     ListView listView;
 
     List<String> comments=new ArrayList<>();
@@ -49,95 +49,65 @@ public class PageLiecence extends AppCompatActivity {
 
         listView= (ListView)findViewById(R.id.lisenseid);
 
-        if(savedInstanceState == null) {
+
+        if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
                 adviseridm= "0";
+                commentscomments= "";
             } else {
                 adviseridm= extras.getString("adviseridm");
-                License= extras.getString("License");
+                commentscomments= extras.getString("License");
             }
         } else {
             adviseridm= (String) savedInstanceState.getSerializable("adviseridm");
+            commentscomments= (String) savedInstanceState.getSerializable("License");
         }
+        Log.i("asadasasfasadfd","asdfghjjhyrwefasdsvttbf");
+        Log.i("asadasasfasadfd",commentscomments);
 
-        if(isOnline()){
-
-            try {
-                JSONArray jsonArray = new JSONArray(License);
-                for (int i= 0 ; i < jsonArray.length() ; i++){
-                    comments.add(jsonArray.get(i).toString());
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            LisenseAdapter listeAlagemandiHaAdapter = new LisenseAdapter(PageLiecence.this,comments);
-            listView.setAdapter(listeAlagemandiHaAdapter);
-
-            //postgetData();
-        }else {
-            Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
-        }
-
-
+        updatelistview(commentscomments);
     }
-
-
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-    private boolean isOnline() {
-        ConnectivityManager connectivityManager = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
-            return true;
-        }
-        return false;
-    }
-    void postgetData(){
-
-
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
-
-        String url = "http://telyar.dmedia.ir/webservice/Get_adviser_profile/";
-        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //This code is executed if the server responds, whether or not the response contains data.
-                //The String 'response' contains the server's response.
-                //Log.i("ahmad",response);
-                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
-                updatelistview(response);
-
-
-            }
-        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //This code is executed if there is an error.
-            }
-        }) {
-            protected Map<String, String> getParams() {
-                Map<String, String> MyData = new HashMap<String, String>();
-                //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
-                MyData.put("adviserid", adviseridm); //Add the data you'd like to send to the server.
-                MyData.put("deviceid",GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
-                return MyData;
-            }
-        };
-
-        MyRequestQueue.add(MyStringRequest);
     }
 
     private void updatelistview(String response) {
 
 
         try {
+
+            JSONArray jsonArray = new JSONArray(response);
+
+            Log.i("asadasasfasadfd",jsonArray.toString());
+
+            for(int i=0 ; i<jsonArray.length() ; i++){
+
+                String License = jsonArray.get(i).toString();
+                comments.add(License);
+                Log.i("asadasasfasadfd",jsonArray.get(i).toString());
+
+
+            }
+            Log.i("asadasasfasadfd",jsonArray.length()+"");
+
+
+            LisenseAdapter listeAlagemandiHaAdapter = new LisenseAdapter(PageLiecence.this,comments);
+            listView.setAdapter(listeAlagemandiHaAdapter);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+}
+
+
+        /*try {
             JSONObject jsonObject = new JSONObject(response);
 
             JSONArray jsonArray= new JSONArray(jsonObject.getJSONArray("PicAddress").toString());
@@ -154,9 +124,7 @@ public class PageLiecence extends AppCompatActivity {
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
 
 
-    }
 
-}

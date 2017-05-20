@@ -53,7 +53,7 @@ public class ExplainMoshaver extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
 
     private static AsyncHttpClient client = new AsyncHttpClient();
-
+    RequestQueue MyRequestQueue;
     String hanyayo="0";
     String adviseridm="100",placeid="",namemoshaver="";
     ImageView userimg;
@@ -61,13 +61,14 @@ public class ExplainMoshaver extends TabActivity
     TextView taxassose_moshaver_textview;
     TextView code_moshaver_textview;
     String License="";
-    List<Comment> comments=new ArrayList<>();
-
+    String comments="";
+    String Mainplace="";
+    ImageView alagestarmarkaz;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explain_moshaver);
-
+        alagestarmarkaz = (ImageView)findViewById(R.id.alagestarmarkaz);
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -89,6 +90,8 @@ public class ExplainMoshaver extends TabActivity
                 startActivity(intent);
             }
         });
+
+
 
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -143,33 +146,7 @@ public class ExplainMoshaver extends TabActivity
             postgetData();
             Log.i("Lieseesene",License);
 
-            TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
 
-            TabHost.TabSpec tabSpec3 = tabHost.newTabSpec("nazar");
-            TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("madarek");
-            TabHost.TabSpec tabSpec1 = tabHost.newTabSpec("map");
-
-            tabSpec3.setIndicator("نظرات");
-            Intent intent1 =new Intent(this, ListeComments.class);
-            intent1.putExtra("adviseridm",adviseridm);
-            tabSpec3.setContent(intent1);
-
-            tabSpec2.setIndicator("مدارک");
-            Intent intent2 =new Intent(this, PageLiecence.class);
-            intent2.putExtra("adviseridm",adviseridm);
-            intent2.putExtra("License",License);
-            tabSpec2.setContent(intent2);
-
-            tabSpec1.setIndicator("نقشه");
-            final Intent intent = new Intent(this, MapsActivity.class);
-            intent.putExtra("adviseridm",adviseridm);
-            tabSpec1.setContent(intent);
-
-            tabHost.addTab(tabSpec1);
-            tabHost.addTab(tabSpec2);
-            tabHost.addTab(tabSpec3);
-
-            tabHost.setCurrentTab(2);
 
 
             ImageView imageView2 = (ImageView)findViewById(R.id.adviser_about_img);
@@ -187,10 +164,73 @@ public class ExplainMoshaver extends TabActivity
                 }
             });
 
+
+            final ImageView alagestarmarkaz = (ImageView)findViewById(R.id.alagestarmarkaz);
+
+            alagestarmarkaz.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (alagestarmarkaz.getResources().equals(getResources().getDrawable(R.drawable.alage1)))
+                        setAlage("1");
+                    else
+                        setAlage("0");
+                }
+            });
+
+
         } else {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    void setAlage(final String s) {
+
+        String url = "http://telyar.dmedia.ir/webservice/Set_like_dislike/";
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //This code is executed if the server responds, whether or not the response contains data.
+                //The String 'response' contains the server's response.
+                Log.i("aladfffgree", response);
+                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
+
+                try {
+                    JSONObject jsonObject= new JSONObject(response);
+                    if (jsonObject.getString("ResultStatus").equals("1"))
+                        alagestarmarkaz.setImageResource(R.drawable.alage1);
+                    else
+                        alagestarmarkaz.setImageResource(R.drawable.alage0);
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+            }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //This code is executed if there is an error.
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
+                MyData.put("userid", GlobalVar.getUserID()); //Add the data you'd like to send to the server.
+                MyData.put("contentid", adviseridm); //Add the data you'd like to send to the server.
+                MyData.put("status", s); //Add the data you'd like to send to the server.
+                MyData.put("contenttype", "adviser"); //Add the data you'd like to send to the server.
+                MyData.put("deviceid", GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
+                return MyData;
+            }
+        };
+        MyRequestQueue.add(MyStringRequest);
     }
 
 
@@ -239,7 +279,7 @@ public class ExplainMoshaver extends TabActivity
     void postgetData(){
 
 
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
+        MyRequestQueue = Volley.newRequestQueue(this);
 
         String url = "http://telyar.dmedia.ir/webservice/Get_adviser_profile/";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -266,6 +306,42 @@ public class ExplainMoshaver extends TabActivity
                 MyData.put("deviceid",GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
                 return MyData;
             }
+
+            @Override
+            protected void onFinish() {
+
+                TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
+
+                TabHost.TabSpec tabSpec3 = tabHost.newTabSpec("nazar");
+                TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("madarek");
+                TabHost.TabSpec tabSpec1 = tabHost.newTabSpec("map");
+
+                tabSpec3.setIndicator("نظرات");
+                Intent intent1 =new Intent(ExplainMoshaver.this, ListeComments.class);
+                intent1.putExtra("adviseridm",adviseridm);
+                intent1.putExtra("comments",comments);
+                //Log.i("aaaaaaaaaaaaaaa",comments.size()+" ");
+                tabSpec3.setContent(intent1);
+
+                tabSpec2.setIndicator("مدارک");
+                Intent intent2 =new Intent(ExplainMoshaver.this, PageLiecence.class);
+                intent2.putExtra("adviseridm",adviseridm);
+                intent2.putExtra("License",License);
+                tabSpec2.setContent(intent2);
+
+                tabSpec1.setIndicator("نقشه");
+                final Intent intent = new Intent(ExplainMoshaver.this, MapsActivity.class);
+                intent.putExtra("adviseridm",adviseridm);
+                intent.putExtra("Mainplace",Mainplace);
+                tabSpec1.setContent(intent);
+
+                tabHost.addTab(tabSpec1);
+                tabHost.addTab(tabSpec2);
+                tabHost.addTab(tabSpec3);
+
+                tabHost.setCurrentTab(2);
+
+            }
         };
 
         MyRequestQueue.add(MyStringRequest);
@@ -279,14 +355,18 @@ public class ExplainMoshaver extends TabActivity
 
             List<String> strings=new ArrayList<>();
             JSONArray jsonArray = new JSONArray(jsonObject.getJSONArray("Tag").toString());
-            Log.i("asasfdghnghjyujyuj",response);
-
+            Log.i("responseresponse",response);
+            String tuzihat ="";
             try {
                 for(int i= 0 ; i<jsonArray.length() ; i++){
-                    strings.add((String) jsonArray.get(i));
-                    Log.i("asasfdghnghjyujyuj",strings.get(0));
+                    tuzihat+=jsonArray.get(i);
+                    if(i!=jsonArray.length()-1)
+                        tuzihat+="  , ";
+                    Log.i("asasfdghnghjyujyuj",tuzihat);
                 }
             }catch (Exception ignored){}
+
+            //JSONArray Licenses = new JSONArray(jsonObject.getJSONArray("License").toString());
 
             License = jsonObject.getString("License");
             Log.i("Lieseesene",License);
@@ -301,32 +381,18 @@ public class ExplainMoshaver extends TabActivity
             String UniqueID = jsonObject.getString("UniqueID");
             String CostPerMin = jsonObject.get("AdviserName").toString();
             String IsFavourite= jsonObject.getString("IsFavourite");
+            Mainplace= jsonObject.getString("mainplace");
             if(IsFavourite.equals("-1")){
                 hanyayo="1";
-                ImageView imageView = (ImageView)findViewById(R.id.alagestarmarkaz);
-                imageView.setImageResource(R.drawable.alage0);
+                alagestarmarkaz.setImageResource(R.drawable.alage0);
             }else if(IsFavourite.equals("1")){
                 hanyayo="-1";
-                ImageView imageView = (ImageView)findViewById(R.id.alagestarmarkaz);
-                imageView.setImageResource(R.drawable.alage1);
+                alagestarmarkaz.setImageResource(R.drawable.alage1);
             }
-            comments=new ArrayList<>();
-            JSONArray jsonArray2 =new JSONArray(jsonObject.getJSONArray("Comment").toString());
-            try{
-                for(int i= 0 ; i<jsonArray2.length() ; i++){
-                    JSONObject object = (JSONObject) jsonArray2.get(i);
-                    Comment comment = new Comment(object.getString("comment"),object.getString("RegTime"),
-                                                    object.getString("UserName"),object.getString("UserFamilyName"));
-                    comments.add((comment));
-                }
-                Log.i("aasasasassddfgfgyjyua",comments.size()+" ");
-            }catch (Exception e){
-
-            }
-
+            comments=jsonObject.getJSONArray("Comment").toString();
 
             name_moshaver_textview.setText(AdviserName);
-            taxassose_moshaver_textview.setText(AboutMe);
+            taxassose_moshaver_textview.setText(tuzihat);
             code_moshaver_textview.setText(UniqueID);
 
             Moshaver moshaver = new Moshaver(AID,AdviserName ,strings,PicAddress,"");
@@ -343,8 +409,6 @@ public class ExplainMoshaver extends TabActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
     }
 
 

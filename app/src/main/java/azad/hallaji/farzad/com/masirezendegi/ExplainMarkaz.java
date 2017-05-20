@@ -75,6 +75,7 @@ public class ExplainMarkaz extends TabActivity
     TextView code_markaz_textview;
 
     String PicAddress ,Address,AboutMainplace,MainPlaceName= " ";
+    ImageView alagestarmarkaz;
 
 
     @Override

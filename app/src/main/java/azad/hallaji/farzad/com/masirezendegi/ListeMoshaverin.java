@@ -31,6 +31,7 @@ import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 import azad.hallaji.farzad.com.masirezendegi.model.Question;
+import azad.hallaji.farzad.com.masirezendegi.model.Subject;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import android.widget.AdapterView;
@@ -42,19 +43,24 @@ public class ListeMoshaverin extends AppCompatActivity {
     ListeMoshaverinAdapter adapter;
     List<Moshaver> totalList=new ArrayList<>();
     int tempcount=0;
+    String subjectid="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_moshaverin);
 
-        String porseshemoredenazar="";
-        try {
-            Question question= (Question) getIntent().getSerializableExtra("porseshemoredenazar");
-            porseshemoredenazar=question.getSubjectID();
-        }catch (Exception e){
-            Log.i("tag","no obj ques");
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) subjectid = "0";
+            else {
+                subjectid= extras.getString("subjectid");
+            }
+        } else {
+            subjectid= (String) savedInstanceState.getSerializable("subjectid");
         }
+
+
 
         listView=(ListView)findViewById(R.id.ListeMoshaverinListView);
 
@@ -64,7 +70,7 @@ public class ListeMoshaverin extends AppCompatActivity {
 
         if (isOnline()) {
             //Toast.makeText(getApplicationContext(), "Network is available", Toast.LENGTH_LONG).show();
-            requestData(porseshemoredenazar,0);
+            requestData(subjectid,0);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -78,7 +84,6 @@ public class ListeMoshaverin extends AppCompatActivity {
             });
 
 
-            final String finalPorseshemoredenazar = porseshemoredenazar;
             listView.setOnScrollListener(new AbsListView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -92,7 +97,7 @@ public class ListeMoshaverin extends AppCompatActivity {
 
                         }else{
                             listView.addFooterView(ftView);
-                            requestData(finalPorseshemoredenazar,((totalList.size()/20+1)*20));
+                            requestData(subjectid,((totalList.size()/20)*20));
                         }       //TODO TEST sine den yazma
                     }
 

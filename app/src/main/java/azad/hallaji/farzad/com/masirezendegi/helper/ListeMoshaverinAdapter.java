@@ -84,8 +84,8 @@ public class ListeMoshaverinAdapter extends ArrayAdapter<Moshaver> {
 
         }catch (Exception ignored){}*/
 
-        IDCOmment.setText(Ittem.getCommentCount());
-        commentinnazrioml.setText(Ittem.getAID());
+        IDCOmment.setText(Ittem.getUniqueID());
+        commentinnazrioml.setText(Ittem.getCommentCount());
 
 
         return view;

@@ -48,14 +48,22 @@
                 android:layout_gravity="right"
                 android:src="@drawable/ic_menu_white"/>
         </LinearLayout>
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/markaz_image"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:civ_border_width="2dp"
-            app:civ_border_color="#ccbbbb"
-            android:layout_weight="7"/>
+            android:layout_weight="7"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="77dp"
+                android:layout_height="77dp"
+                android:id="@+id/markaz_image"
+                android:layout_centerInParent="true"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="89dp"
+                android:layout_height="89dp"
+                android:background="@drawable/border"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
