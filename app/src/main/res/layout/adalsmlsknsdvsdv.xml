@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/mohaverinpage"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -21,19 +21,21 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:textColor="#fff"
+                android:textSize="17dp"
                 android:layout_margin="5dp"
                 android:id="@+id/virayeshTextinToolbar"
                 android:text="ویرایش"/>
 
             <TextView
                 android:layout_width="wrap_content"
+                android:textSize="17dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:textColor="#fff"
                 android:id="@+id/zaxireTextinToolbar"
-                android:text="دخیره "/>
+                android:text="ذخیره "/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,190 +45,241 @@
             </LinearLayout>
 
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="10dp"
-                android:id="@+id/menuButton"
-                android:layout_gravity="right"
-                android:src="@drawable/ic_menu_white"/>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:id="@+id/menuButton"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="right"
+                    android:src="@drawable/ic_menu_white"/>
+            </RelativeLayout>
 
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_weight="1.2">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_margin="20dp"
-            android:layout_weight="1">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="نام"
-                android:id="@+id/nameTextViewVirayesh"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_weight="1"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint=" نام خانوادگی"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:id="@+id/nameXanevadeTextViewVirayesh"
-                android:layout_weight="1"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint=" معرفی اجمالی"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:id="@+id/marefiyejmaliTextViewVirayesh"
-                android:layout_weight="1"/>
-
-
-        </LinearLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5">
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="77dp"
-                android:layout_height="77dp"
-                android:id="@+id/imageviewuserVirayesh"
-                android:layout_centerInParent="true"/>
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="89dp"
-                android:layout_height="89dp"
-                android:background="@drawable/border"
-                android:layout_centerInParent="true"/>
-        </RelativeLayout>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="20dp"
-        android:layout_weight="1">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="ایمیل"
-            android:id="@+id/emailTextViewVirayesh"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_weight="1"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint=" تلفن ثابت"
-            android:id="@+id/telefonTextViewVirayesh"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_weight="1"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="تلفن همراه"
-            android:id="@+id/gushuTextViewVirayesh"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_weight="1"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint=" معرفی"
-            android:id="@+id/introTextViewVirayesh"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_weight="1"/>
-
-        <RadioGroup
-            android:id="@+id/radioGrp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_weight="1">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
-            <RadioButton
-                android:id="@+id/radioM"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="left"
-                android:checked="true"
-                android:text="مرد"
-                android:gravity="left|center"
-                android:layout_weight="1"/>
-            <RadioButton
-                android:id="@+id/radioF"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:checked="false"
-                android:gravity="left|center"
-                android:text="زن"
-                android:layout_weight="1"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
-        </RadioGroup>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:orientation="vertical">
 
-            <EditText
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:id="@+id/maxtimeTextViewVirayesh"
-                android:hint="بیشترین زمان مشاوره"/>
-            <EditText
+                android:layout_weight="1.5">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="77dp"
+                    android:layout_height="77dp"
+                    android:id="@+id/imageviewuserVirayesh"
+                    android:layout_centerInParent="true"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="89dp"
+                    android:layout_height="89dp"
+                    android:background="@drawable/border"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:id="@+id/costimeTextViewVirayesh"
-                android:gravity="center"
-                android:hint="هزینه مشاوره (دقیقه ای)"/>
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/pluse"
+                    android:id="@+id/onclickeasadinchimastanxanim"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_margin="7dp"
+                    android:layout_weight="1">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="40dp"
+                        android:layout_marginLeft="40dp"
+                        android:hint="نام و نام خانوادگی"
+                        android:gravity="center"
+                        android:id="@+id/namexanivadeEdit"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_margin="7dp"
+                    android:layout_weight="1">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:hint="شماره تلفن"
+                        android:layout_marginRight="40dp"
+                        android:layout_marginLeft="40dp"
+                        android:gravity="center"
+                        android:layout_height="match_parent"
+                        android:id="@+id/shomareteleEdit"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_margin="7dp"
+                    android:layout_weight="1">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:hint="ایمیل"
+                        android:layout_marginRight="40dp"
+                        android:layout_marginLeft="40dp"
+                        android:gravity="center"
+                        android:layout_height="match_parent"
+                        android:id="@+id/emailEdit"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_margin="7dp"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_margin="12dp"
+                        android:gravity="center"
+                        android:layout_height="match_parent"
+                        android:text="اگر تعداد برچسب ها بیشتر شد ، با ویرگول آن ها را از هم جدا
+                         کنید"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_margin="7dp"
+                    android:layout_weight="1">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:hint="برچسب"
+                        android:layout_marginRight="40dp"
+                        android:layout_marginLeft="40dp"
+                        android:gravity="center"
+                        android:layout_height="match_parent"
+                        android:id="@+id/barchasbEdit"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="60dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_margin="7dp"
+                    android:layout_weight="1">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:hint="هزینه مشاوره در هر دقیقه ریال"
+                        android:layout_marginRight="60dp"
+                        android:layout_marginLeft="60dp"
+                        android:gravity="center"
+                        android:layout_height="match_parent"
+                        android:id="@+id/costperminEdit"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="60dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_margin="7dp"
+                    android:layout_weight="1">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:hint="بیشترین زمان مشاوره برای یک مراجع"
+                        android:layout_marginRight="60dp"
+                        android:layout_marginLeft="60dp"
+                        android:gravity="center"
+                        android:layout_height="match_parent"
+                        android:id="@+id/maxtimeEdit"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="60dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_margin="7dp"
+                    android:layout_weight="1">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:hint="جنسیت"
+                        android:layout_marginRight="60dp"
+                        android:layout_marginLeft="60dp"
+                        android:gravity="center"
+                        android:layout_height="match_parent"
+                        android:id="@+id/sexEdit"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="60dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_margin="7dp"
+                    android:layout_weight="1">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:hint="زبان مشاوره"
+                        android:layout_marginRight="60dp"
+                        android:layout_marginLeft="60dp"
+                        android:gravity="center"
+                        android:layout_height="match_parent"
+                        android:id="@+id/dialtecEdit"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_margin="7dp"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_margin="12dp"
+                        android:gravity="center"
+                        android:layout_height="match_parent"
+                        android:text="اگر تعداد زبان ها از یک مورد بیشتر شد با ویرگول آن ها را از هم جدا کنید"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="60dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_margin="7dp"
+                    android:padding="5dp"
+                    android:layout_weight="1">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:background="#c9c9c9"
+                        android:textColor="#000"
+                        android:hint="درباره ی خود... "
+                        android:layout_marginRight="60dp"
+                        android:layout_marginLeft="60dp"
+                        android:gravity="center_horizontal|right"
+                        android:layout_height="match_parent"
+                        android:id="@+id/aboutmeEdit"/>
+                </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
-
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1.5">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:padding="15dp"
-            android:id="@+id/marefiTextViewVirayesh"
-            android:hint="من یک مشاور موفق هستم...."
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"/>
-
-    </LinearLayout>
-
+    </ScrollView>
 </LinearLayout>

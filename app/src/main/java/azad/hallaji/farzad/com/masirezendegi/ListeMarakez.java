@@ -219,7 +219,7 @@ public class ListeMarakez extends AppCompatActivity {
 
                                 latitude = location.getLatitude();
                                 longitude = location.getLongitude();
-                                Toast.makeText(getApplicationContext(),latitude + " : "+ longitude, Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getApplicationContext(),latitude + " : "+ longitude, Toast.LENGTH_LONG).show();
 
                             }
                         }

@@ -174,7 +174,7 @@ public class PageLogin extends AppCompatActivity
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.i("aassdfghjuytrew","1");
+                Log.i("aassdfghasaddasasasasasasasjuytrew","1");
             }
         });
     }
@@ -274,35 +274,37 @@ public class PageLogin extends AppCompatActivity
                         String Message = jsonObject.getString("Message");
                         String s= jsonObject.getString("Status");
 
-
                         if(s.equals("-1")){
 
                             updategraf(Message,"-1","");
+                        }else{
+                            try {
+                                String UserType = jsonObject.getString("UserType");
+                                String UID = jsonObject.getString("UID");
+                                String PicAddress = jsonObject.getString("PicAddress");
+
+                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("UserType", UserType).apply();
+                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("UID", UID).apply();
+                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("PicAddress", PicAddress).apply();
+
+                                Log.i("asdfghhgbv","sefgtbrvfvdfvdfvlgklkgfgb1");
+                                GlobalVar.setPicAddress(PicAddress);
+                                Log.i("asdfghhgbv","sefgtbrvfvdfvdfvlgklkgfgb2");
+                                GlobalVar.setUserID(UID);
+                                Log.i("asdfghhgbv","sefgtbrvfvdfvdfvlgklkgfgb3");
+                                GlobalVar.setUserType(UserType);
+                                Log.i("asdfghhgbv","sefgtbrvfvdfvdfvlgklkgfgb4");
+
+
+                                Intent intent = new Intent(PageLogin.this,Pagemenu.class);
+                                startActivity(intent);
+
+
+
+                            }catch (Exception ignored){}
                         }
 
                     }catch (Exception e){
-
-                        try {
-                            String UserType = jsonObject.getString("UserType");
-                            String UID = jsonObject.getString("UID");
-                            String PicAddress = jsonObject.getString("PicAddress");
-
-                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("UserType", UserType).apply();
-                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("UID", UID).apply();
-                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("PicAddress", PicAddress).apply();
-
-                            GlobalVar.setPicAddress(PicAddress);
-                            GlobalVar.setUserID(UID);
-                            GlobalVar.setUserType(UserType);
-
-
-                            Intent intent = new Intent(PageLogin.this,Pagemenu.class);
-                            startActivity(intent);
-
-
-
-                        }catch (Exception ignored){}
-
                     }
 
 

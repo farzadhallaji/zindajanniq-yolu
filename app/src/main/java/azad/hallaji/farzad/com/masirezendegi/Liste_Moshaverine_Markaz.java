@@ -82,12 +82,14 @@ public class Liste_Moshaverine_Markaz extends AppCompatActivity {
                     JSONArray advisers =new JSONArray(jsonObject.getString("Adviser"));
 
                     for(int i= 0 ; i < advisers.length() ; i++){
+                        Log.i("1234y",advisers.toString() + " ");
 
                         Moshaver aLagemandi = new Moshaver(((JSONObject)advisers.get(i)).getString("AID"),
                                 ((JSONObject)advisers.get(i)).getString("AdviserName"),
                                 new ArrayList<String>(),((JSONObject)advisers.get(i)).getString("PicAddress"),
                                 ((JSONObject)advisers.get(i)).getString("CommentCount"));
 
+                        //aLagemandi.setUniqueID();
                         list.add(aLagemandi);
                     }
 

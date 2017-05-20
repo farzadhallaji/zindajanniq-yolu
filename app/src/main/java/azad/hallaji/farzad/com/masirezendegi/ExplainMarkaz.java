@@ -82,6 +82,7 @@ public class ExplainMarkaz extends TabActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explain_markaz);
+        alagestarmarkaz = (ImageView)findViewById(R.id.alagestarmarkaz);
 
         ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
         imageView1.setOnClickListener(new View.OnClickListener() {
@@ -161,8 +162,10 @@ public class ExplainMarkaz extends TabActivity
             intent1.putExtra("placeid",placeid);
             tabSpec1.setContent(intent1);
 
-            tabHost.addTab(tabSpec1);
             tabHost.addTab(tabSpec2);
+            tabHost.addTab(tabSpec1);
+
+            tabHost.setCurrentTab(1);
 
             ImageView imageView2 = (ImageView)findViewById(R.id.alagestarmarkaz);
             imageView2.setOnClickListener(new View.OnClickListener() {
@@ -174,11 +177,74 @@ public class ExplainMarkaz extends TabActivity
 
                 }
             });
+
+            alagestarmarkaz.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (alagestarmarkaz.getResources().equals(getResources().getDrawable(R.drawable.alage1)))
+                        setAlage("1");
+                    else
+                        setAlage("0");
+                }
+            });
+
+
         } else {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
         }
 
     }
+
+
+    void setAlage(final String s) {
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
+        String url = "http://telyar.dmedia.ir/webservice/Set_like_dislike/";
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //This code is executed if the server responds, whether or not the response contains data.
+                //The String 'response' contains the server's response.
+                Log.i("aladfffgree", response);
+                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
+
+                try {
+                    JSONObject jsonObject= new JSONObject(response);
+                    if (jsonObject.getString("ResultStatus").equals("1"))
+                        alagestarmarkaz.setImageResource(R.drawable.alage1);
+                    else
+                        alagestarmarkaz.setImageResource(R.drawable.alage0);
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+            }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //This code is executed if there is an error.
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
+                MyData.put("userid", GlobalVar.getUserID()); //Add the data you'd like to send to the server.
+                MyData.put("contentid", placeid); //Add the data you'd like to send to the server.
+                MyData.put("status", s); //Add the data you'd like to send to the server.
+                MyData.put("contenttype", "place"); //Add the data you'd like to send to the server.
+                MyData.put("deviceid", GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
+                return MyData;
+            }
+        };
+        MyRequestQueue.add(MyStringRequest);
+    }
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -396,12 +462,10 @@ public class ExplainMarkaz extends TabActivity
                     String IsFavourite= jsonObject.getString("IsFavourite");
                     if(IsFavourite.equals("-1")){
                         hanyayo="1";
-                        ImageView imageView = (ImageView)findViewById(R.id.alagestarmarkaz);
-                        imageView.setImageResource(R.drawable.alage0);
+                        alagestarmarkaz.setImageResource(R.drawable.alage0);
                     }else if(IsFavourite.equals("1")){
                         hanyayo="-1";
-                        ImageView imageView = (ImageView)findViewById(R.id.alagestarmarkaz);
-                        imageView.setImageResource(R.drawable.alage1);
+                        alagestarmarkaz.setImageResource(R.drawable.alage1);
                     }
 
                     Adviser=jsonObject.getString("Adviser");

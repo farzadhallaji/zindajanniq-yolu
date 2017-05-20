@@ -416,7 +416,7 @@ public class PageAlaghemandiha extends AppCompatActivity
         @Override
         protected void onPostExecute(String result) {
 
-            Toast.makeText(getApplicationContext(), "0"+result+"0", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "0"+result+"0", Toast.LENGTH_LONG).show();
             Log.i("elabella",result);
 
 

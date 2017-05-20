@@ -28,6 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_margin="20dp"
                     android:id="@+id/dataTextRezerv"
+                    android:textSize="15dp"
                     android:textColor="#0071f2"
                     android:layout_height="wrap_content"
                     android:text=" تاریخ :"/>
@@ -36,6 +37,7 @@
                     android:layout_width="match_parent"
                     android:id="@+id/timeTextRezerv"
                     android:textColor="#0071f2"
+                    android:textSize="15dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     android:text=" ساعت :"/>
@@ -50,6 +52,7 @@
                 android:layout_weight="1">
                 <TextView
                     android:layout_width="match_parent"
+                    android:textSize="15dp"
                     android:layout_margin="20dp"
                     android:layout_height="wrap_content"
                     android:text=" تاریخ :"/>
@@ -58,6 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:textSize="15dp"
                     android:text=" ساعت :"/>
 
             </LinearLayout>
@@ -79,6 +83,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:textColor="#0071f2"
+                    android:textSize="15dp"
                     android:gravity="center"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -90,6 +95,7 @@
                     android:textColor="#e78f02"
                     android:gravity="center"
                     android:layout_weight="1"
+                    android:textSize="15dp"
                     android:text="نام مرکز : "/>
 
             </LinearLayout>

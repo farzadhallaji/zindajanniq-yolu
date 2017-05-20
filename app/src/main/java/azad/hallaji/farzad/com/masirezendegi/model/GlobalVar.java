@@ -8,8 +8,10 @@ import android.view.Menu;
 import azad.hallaji.farzad.com.masirezendegi.R;
 
 public class GlobalVar {
-    private static String DeviceID;
 
+    private static String DeviceID;
+    private static String UserType="user";
+    private static String PicAddress="";
     private static String UserID="100";
 
     public static String getUserType() {
@@ -27,10 +29,6 @@ public class GlobalVar {
     public static void setPicAddress(String picAddress) {
         PicAddress = picAddress;
     }
-
-    private static String UserType="user";
-    private static String PicAddress="";
-
 
     public static String getDeviceID() {
         return DeviceID;

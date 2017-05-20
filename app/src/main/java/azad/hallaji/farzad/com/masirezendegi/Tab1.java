@@ -110,7 +110,7 @@ public class Tab1 extends Activity {
             String latitude = Double.toString(gps.getLatitude());
             String longitude = Double.toString(gps.getLongitude());
             // \n is for new line
-            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude + " " , Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude + " " , Toast.LENGTH_LONG).show();
 
 
 
@@ -139,8 +139,8 @@ public class Tab1 extends Activity {
             Distance = distFrom((float) 36.5925907, 2.9051544f, 36.5805505f, 2.914749f);
 
             // \n is for new line
-            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude + " " +
-                    "  diastance " + Distance, Toast.LENGTH_LONG).show();
+            /*Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude + " " +
+                    "  diastance " + Distance, Toast.LENGTH_LONG).show();*/
         } else {
             // can't get location
             // GPS or Network is not enabled

@@ -41,7 +41,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#ffffff"
-                        android:textSize="20dp"
+                        android:textSize="17dp"
                         android:text="علاقه مندی ها"/>
                 </LinearLayout>
 

@@ -17,6 +17,11 @@ public class Moshaver implements Serializable {
     String PicAddress;
     String CommentCount;
     String AdviserMaxTime , RegTime;
+    String Telephone;
+    String UniqueID;
+    String CostPerMin;
+    String IsFavourite;
+    String Dialect;
 
 
     public Moshaver(String aid, String userName, List<String> tags, String picAddress, String commentCount, String telephone, String rating, String adviserMaxTime, String regTime) {
@@ -74,11 +79,6 @@ public class Moshaver implements Serializable {
         IsFavourite = isFavourite;
     }
 
-    String Telephone;
-    String UniqueID;
-    String CostPerMin;
-    String IsFavourite;
-    String Dialect;
 
     public String getDialect() {
         return Dialect;

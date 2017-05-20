@@ -91,6 +91,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/MozueSoalTextView"
                         android:textColor="#fa731e"
+                        android:textSize="17dp"
                         android:layout_weight="1"
                         android:layout_margin="5dp"
                         android:layout_gravity="center"
@@ -99,6 +100,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
+                        android:textSize="15dp"
                         android:text="موضوع سوال :"
                         android:layout_gravity="center"
                         android:textColor="#000"
@@ -118,6 +120,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:textSize="15dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="2.5dp"
                     android:text="عنوان سوال :"
@@ -125,6 +128,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:textSize="15dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="2.5dp"
                     android:id="@+id/OnvaneSoalTextView"

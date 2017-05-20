@@ -233,10 +233,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
                         } catch (Exception e) {
+                            /*Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
                             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
                             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
-                            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
-
+*/
                             Log.i("null", "di ona gore");
                         }
 

@@ -1,11 +1,14 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,9 +16,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -23,8 +28,18 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
 import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
@@ -37,15 +52,13 @@ public class PageVirayesh extends AppCompatActivity
 
     DrawerLayout drawer;
 
-    EditText nameTextViewVirayesh,nameXanevadeTextViewVirayesh,marefiyejmaliTextViewVirayesh;
-    CircleImageView imageviewuserVirayesh;
-    EditText emailTextViewVirayesh , telefonTextViewVirayesh , gushuTextViewVirayesh;
-    EditText introTextViewVirayesh  , maxtimeTextViewVirayesh;
-    EditText costimeTextViewVirayesh , marefiTextViewVirayesh;
-    RadioGroup radioSexGroup;
+    Uri selectedImage;
+    EditText namexanivadeEdit , shomareteleEdit , emailEdit;
+    EditText barchasbEdit  , costperminEdit;
+    EditText maxtimeEdit , sexEdit , dialtecEdit , aboutmeEdit;
 
-    String userid="100" , name , familyname , telephone , email , gender , picaddress=" "
-            , aboutme , costpermin , license , tag , dialect , advisermaxtim="";
+    CircleImageView imageviewuserVirayesh;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +66,9 @@ public class PageVirayesh extends AppCompatActivity
         setContentView(R.layout.activity_page_virayesh);
 
         TextView virayeshTextinToolbar=(TextView) findViewById(R.id.virayeshTextinToolbar);
+        final TextView zaxireTextinToolbar=(TextView) findViewById(R.id.zaxireTextinToolbar);
         init();
+        ableall(false);
 
 
 
@@ -72,7 +87,7 @@ public class PageVirayesh extends AppCompatActivity
             }
         });
 
-        if(GlobalVar.getUserID().equals("100")){
+        if(GlobalVar.getUserID().equals("0")){
             Menu nav_Menu = navigationView.getMenu();
             nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
             nav_Menu.findItem(R.id.nav_profile).setVisible(false);
@@ -90,36 +105,34 @@ public class PageVirayesh extends AppCompatActivity
             nav_Menu.findItem(R.id.nav_logout).setVisible(true);
         }
 
-        if(isOnline()){
 
+        final ImageView imageView1 =(ImageView) findViewById(R.id.onclickeasadinchimastanxanim);
+        imageView1.setVisibility(View.GONE);
+
+/*
+        if(isOnline() && GlobalVar.getUserType().equals("adviser")){
+*/
+        if(isOnline()){
+            setAlage();
             virayeshTextinToolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    name=nameTextViewVirayesh.getText().toString();
-                    familyname=nameXanevadeTextViewVirayesh.getText().toString();
-                    telephone=telefonTextViewVirayesh.getText().toString();
-                    email=emailTextViewVirayesh.getText().toString();
-                    aboutme=marefiyejmaliTextViewVirayesh.getText().toString();
-                    costpermin=costimeTextViewVirayesh.getText().toString();
-                    license=introTextViewVirayesh.getText().toString();
-                    tag=marefiTextViewVirayesh.getText().toString();
-                    dialect=gushuTextViewVirayesh.getText().toString();
-                    advisermaxtim=maxtimeTextViewVirayesh.getText().toString();
-
-                    //TODO parametr lari bir chech elamali
-
-                    int selectedId = radioSexGroup.getCheckedRadioButtonId();
-                    // find the radiobutton by returned id
-
-                    if(selectedId==(R.id.radioM)){
-                        gender="مرد";
-                    }else {
-                        gender="زن";
-                    }
-                    Log.i("gender",gender);
-
-                    requestData();
-
+                    ableall(true);
+                    imageView1.setVisibility(View.VISIBLE);
+                    imageView1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(pickPhoto , 1);//one can be replaced with any action code
+                        }
+                    });
+                    zaxireTextinToolbar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            requestData();
+                        }
+                    });
                 }
             });
 
@@ -129,10 +142,39 @@ public class PageVirayesh extends AppCompatActivity
 
 
 
-
     }
 
+    private void ableall(boolean b) {
 
+        namexanivadeEdit.setEnabled(b);
+        shomareteleEdit.setEnabled(b);
+        emailEdit.setEnabled(b);
+        barchasbEdit.setEnabled(b);
+        costperminEdit.setEnabled(b);
+        maxtimeEdit.setEnabled(b);
+        sexEdit.setEnabled(b);
+        dialtecEdit.setEnabled(b);
+        aboutmeEdit.setEnabled(b);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        switch(requestCode) {
+            case 0:
+                if(resultCode == RESULT_OK){
+                    selectedImage = imageReturnedIntent.getData();
+                    imageviewuserVirayesh.setImageURI(selectedImage);
+                }
+
+                break;
+            case 1:
+                if(resultCode == RESULT_OK){
+                    selectedImage = imageReturnedIntent.getData();
+                    imageviewuserVirayesh.setImageURI(selectedImage);
+                }
+                break;
+        }
+    }
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -185,20 +227,18 @@ public class PageVirayesh extends AppCompatActivity
 
     private void init() {
 
-        nameTextViewVirayesh=(EditText)findViewById(R.id.nameTextViewVirayesh);
-        nameXanevadeTextViewVirayesh=(EditText)findViewById(R.id.nameXanevadeTextViewVirayesh);
-        marefiyejmaliTextViewVirayesh=(EditText)findViewById(R.id.marefiyejmaliTextViewVirayesh);
-        emailTextViewVirayesh=(EditText)findViewById(R.id.emailTextViewVirayesh);
-        telefonTextViewVirayesh=(EditText)findViewById(R.id.telefonTextViewVirayesh);
-        gushuTextViewVirayesh=(EditText)findViewById(R.id.gushuTextViewVirayesh);
-        introTextViewVirayesh=(EditText)findViewById(R.id.introTextViewVirayesh);
-        //=(EditText)findViewById(R.id.genderTextViewVirayesh);
-        radioSexGroup = (RadioGroup) findViewById(R.id.radioGrp);
 
-        maxtimeTextViewVirayesh=(EditText)findViewById(R.id.maxtimeTextViewVirayesh);
-        costimeTextViewVirayesh=(EditText)findViewById(R.id.costimeTextViewVirayesh);
-        marefiTextViewVirayesh=(EditText)findViewById(R.id.marefiTextViewVirayesh);
-        imageviewuserVirayesh=(CircleImageView )findViewById(R.id.imageviewuserVirayesh);
+        shomareteleEdit=(EditText)findViewById(R.id.shomareteleEdit);
+        namexanivadeEdit=(EditText)findViewById(R.id.namexanivadeEdit);
+        shomareteleEdit=(EditText)findViewById(R.id.shomareteleEdit);
+        emailEdit=(EditText)findViewById(R.id.emailEdit);
+        barchasbEdit=(EditText)findViewById(R.id.barchasbEdit);
+        costperminEdit=(EditText)findViewById(R.id.costperminEdit);
+        maxtimeEdit=(EditText)findViewById(R.id.maxtimeEdit);
+        sexEdit=(EditText)findViewById(R.id.sexEdit);
+        dialtecEdit=(EditText)findViewById(R.id.dialtecEdit);
+        aboutmeEdit=(EditText)findViewById(R.id.aboutmeEdit);
+        imageviewuserVirayesh=(CircleImageView)findViewById(R.id.imageviewuserVirayesh);
 
     }
 
@@ -219,20 +259,45 @@ public class PageVirayesh extends AppCompatActivity
         p.setMethod("POST");
         p.setUri("http://telyar.dmedia.ir/webservice/Edit_profile");
 
-        p.setParam("userid", userid);
-        p.setParam("name", name);
-        p.setParam("familyname",familyname);
-        p.setParam("email",email);
-        p.setParam("gender",gender);
-        p.setParam("telephone",telephone);
-        p.setParam("picaddress",picaddress);
-        p.setParam("aboutme",aboutme);
-        p.setParam("costpermin",costpermin);
-        p.setParam("license",license);
-        p.setParam("tag",tag);
-        p.setParam("dialect",dialect);
-        p.setParam("advisermaxtim",advisermaxtim);
+        try {
+            p.setParam("userid", GlobalVar.getUserID());
+        }catch (Exception ignored){}
+        try {
+            p.setParam("familyname",namexanivadeEdit.getText().toString());
 
+        }catch (Exception ignored){}
+        try {
+            p.setParam("email",emailEdit.getText().toString());
+
+        }catch (Exception ignored){}
+        try {
+
+            p.setParam("gender", sexEdit.getText().toString());
+        }catch (Exception ignored){}
+        try {
+            p.setParam("telephone",shomareteleEdit.getText().toString());
+
+        }catch (Exception ignored){}
+        try {
+            p.setParam("picaddress",selectedImage.toString());
+
+        }catch (Exception ignored){}
+        try {
+            p.setParam("aboutme",aboutmeEdit.getText().toString());
+
+        }catch (Exception ignored){}
+        try {
+            p.setParam("costpermin",costperminEdit.getText().toString());
+
+        }catch (Exception ignored){}
+        try {
+            p.setParam("dialect",dialtecEdit.getText().toString());
+
+        }catch (Exception ignored){}
+        try {
+
+            p.setParam("advisermaxtim",maxtimeEdit.getText().toString());
+        }catch (Exception ignored){}
 
 
         LoginAsyncTask task = new LoginAsyncTask();
@@ -259,8 +324,10 @@ public class PageVirayesh extends AppCompatActivity
 
             try {
                 JSONObject jsonObject =new JSONObject(result);
+                jostaruzunueymahziba(jsonObject.getString("Message"));
 
-                Toast.makeText(getApplicationContext(),jsonObject.getString("Message"), Toast.LENGTH_LONG).show();
+
+                //Toast.makeText(getApplicationContext(),jsonObject.getString("Message"), Toast.LENGTH_LONG).show();
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -269,5 +336,101 @@ public class PageVirayesh extends AppCompatActivity
 
         }
 
+    }
+
+    private void jostaruzunueymahziba(String message) {
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_dialog_login, null);
+
+
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setView(dialogView);
+
+        TextView textView =(TextView)dialogView.findViewById(R.id.aaT);
+        TextView textVie =(TextView)dialogView.findViewById(R.id.aT);
+        textView.setText(message);
+        textVie.setVisibility(View.INVISIBLE);
+        Button button = (Button)dialogView.findViewById(R.id.buttombastan);
+        final AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.cancel();
+
+            }
+        });
+
+    }
+
+    void setAlage() {
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
+        String url = "http://telyar.dmedia.ir/webservice/Get_profile/";
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //This code is executed if the server responds, whether or not the response contains data.
+                //The String 'response' contains the server's response.
+                Log.i("aladfffgree", response);
+                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
+
+                try {
+                    JSONObject jsonObject= new JSONObject(response);
+                    GlobalVar.setUserID(jsonObject.getString("UID"));
+                    try {
+                        namexanivadeEdit.setText(jsonObject.getString("Name")+ " "+ jsonObject.getString("FamilyName"));
+                    }catch (Exception ignored){}
+
+                    try {
+                        emailEdit.setText(jsonObject.getString("Email"));
+                    }catch (Exception ignored){}
+                    try {
+                        sexEdit.setText(jsonObject.getString("Gender"));
+                    }catch (Exception ignored){}
+                    try {
+                        shomareteleEdit.setText(jsonObject.getString("Telephone"));
+                    }catch (Exception ignored){}
+                    try {
+                        selectedImage=Uri.parse(jsonObject.getString("PicAddress"));
+                        imageviewuserVirayesh.setImageURI(selectedImage);
+                    }catch (Exception ignored){}
+                    try {
+                        aboutmeEdit.setText(jsonObject.getString("AboutMe"));
+                    }catch (Exception ignored){}
+                    try {
+                        costperminEdit.setText(jsonObject.getString("CostPerMin"));
+                    }catch (Exception ignored){}
+                    try {
+                        dialtecEdit.setText(jsonObject.getString("Dialect"));
+                    }catch (Exception ignored){}
+                    try {
+                        maxtimeEdit.setText(jsonObject.getString("AdviserMaxTime"));
+                    }catch (Exception ignored){}
+
+
+                } catch (JSONException e) {
+                    //e.printStackTrace();
+                }
+
+
+
+            }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //This code is executed if there is an error.
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
+                MyData.put("userid", GlobalVar.getUserID()); //Add the data you'd like to send to the server.
+                return MyData;
+            }
+        };
+        MyRequestQueue.add(MyStringRequest);
     }
 }

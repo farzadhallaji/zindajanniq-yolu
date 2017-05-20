@@ -71,11 +71,11 @@ public class MainActivity extends AppCompatActivity {
             source =  imei + "/" + wifimac + "/" + uniqueid + "/" + androidid + "/" + simno + "/" + operator + "/" + brand + "/" + model
                     + "/" + android_sdk + "/" + android_version + "/" + height + "/" + width + "/" + device_size + "/" + version + "/" + os;
 
+            /*Toast.makeText(getApplicationContext(), source, Toast.LENGTH_LONG).show();
             Toast.makeText(getApplicationContext(), source, Toast.LENGTH_LONG).show();
             Toast.makeText(getApplicationContext(), source, Toast.LENGTH_LONG).show();
             Toast.makeText(getApplicationContext(), source, Toast.LENGTH_LONG).show();
-            Toast.makeText(getApplicationContext(), source, Toast.LENGTH_LONG).show();
-
+*/
 
             requestData();
 

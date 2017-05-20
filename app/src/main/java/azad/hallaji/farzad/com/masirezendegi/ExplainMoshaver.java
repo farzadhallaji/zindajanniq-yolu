@@ -195,7 +195,7 @@ public class ExplainMoshaver extends TabActivity
                 //The String 'response' contains the server's response.
                 Log.i("aladfffgree", response);
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
-                Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
 
                 try {
                     JSONObject jsonObject= new JSONObject(response);

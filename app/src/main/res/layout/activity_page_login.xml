@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:theme="@style/CustomTheme"
     android:background="@drawable/loginlay"
     android:layout_height="match_parent"
     tools:context="azad.hallaji.farzad.com.masirezendegi.PageLogin">
@@ -88,7 +89,7 @@
                 android:gravity="center"
                 android:maxLength="11"
                 android:id="@+id/ahbarinshumarasiEdit"
-                android:layout_height="45dp" />
+                android:layout_height="wrap_content" />
         </RelativeLayout>
 
         <RelativeLayout
