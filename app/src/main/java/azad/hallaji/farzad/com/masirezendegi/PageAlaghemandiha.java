@@ -173,7 +173,7 @@ public class PageAlaghemandiha extends AppCompatActivity
                 Map<String, String> MyData = new HashMap<String, String>();
                 //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
                 MyData.put("contenttype", "question"); //Add the data you'd like to send to the server.
-                MyData.put("userid", "100"); //Add the data you'd like to send to the server.
+                MyData.put("userid", GlobalVar.getUserID()); //Add the data you'd like to send to the server.
                 MyData.put("deviceid", GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
                 return MyData;
             }

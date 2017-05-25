@@ -341,43 +341,68 @@ public class PageVirayesh extends AppCompatActivity
 
         try {
             p.setParam("userid", GlobalVar.getUserID());
-        }catch (Exception ignored){}
+        }catch (Exception ignored){
+            p.setParam("userid","100");
+
+        }
         try {
             p.setParam("familyname",namexanivadeEdit.getText().toString());
 
-        }catch (Exception ignored){}
+        }catch (Exception ignored){
+            p.setParam("familyname","");
+        }
         try {
             p.setParam("email",emailEdit.getText().toString());
 
-        }catch (Exception ignored){}
+        }catch (Exception ignored){
+            p.setParam("email","");
+        }
         try {
-
             p.setParam("gender", sexEdit.getText().toString());
-        }catch (Exception ignored){}
+        }catch (Exception ignored){
+            p.setParam("gender", "");
+        }
         try {
             p.setParam("telephone",shomareteleEdit.getText().toString());
 
-        }catch (Exception ignored){}
+        }catch (Exception ignored){
+            p.setParam("telephone","");
+
+        }
         try {
             p.setParam("picaddress",selectedImage.toString());
 
-        }catch (Exception ignored){}
+        }catch (Exception ignored){
+            p.setParam("picaddress","");
+
+        }
         try {
             p.setParam("aboutme",aboutmeEdit.getText().toString());
 
-        }catch (Exception ignored){}
+        }catch (Exception ignored){
+            p.setParam("aboutme","");
+        }
         try {
             p.setParam("costpermin",costperminEdit.getText().toString());
 
-        }catch (Exception ignored){}
+        }catch (Exception ignored){
+
+            p.setParam("costpermin","");
+
+        }
         try {
             p.setParam("dialect",dialtecEdit.getText().toString());
 
-        }catch (Exception ignored){}
+        }catch (Exception ignored){
+            p.setParam("dialect","");
+
+        }
         try {
 
             p.setParam("advisermaxtim",maxtimeEdit.getText().toString());
-        }catch (Exception ignored){}
+        }catch (Exception ignored){
+            p.setParam("advisermaxtim","");
+        }
 
 
         LoginAsyncTask task = new LoginAsyncTask();

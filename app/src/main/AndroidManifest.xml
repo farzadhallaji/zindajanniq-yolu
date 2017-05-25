@@ -31,6 +31,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
@@ -99,7 +100,6 @@
         <activity
             android:name=".ExplainMoshaver"
             android:label="@string/title_activity_explain_moshaver"
-            android:largeHeap="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity

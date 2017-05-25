@@ -89,18 +89,18 @@ public class ListeTaxassosHa extends AppCompatActivity {
 
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                        builder.setMessage("آیا خود این موضوع را انتخاب میکنید یا زیرشاخه های آن را؟");
+                        builder.setMessage("آیا میخواهید خود موضوع را انتخاب کنید یا از بین زیر شاخه های آن؟");
 
-                        builder.setPositiveButton("بله", new DialogInterface.OnClickListener() {
+                        builder.setPositiveButton("موضوع اصلی", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(ListeTaxassosHa.this,PageMoshaverin.class);
+                                Intent intent = new Intent(ListeTaxassosHa.this,PagePorseshha.class);
                                 intent.putExtra("subjectid",totalList.get(position).getSID());
 
                                 Allllert(intent);
                             }
                         });
-                        builder.setNegativeButton("نه", new DialogInterface.OnClickListener() {
+                        builder.setNegativeButton("از بین زیرشاخه ها ", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String s =totalList.get(position).getSID();
