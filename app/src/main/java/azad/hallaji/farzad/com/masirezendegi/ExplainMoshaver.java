@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,6 +54,8 @@ import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 public class ExplainMoshaver extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
@@ -73,6 +76,7 @@ public class ExplainMoshaver extends TabActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explain_moshaver);
+        Fabric.with(this, new Crashlytics());
 
         alagestarmoshaver = (ImageView)findViewById(R.id.alagestarmoshaver);
 
@@ -214,13 +218,6 @@ public class ExplainMoshaver extends TabActivity
                 }
             });
 
-
-
-
-
-
-
-
         } else {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
         }
@@ -231,7 +228,7 @@ public class ExplainMoshaver extends TabActivity
         ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
         progressbarsandaha.setVisibility(View.VISIBLE);
 
-        String url = "http://telyar.dmedia.ir/webservice/Set_like_dislike/";
+        String url = "http://telyar.dmedia.ir/webservice/Set_favourite/";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -245,6 +242,7 @@ public class ExplainMoshaver extends TabActivity
                 progressbarsandaha.setVisibility(View.INVISIBLE);
 
                 try {
+
                     JSONObject jsonObject= new JSONObject(response);
                     if (jsonObject.getString("Status").equals("1")){
                         if(hanyayo.equals("1")) {
@@ -491,46 +489,33 @@ public class ExplainMoshaver extends TabActivity
                 InputStream in = new java.net.URL(urldisplay).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
             } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
+                //Log.e("Error", e.getMessage());
+                //e.printStackTrace();
             }
             return mIcon11;
         }
 
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
+            result.recycle();
         }
     }
 
-
-    /*private void requestDataa() {
-        RequestParams params = new RequestParams();
-        //‫‪Input:‬‬ ‫‪adviserid‬‬ ‫‪،‬‬ ‫‪deviceid‬‬ ‫‪،placeid‬‬
-        params.put("adviserid",adviseridm); //Add the data you'd like to send to the server.
-        params.put("placeid", placeid);
-        params.put("deviceid", GlobalVar.getDeviceID());
-        client.post("http://telyar.dmedia.ir/webservice/Show_adviser_time/", params, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                try {
-
-                    Log.i("wertyuio",new String(responseBody));
-
-                    JSONObject jsonObject = new JSONObject(new String(responseBody));
-
-                    String Message = jsonObject.getString("Message");
-                    String s= jsonObject.getString("Status");
-
-                    //updategraf(Message,s,editText.getText().toString());
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindDrawables(findViewById(R.id.adviser_image));
+        System.gc();
+    }
+    private void unbindDrawables(View view) {
+        if (view.getBackground() != null) {
+            view.getBackground().setCallback(null);
+        }
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                unbindDrawables(((ViewGroup) view).getChildAt(i));
             }
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.i("aassdfghjuytrew","1");
-            }
-        });
-    }*/
+            ((ViewGroup) view).removeAllViews();
+        }
+    }
 }

@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
+import com.crashlytics.android.Crashlytics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +35,7 @@ import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
 import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Markaz;
+import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
@@ -53,6 +55,8 @@ public class ListeMarakez extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_marakez);
+        Fabric.with(this, new Crashlytics());
+
 
         //getLocation();
 
@@ -156,7 +160,7 @@ public class ListeMarakez extends AppCompatActivity {
                             Lat=tmp.getString("Lat");
                             Long=tmp.getString("Long");
                             Distance=tmp.getString("Distance");
-                            //Log.i("asdfghfgfvdcynbfv",result);
+                            Log.i("asdfghfgfvdcynbfv",result);
                             Markaz markaz = new Markaz(Lat,  Long,  PicAddress,  MID,  Address,
                                     AboutMainPlace,  MainPlaceName, Telephone,  Distance);
                             markazs.add(markaz);

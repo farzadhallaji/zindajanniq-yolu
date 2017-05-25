@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -30,6 +31,7 @@ import azad.hallaji.farzad.com.masirezendegi.model.ALagemandi;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 import cz.msebera.android.httpclient.Header;
+import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Liste_Moshaverine_Markaz extends AppCompatActivity {
@@ -43,6 +45,8 @@ public class Liste_Moshaverine_Markaz extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__liste__moshaverine__markaz);
+        Fabric.with(this, new Crashlytics());
+
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();

@@ -12,4 +12,5 @@
     <string name="title_activity_liste_marakez">ListeMarakez</string>
     <string name="title_activity_liste_porseshha">ListePorseshha</string>
     <string name="title_activity_explain_moshaver">ExplainMoshaver</string>
+    <string name="title_activity_maps2">Map</string>
 </resources>

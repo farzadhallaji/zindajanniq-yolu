@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -27,6 +28,7 @@ import org.json.JSONObject;
 
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import cz.msebera.android.httpclient.Header;
+import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PageLogout extends AppCompatActivity
@@ -37,6 +39,9 @@ public class PageLogout extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_logout);
+
+        Fabric.with(this, new Crashlytics());
+
 
 
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("UserType", "").apply();

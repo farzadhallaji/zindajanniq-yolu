@@ -34,6 +34,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.crashlytics.android.Crashlytics;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -58,6 +59,7 @@ import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 import azad.hallaji.farzad.com.masirezendegi.model.Question;
 import cz.msebera.android.httpclient.Header;
+import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ExplainMarkaz extends TabActivity
@@ -83,6 +85,8 @@ public class ExplainMarkaz extends TabActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explain_markaz);
+        Fabric.with(this, new Crashlytics());
+
         alagestarmarkaz = (ImageView)findViewById(R.id.alagestarmarkazasdfgfd);
 
         ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
@@ -353,8 +357,6 @@ public class ExplainMarkaz extends TabActivity
 
     private void requestData() {
 
-
-
         RequestParams params = new RequestParams();
         params.put("placeid",  String.valueOf(placeid));
         params.put("deviceid", GlobalVar.getDeviceID());
@@ -378,11 +380,11 @@ public class ExplainMarkaz extends TabActivity
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
-
+                String res="";
                 try {
-                    JSONObject jsonObject = new JSONObject(new String(responseBody));
+                    res=new String(responseBody);
+                    JSONObject jsonObject = new JSONObject(res);
                     Log.i("asdfghytrewiuytr",jsonObject.toString());
-
                     try {
                         MainPlaceName = jsonObject.getString("MainPlaceName");
 
@@ -411,6 +413,15 @@ public class ExplainMarkaz extends TabActivity
 
                     Adviser=jsonObject.getString("Adviser");
 
+                    JSONObject jsonObject1 =new JSONObject();
+                    jsonObject1.put("Lat",jsonObject.getString("Lat"));
+                    jsonObject1.put("Long",jsonObject.getString("Long"));
+                    jsonObject1.put("Name",jsonObject.getString("MainPlaceName"));
+                    jsonObject1.put("MID","0"); // TODO Birdan da
+
+                    Log.i("asdfghytrewiuytr",jsonObject1.toString());
+
+
                     new DownloadImageTask(userimg).execute(PicAddress);
                     name_markaz_textview.setText(MainPlaceName);
                     taxassose_markaz_textview.setText(Address);
@@ -428,8 +439,8 @@ public class ExplainMarkaz extends TabActivity
 
 
                 tabSpec2.setIndicator("نقشه");
-                Intent intent2 =new Intent(ExplainMarkaz.this, MapsActivity.class);
-                intent2.putExtra("Mainplace",MainplaceMainplace);
+                Intent intent2 =new Intent(ExplainMarkaz.this, MapsActivity2.class);
+                intent2.putExtra("Mainplace",res);
                 tabSpec2.setContent(intent2);
 
                 tabSpec1.setIndicator("همکاران");

@@ -16,7 +16,10 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
+
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
+import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PageMoshaverin extends TabActivity
@@ -28,6 +31,9 @@ public class PageMoshaverin extends TabActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
+        Fabric.with(this, new Crashlytics());
+
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();

@@ -99,6 +99,7 @@
         <activity
             android:name=".ExplainMoshaver"
             android:label="@string/title_activity_explain_moshaver"
+            android:largeHeap="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
@@ -131,7 +132,15 @@
         <activity
             android:name=".ListeTaxassussss"
             android:screenOrientation="portrait" />
-        <activity android:name=".namhansiTaxassus"></activity>
+        <activity android:name=".namhansiTaxassus" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="e02123f12e84d0e582adf8a0e24880585763077f" />
+
+        <activity
+            android:name=".MapsActivity2"
+            android:label="@string/title_activity_maps2"></activity>
     </application>
 
 </manifest>

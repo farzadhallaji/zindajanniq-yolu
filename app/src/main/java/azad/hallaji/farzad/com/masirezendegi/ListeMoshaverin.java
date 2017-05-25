@@ -33,9 +33,12 @@ import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 import azad.hallaji.farzad.com.masirezendegi.model.Question;
 import azad.hallaji.farzad.com.masirezendegi.model.Subject;
+import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import android.widget.AdapterView;
+
+import com.crashlytics.android.Crashlytics;
 
 public class ListeMoshaverin extends AppCompatActivity {
 
@@ -50,6 +53,8 @@ public class ListeMoshaverin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_moshaverin);
+        Fabric.with(this, new Crashlytics());
+
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();

@@ -25,6 +25,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,6 +34,7 @@ import azad.hallaji.farzad.com.masirezendegi.helper.TypefaceUtil;
 import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
 import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
+import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class AddQuestion extends AppCompatActivity
@@ -45,6 +48,8 @@ public class AddQuestion extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
+        Fabric.with(this, new Crashlytics());
+
         //Toast.makeText(getApplicationContext(), qid, Toast.LENGTH_LONG).show();
         //progressbardahaya=(ProgressBar)findViewById(R.id.progressbardahaya);
         //progressbardahaya.setVisibility(View.GONE);

@@ -26,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.crashlytics.android.Crashlytics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +40,7 @@ import java.util.Map;
 import azad.hallaji.farzad.com.masirezendegi.helper.ListeTaxassoshaAdapter;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Taxassos;
+import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class namhansiTaxassus extends AppCompatActivity {
@@ -54,6 +56,10 @@ public class namhansiTaxassus extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sich_olan_taxassus);
+
+        Fabric.with(this, new Crashlytics());
+
+
         activity=this;
         listView=(ListView)findViewById(R.id.ListeTxassoshaListView);
 

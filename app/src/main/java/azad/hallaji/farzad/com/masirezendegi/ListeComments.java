@@ -15,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.crashlytics.android.Crashlytics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +30,7 @@ import azad.hallaji.farzad.com.masirezendegi.helper.ListeCommentAdapter;
 import azad.hallaji.farzad.com.masirezendegi.helper.ListePasoxhayeksoalAdapter;
 import azad.hallaji.farzad.com.masirezendegi.model.Comment;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
+import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ListeComments extends AppCompatActivity {
@@ -41,6 +43,8 @@ public class ListeComments extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_comments);
+        Fabric.with(this, new Crashlytics());
+
 
 
         if (savedInstanceState == null) {
