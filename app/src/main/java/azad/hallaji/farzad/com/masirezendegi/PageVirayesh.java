@@ -57,6 +57,8 @@ public class PageVirayesh extends AppCompatActivity
     EditText barchasbEdit  , costperminEdit;
     EditText maxtimeEdit , sexEdit , dialtecEdit , aboutmeEdit;
 
+    TextView sihhhhh1,sihhhhh2;
+
     CircleImageView imageviewuserVirayesh;
 
 
@@ -87,15 +89,8 @@ public class PageVirayesh extends AppCompatActivity
             }
         });
 
-        if(GlobalVar.getUserID().equals("0")){
-            Menu nav_Menu = navigationView.getMenu();
-            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
-            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
-            nav_Menu.findItem(R.id.nav_login).setVisible(true);
-            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
-            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
-            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
-        }else{
+        if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
+
             Menu nav_Menu = navigationView.getMenu();
             nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
             nav_Menu.findItem(R.id.nav_profile).setVisible(true);
@@ -103,36 +98,97 @@ public class PageVirayesh extends AppCompatActivity
             nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
             nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
             nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+
+        }else{
+
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
         }
 
 
         final ImageView imageView1 =(ImageView) findViewById(R.id.onclickeasadinchimastanxanim);
         imageView1.setVisibility(View.GONE);
 
-        if(isOnline() && GlobalVar.getUserType().equals("adviser")){
-        //if(isOnline()){
+        if(isOnline()){
             setAlage();
-            virayeshTextinToolbar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ableall(true);
-                    imageView1.setVisibility(View.VISIBLE);
-                    imageView1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(pickPhoto , 1);//one can be replaced with any action code
-                        }
-                    });
-                    zaxireTextinToolbar.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            requestData();
-                        }
-                    });
-                }
-            });
+
+            if(GlobalVar.getUserType().equals("adviser")) {
+
+                virayeshTextinToolbar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ableall(true);
+                        sihhhhh1.setVisibility(View.VISIBLE);
+                        sihhhhh2.setVisibility(View.VISIBLE);
+                        imageView1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(pickPhoto , 1);//one can be replaced with any action code
+                            }
+                        });
+                        zaxireTextinToolbar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                requestData();
+                            }
+                        });
+                    }
+                });
+
+                imageView1.setVisibility(View.VISIBLE);
+
+            }else if(GlobalVar.getUserType().equals("user")) {
+
+                virayeshTextinToolbar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        TextView  textView =(TextView)findViewById(R.id.sihhhhh1);
+                        TextView  textView2 =(TextView)findViewById(R.id.sihhhhh2);
+                        textView.setVisibility(View.GONE);
+                        textView2.setVisibility(View.GONE);
+                        imageView1.setVisibility(View.VISIBLE);
+                        boolean b=false;
+                        sihhhhh1.setVisibility(View.GONE);
+                        sihhhhh2.setVisibility(View.GONE);
+                        namexanivadeEdit.setEnabled(!b);
+                        shomareteleEdit.setEnabled(!b);
+                        emailEdit.setEnabled(!b);
+                        barchasbEdit.setVisibility(View.GONE);
+                        costperminEdit.setVisibility(View.GONE);
+                        maxtimeEdit.setVisibility(View.GONE);
+                        sexEdit.setVisibility(View.GONE);
+                        dialtecEdit.setVisibility(View.GONE);
+                        aboutmeEdit.setVisibility(View.GONE);
+
+                        imageView1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(pickPhoto , 1);//one can be replaced with any action code
+                            }
+                        });
+                        zaxireTextinToolbar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                requestData();
+                            }
+                        });
+                    }
+                });
+
+
+
+            }
+
 
         }else{
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
@@ -153,6 +209,7 @@ public class PageVirayesh extends AppCompatActivity
         sexEdit.setEnabled(b);
         dialtecEdit.setEnabled(b);
         aboutmeEdit.setEnabled(b);
+
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
@@ -225,7 +282,8 @@ public class PageVirayesh extends AppCompatActivity
 
     private void init() {
 
-
+        sihhhhh1 = (TextView)findViewById(R.id.sihhhhh1);
+        sihhhhh2 = (TextView)findViewById(R.id.sihhhhh2);
         shomareteleEdit=(EditText)findViewById(R.id.shomareteleEdit);
         namexanivadeEdit=(EditText)findViewById(R.id.namexanivadeEdit);
         shomareteleEdit=(EditText)findViewById(R.id.shomareteleEdit);

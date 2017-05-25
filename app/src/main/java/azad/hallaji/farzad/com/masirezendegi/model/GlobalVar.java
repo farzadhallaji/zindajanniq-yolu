@@ -10,7 +10,7 @@ import azad.hallaji.farzad.com.masirezendegi.R;
 public class GlobalVar {
 
     private static String DeviceID;
-    private static String UserType="user";
+    private static String UserType="ahbar";
     private static String PicAddress="";
     private static String UserID="100";
 

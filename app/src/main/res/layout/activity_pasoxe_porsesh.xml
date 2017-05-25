@@ -37,7 +37,17 @@
                 android:layout_gravity="center"
                 android:gravity="right"
                 android:layout_weight="2">
-
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:id="@+id/afzudanepasox"
+                    android:src="@drawable/pluse"
+                    android:visibility="gone"
+                    android:layout_gravity="end"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
             </LinearLayout>
 
             <ImageView
@@ -51,121 +61,121 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="visible"
-        android:id="@+id/layeyeasli"
         android:layout_weight="1">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_weight="3.3">
-            <LinearLayout
-                android:padding="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layoutDirection="ltr"
-                android:orientation="horizontal"
-                android:layout_weight="4">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="6">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:id="@+id/sabizshey"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/sabiz"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_height="match_parent"
-                    android:layoutDirection="ltr"
-                    android:layout_weight="1">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/MozueSoalTextView"
-                        android:textColor="#fa731e"
-                        android:textSize="17dp"
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:text="موضوع سوال : "/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:textSize="15dp"
-                        android:text="موضوع سوال :"
-                        android:layout_gravity="center"
-                        android:textColor="#000"
-                        android:layout_marginLeft="15dp"/>
-                </LinearLayout>
-
-
-
-            </LinearLayout>
+            android:visibility="visible"
+            android:id="@+id/layeyeasli"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:gravity="right"
-                android:layout_weight="3">
+                android:layout_weight="3.3">
+                <LinearLayout
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layoutDirection="ltr"
+                    android:orientation="horizontal"
+                    android:layout_weight="4">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:textSize="15dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2.5dp"
-                    android:layout_marginRight="5dp"
-                    android:text="عنوان سوال :"
-                    android:textColor="#000"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="6">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:id="@+id/sabizshey"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/sabiz"/>
+                    </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:textSize="15dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2.5dp"
-                    android:id="@+id/OnvaneSoalTextView"
-                    android:textColor="#000"
-                    android:text="عنوان سوال  : "/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="match_parent"
+                        android:layoutDirection="ltr"
+                        android:layout_weight="1">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/MozueSoalTextView"
+                            android:textColor="#fa731e"
+                            android:textSize="17dp"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:text=" "/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:textSize="15dp"
+                            android:text="موضوع سوال :"
+                            android:layout_gravity="center"
+                            android:textColor="#000"
+                            android:layout_marginLeft="15dp"/>
+                    </LinearLayout>
 
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="right"
+                    android:layout_weight="3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textSize="15dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2.5dp"
+                        android:layout_marginRight="5dp"
+                        android:text="عنوان سوال :"
+                        android:textColor="#000"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textSize="15dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2.5dp"
+                        android:id="@+id/OnvaneSoalTextView"
+                        android:textColor="#000"
+                        android:text=" "/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/ListepasoxhaListView"
+                    android:padding="25dp"/>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/ListepasoxhaListView"
-                android:padding="25dp"/>
-        </LinearLayout>
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:id="@+id/layeyelikalage"
-        android:layout_weight="1"
-        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="260dp"
             android:layout_height="200dp"
             android:layoutDirection="ltr"
+            android:id="@+id/layeyelikalage"
+            android:visibility="gone"
             android:orientation="vertical"
             android:background="@drawable/likedisalage"
             android:layout_centerInParent="true">
@@ -198,12 +208,12 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:layout_width="50dp"
+                        android:layout_width="30dp"
                         android:id="@+id/likeimmmm"
-                        android:layout_height="50dp"
+                        android:layout_height="30dp"
                         android:layout_centerInParent="true"
                         android:src="@drawable/like"/>
-                    
+
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -211,8 +221,8 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:id="@+id/dislikeimmmm"
                         android:layout_centerInParent="true"
                         android:src="@drawable/dislike"/>
@@ -225,17 +235,190 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:layout_width="50dp"
+                    android:layout_width="30dp"
                     android:layout_centerInParent="true"
                     android:id="@+id/startalagemandiImageView"
                     android:src="@drawable/alage0"
                     android:layout_height="50dp" />
-                
+
             </RelativeLayout>
 
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="260dp"
+            android:layout_height="200dp"
+            android:layoutDirection="ltr"
+            android:id="@+id/layeyelikesoal"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:background="@drawable/likedisalage"
+            android:layout_centerInParent="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_margin="5dp"
+                    android:id="@+id/closeinvisibleimagsoal"
+                    android:src="@drawable/ok"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layoutDirection="ltr"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:background="#e7e7e9"
+                        android:id="@+id/matnesoal"
+                        android:gravity="center|right"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"/>
+
+
+                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:id="@+id/likeimmmmsoal"
+                        android:layout_height="30dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/like"/>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/dislikeimmmmsoal"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/dislike"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="260dp"
+            android:layout_height="200dp"
+            android:layoutDirection="ltr"
+            android:id="@+id/afzudanejavab"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:background="@drawable/likedisalage"
+            android:layout_centerInParent="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="5dp"
+                    android:id="@+id/closeafzundanejavab"
+                    android:src="@drawable/ok"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layoutDirection="ltr"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:background="#e7e7e9"
+                        android:hint="متن جواب"
+                        android:id="@+id/matneafzundanejavab"
+                        android:gravity="center|right"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"/>
+
+
+                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:text="ارسال"
+                        android:textColor="#fff"
+                        android:id="@+id/afzundanejavabbutton"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/login_button"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+
     </RelativeLayout>
+
 
 </LinearLayout>

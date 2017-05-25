@@ -62,10 +62,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class ExplainMarkaz extends TabActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
     private static AsyncHttpClient client = new AsyncHttpClient();
-    private static AsyncHttpClient client2 = new AsyncHttpClient();
+    //private static AsyncHttpClient client2 = new AsyncHttpClient();
 
-
-
+    RequestQueue MyRequestQueue;
     String hanyayo="0";
     String placeid="0";
     ImageView userimg;
@@ -73,16 +72,17 @@ public class ExplainMarkaz extends TabActivity
     TextView name_markaz_textview;
     TextView taxassose_markaz_textview;
     TextView code_markaz_textview;
-
     String PicAddress ,Address,AboutMainplace,MainPlaceName= " ";
     ImageView alagestarmarkaz;
+
+    String MainplaceMainplace="";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explain_markaz);
-        alagestarmarkaz = (ImageView)findViewById(R.id.alagestarmarkaz);
+        alagestarmarkaz = (ImageView)findViewById(R.id.alagestarmarkazasdfgfd);
 
         ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
         imageView1.setOnClickListener(new View.OnClickListener() {
@@ -104,15 +104,7 @@ public class ExplainMarkaz extends TabActivity
             }
         });
 
-        if(GlobalVar.getUserID().equals("100")){
-            Menu nav_Menu = navigationView.getMenu();
-            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
-            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
-            nav_Menu.findItem(R.id.nav_login).setVisible(true);
-            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
-            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
-            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
-        }else{
+        if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
             Menu nav_Menu = navigationView.getMenu();
             nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
             nav_Menu.findItem(R.id.nav_profile).setVisible(true);
@@ -120,6 +112,16 @@ public class ExplainMarkaz extends TabActivity
             nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
             nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
             nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+        }else{
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
+
+
         }
 
         userimg = (ImageView)findViewById(R.id.markaz_image);
@@ -132,11 +134,14 @@ public class ExplainMarkaz extends TabActivity
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
                 placeid= "0";
+                //MainplaceMainplace= "";
             } else {
                 placeid= extras.getString("placeid");
+                //MainplaceMainplace= extras.getString("Mainplace");
             }
         } else {
             placeid= (String) savedInstanceState.getSerializable("placeid");
+            //MainplaceMainplace= (String) savedInstanceState.getSerializable("Mainplace");
         }
 
         //Toast.makeText(getApplicationContext(), "+"+adviseridm+"+", Toast.LENGTH_LONG).show();
@@ -154,7 +159,8 @@ public class ExplainMarkaz extends TabActivity
 
 
             tabSpec2.setIndicator("نقشه");
-            Intent intent2 =new Intent(this, Liste_Moshaverine_Markaz.class);
+            Intent intent2 =new Intent(this, MapsActivity.class);
+            intent2.putExtra("Mainplace",MainplaceMainplace);
             tabSpec2.setContent(intent2);
 
             tabSpec1.setIndicator("همکاران");
@@ -167,82 +173,37 @@ public class ExplainMarkaz extends TabActivity
 
             tabHost.setCurrentTab(1);
 
-            ImageView imageView2 = (ImageView)findViewById(R.id.alagestarmarkaz);
-            imageView2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //requestData("asdfghjh",1);
-                    //requestDataa();
-                    Set_favourite();
-
-                }
-            });
-
+            //ImageView imageView2 = (ImageView)findViewById(R.id.alagestarmarkazasdfgfd);
             alagestarmarkaz.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    if (alagestarmarkaz.getResources().equals(getResources().getDrawable(R.drawable.alage1)))
-                        setAlage("1");
-                    else
-                        setAlage("0");
+
+                    //Toast.makeText(getApplicationContext(),"Message", Toast.LENGTH_LONG).show();
+
+
+                    if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
+                        setAlage();
+                    }else{
+                        Toast.makeText(getApplicationContext(), "ابتدا باید وارد سیستم شوید", Toast.LENGTH_LONG).show();
+                    }
+
                 }
             });
+
+            /*alagestarmarkaz.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                        setAlage();
+                }
+            });*/
 
 
         } else {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
         }
 
-    }
-
-
-    void setAlage(final String s) {
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
-        String url = "http://telyar.dmedia.ir/webservice/Set_like_dislike/";
-        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //This code is executed if the server responds, whether or not the response contains data.
-                //The String 'response' contains the server's response.
-                Log.i("aladfffgree", response);
-                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
-                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
-
-                try {
-                    JSONObject jsonObject= new JSONObject(response);
-                    if (jsonObject.getString("ResultStatus").equals("1"))
-                        alagestarmarkaz.setImageResource(R.drawable.alage1);
-                    else
-                        alagestarmarkaz.setImageResource(R.drawable.alage0);
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-
-            }
-        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //This code is executed if there is an error.
-            }
-        }) {
-            protected Map<String, String> getParams() {
-                Map<String, String> MyData = new HashMap<String, String>();
-                //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
-                MyData.put("userid", GlobalVar.getUserID()); //Add the data you'd like to send to the server.
-                MyData.put("contentid", placeid); //Add the data you'd like to send to the server.
-                MyData.put("status", s); //Add the data you'd like to send to the server.
-                MyData.put("contenttype", "place"); //Add the data you'd like to send to the server.
-                MyData.put("deviceid", GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
-                return MyData;
-            }
-        };
-        MyRequestQueue.add(MyStringRequest);
     }
 
 
@@ -288,150 +249,123 @@ public class ExplainMarkaz extends TabActivity
 
     }
 
-    private void requestDataa() {
+    void setAlage() {
 
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
+        MyRequestQueue = Volley.newRequestQueue(this);
 
-        String url = "http://telyar.dmedia.ir/webservice/Set_favourite";
+        String url = "http://telyar.dmedia.ir/webservice/Set_favourite/";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //This code is executed if the server responds, whether or not the response contains data.
-                //The String 'response' contains the server's response.
-                Log.i("ahmasdfghggfdad",response);
-                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
-                //updatelistview(response);
+                Log.i("aladfffgree", response);
 
-
-            }
-        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //This code is executed if there is an error.
-                Log.i("ahmasdfghggfdad","asd");
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> MyData = new HashMap<String, String>();
-                //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
-                MyData.put("deviceid", GlobalVar.getDeviceID());
-                MyData.put("contenttype", "mainplace");
-                MyData.put("status", hanyayo);
-                MyData.put("contentid", placeid);
-                MyData.put("userid",  GlobalVar.getUserID());
-
-                return MyData;
-            }
-
-            /*@Override
-            *//**
-             * Returns the raw POST or PUT body to be sent.
-             *
-             * @throws AuthFailureError in the event of auth failure
-             *//*
-            public byte[] getBody() throws AuthFailureError {
-                //        Map<String, String> params = getParams();
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("id","1");
-                params.put("name", "myname");
-                if (params != null && params.size() > 0) {
-                    return encodeParameters(params, getParamsEncoding());
-                }
-                return null;
-
-            }*/
-            @Override
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=UTF-8";
-            }
-        };
-
-        MyRequestQueue.add(MyStringRequest);
-    }
-
-    private void Set_favourite() {
-
-        //userid=100 & status=1 & contenttype=adviser & contentid=2 & deviceid=3
-
-        /*RequestParams params = new RequestParams();
-        params.put("userid",  GlobalVar.getUserID());
-        params.put("deviceid", GlobalVar.getDeviceID());
-        params.put("contenttype", "mainplace");
-        params.put("status", hanyayo);
-        params.put("contentid", placeid);*/
-        RequestParams params = new RequestParams();
-        /*params.put("userid",  "100");
-        params.put("deviceid", "3");
-        params.put("contenttype", "mainplace");
-        params.put("status", "1");
-        params.put("contentid", "2");*/
-        params.put("contenttype", "mainplace");
-
-        client2.post("http://telyar.dmedia.ir/webservice/Set_favourite/", params, new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
-                    Log.i(";asdfghgf","hfdsa " + responseBody.length);
-
-                    Log.i("qwertyu",new String(responseBody));
-
-                    JSONObject jsonObject = new JSONObject(new String(responseBody));
-                    /*LayoutInflater inflater = getLayoutInflater();
-                    View dialogView = inflater.inflate(R.layout.alert_dialog_login, null);
-
-                    final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getApplicationContext());
-
-                    dialogBuilder.setView(dialogView);
-
-                    TextView textView =(TextView)dialogView.findViewById(R.id.aaT);
-                    textView.setText(jsonObject.getString("Message"));
-
-                    if(jsonObject.getString("Status").equals("-1")){
-
-                        TextView textViews =(TextView)dialogView.findViewById(R.id.aT);
-                        textView.setText("خطا");
-
-                    }else{
-                        hanyayo=String.valueOf(-1*Integer.parseInt(hanyayo));
-                        ImageView imageView = (ImageView)findViewById(R.id.alagestar);
-                        if(hanyayo.equals("1")){
-                            imageView.setImageResource(R.drawable.alage0);
-                        }else {
-                            imageView.setImageResource(R.drawable.alage1);
+                    JSONObject jsonObject= new JSONObject(response);
+                    if (jsonObject.getString("Status").equals("1")){
+                        if(hanyayo.equals("1")) {
+                            alagestarmarkaz.setImageResource(R.drawable.alage1);
+                            hanyayo="-1";
+                        }
+                        else{
+                            alagestarmarkaz.setImageResource(R.drawable.alage0);
+                            hanyayo="1";
                         }
                     }
-                    Button button = (Button)dialogView.findViewById(R.id.buttombastan);
-
-                    final AlertDialog alertDialog = dialogBuilder.create();
-                    alertDialog.show();
-
-                    button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            alertDialog.cancel();
-                        }
-                    });*/
+                    /*else{
+                        Toast.makeText(getApplicationContext(),jsonObject.getString("Message"), Toast.LENGTH_LONG).show();
+                    }*/
+                    Toast.makeText(getApplicationContext(),jsonObject.getString("Message"), Toast.LENGTH_LONG).show();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-                Log.i(";asdfghgf",new String(responseBody));
-
+            public void onErrorResponse(VolleyError error) {
             }
-        });
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("userid",  GlobalVar.getUserID());
+                params.put("deviceid", GlobalVar.getDeviceID());
+                params.put("contenttype", "mainplace");
+                params.put("status", hanyayo);
+                params.put("contentid", placeid);
+                params.put("contenttype", "mainplace");
+                return params;
+            }
+        };
+        MyRequestQueue.add(MyStringRequest);
+    }
 
+    private void responsesetfavor(String response) {
 
+        Log.i("asadsfbghh nrjh nsdvsdc",response);
+        String m="-1" ,  mmessage="";
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            m=jsonObject.getString("Status");
+            mmessage=jsonObject.getString("Message");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_dialog_login, null);
+
+        if(m.equals("1")){
+
+            final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+            dialogBuilder.setView(dialogView);
+
+            TextView textView =(TextView)dialogView.findViewById(R.id.aaT);
+            textView.setText(mmessage);
+
+            Button button = (Button)dialogView.findViewById(R.id.buttombastan);
+
+            /*EditText editText = (EditText) dialogView.findViewById(R.id.label_field);
+            editText.setText("test label");*/
+            final AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.show();
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.cancel();
+
+                }
+            });
+        }else if(m.equals("-1")){
+
+            final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+            dialogBuilder.setView(dialogView);
+
+            TextView textView =(TextView)dialogView.findViewById(R.id.aaT);
+            textView.setText(mmessage);
+            TextView te =(TextView)dialogView.findViewById(R.id.aT);
+            te.setText("خطا");
+            Button button = (Button)dialogView.findViewById(R.id.buttombastan);
+
+            /*EditText editText = (EditText) dialogView.findViewById(R.id.label_field);
+            editText.setText("test label");*/
+            final AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.show();
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.cancel();
+
+                }
+            });
+
+        }
     }
 
     private void requestData() {
+
         RequestParams params = new RequestParams();
         params.put("placeid",  String.valueOf(placeid));
         params.put("deviceid", GlobalVar.getDeviceID());

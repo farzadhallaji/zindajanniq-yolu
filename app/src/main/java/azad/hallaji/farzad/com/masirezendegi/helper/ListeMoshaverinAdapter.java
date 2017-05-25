@@ -55,7 +55,7 @@ public class ListeMoshaverinAdapter extends ArrayAdapter<Moshaver> {
         moshaverimg.setImageBitmap(Ittem.getBitmap());*/
 
         Name.setText(Ittem.getAdviserName());
-        IDCOmment.setText(Ittem.getAID());
+        IDCOmment.setText(Ittem.getUniqueID());
         commentinnazrioml.setText(Ittem.getCommentCount());
         String ss="";
 

@@ -62,6 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             } else {
                 Mainplace= extras.getString("Mainplace");
+                Log.i("qwytumnhbgfvcds",Mainplace);
                 LAsyncTask task = new LAsyncTask();
                 task.execute(Mainplace);
             }

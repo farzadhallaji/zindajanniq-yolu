@@ -50,7 +50,8 @@ public class ListePorseshhaAdapter extends ArrayAdapter<Question>  {
         //new DownloadImageTask(userimg).execute(Ittem.getPicAddress()); //TODO
         Name.setText(Ittem.getQuestionSubject());
         text.setText(Ittem.getText());  //TODO
-        Count.setText(Ittem.getAnswerCount());
+        Count.setText(Ittem.getDisLikeCount());
+        IDsub.setText(Ittem.getLikeCount());
 
         try {
 
@@ -69,7 +70,7 @@ public class ListePorseshhaAdapter extends ArrayAdapter<Question>  {
             date=new java.text.SimpleDateFormat("yyyy/MM/dd")
                     .format(new java.util.Date (aLong*1000));
         }
-        IDsub.setText(String.valueOf(date));
+        //IDsub.setText(String.valueOf(date));
 
         return view;
     }

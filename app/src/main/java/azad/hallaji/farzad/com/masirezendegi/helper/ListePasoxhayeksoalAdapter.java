@@ -79,7 +79,7 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
 
         final Pasox Ittem = reportItemList.get(position);
 
-        like.setOnClickListener(new View.OnClickListener() {
+        /*like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 postgetData(Ittem.getQid(),userid , "1", contentid ,position);
@@ -91,7 +91,7 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
             public void onClick(View v) {
                 postgetData(Ittem.getQid(),userid  , "-1", contentid, position);
             }
-        });
+        });*/
 
         /*long time = Long.parseLong(Ittem.getTarixeJavab());
         Date d= new Date(time);
@@ -104,11 +104,24 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
         CountLike.setText(Ittem.getCountLike());
         CountdisLike.setText(Ittem.getCountdisLike());
         TarixeJavab.setText(Ittem.getTarixeJavab());
+        String date="";
+        try {
+            Long aLong ;
+            String dd=Ittem.getTarixeJavab().trim();
+            if (!dd.equals("")){
+                aLong=Long.parseLong(dd);
+                date=new java.text.SimpleDateFormat("yyyy/MM/dd")
+                        .format(new java.util.Date (aLong*1000));
+            }
+        }catch (Exception ignored){}
+
+        TarixeJavab.setText(date);
+
 
         return view;
     }
 
-    void postgetData(final String qid , final String deviceid, final String likdis, final String contentid , final int pozishen){
+    /*void postgetData(final String qid , final String deviceid, final String likdis, final String contentid , final int pozishen){
 
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(mContext);
@@ -181,7 +194,7 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
 
         MyRequestQueue.add(MyStringRequest);
 
-    }
+    }*/
 
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {

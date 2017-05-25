@@ -127,8 +127,7 @@ public class ListePorseshha extends AppCompatActivity {
 
                 }*/
 
-                Intent intent = new Intent(ListePorseshha.this,PagePorseshha.class);
-                intent.putExtra("soallllll","1");
+                Intent intent = new Intent(ListePorseshha.this,SichOlanTaxassus.class);
                 startActivity(intent);
 
 
@@ -199,6 +198,8 @@ public class ListePorseshha extends AppCompatActivity {
                     Question temp = new Question(s.get("QID").toString(),s.get("SubjectID").toString(),
                             s.get("QuestionSubject").toString(),s.get("Text").toString()
                             ,s.get("RegTime").toString(),s.get("AnswerCount").toString());
+                    temp.setDisLikeCount(s.getString("DisLikeCount"));
+                    temp.setLikeCount(s.getString("LikeCount"));
                     templist.add(temp);
                 }
                 totalList.addAll(templist);

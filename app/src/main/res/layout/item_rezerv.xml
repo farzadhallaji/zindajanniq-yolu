@@ -23,10 +23,10 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:layout_weight="1">
+                android:layout_weight=".75">
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_margin="20dp"
+                    android:layout_margin="3dp"
                     android:id="@+id/dataTextRezerv"
                     android:textSize="15dp"
                     android:textColor="#0071f2"
@@ -39,7 +39,7 @@
                     android:textColor="#0071f2"
                     android:textSize="15dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_margin="3dp"
                     android:text=" ساعت :"/>
 
             </LinearLayout>
@@ -53,14 +53,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:textSize="15dp"
-                    android:layout_margin="20dp"
+                    android:layout_margin="10dp"
                     android:layout_height="wrap_content"
                     android:text=" تاریخ :"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_margin="0dp"
                     android:textSize="15dp"
                     android:text=" ساعت :"/>
 
@@ -72,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_weight="2">
+            android:layout_weight="3">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -84,9 +84,9 @@
                     android:layout_width="match_parent"
                     android:textColor="#0071f2"
                     android:textSize="15dp"
-                    android:gravity="center"
+                    android:gravity="center|right"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:id="@+id/NameMarkazRezervTextView"
                     android:text="تندرستی"/>
                 <TextView
@@ -103,15 +103,12 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_gravity="right"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:id="@+id/hayayooooo"
                 android:src="@drawable/noentry"
                 app:civ_border_color="#a54"
                 android:layout_weight="1"/>
 
         </LinearLayout>
-
-
     </LinearLayout>
-
 </LinearLayout>

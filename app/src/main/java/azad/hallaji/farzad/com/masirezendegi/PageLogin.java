@@ -76,15 +76,7 @@ public class PageLogin extends AppCompatActivity
         });
 
 
-        if(GlobalVar.getUserID().equals("100")){
-            Menu nav_Menu = navigationView.getMenu();
-            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
-            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
-            nav_Menu.findItem(R.id.nav_login).setVisible(true);
-            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
-            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
-            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
-        }else{
+        if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
             Menu nav_Menu = navigationView.getMenu();
             nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
             nav_Menu.findItem(R.id.nav_profile).setVisible(true);
@@ -92,6 +84,16 @@ public class PageLogin extends AppCompatActivity
             nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
             nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
             nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+
+        }else{
+
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
         }
 
         if(isOnline()){

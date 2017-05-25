@@ -42,7 +42,7 @@ public ListeCommentAdapter(Context context, List<Comment> objects) {
 public View getView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = vi.inflate(R.layout.comment_item,null);
+        View view = vi.inflate(R.layout.item_comment,null);
 
         CircleImageView userimg = (CircleImageView)view.findViewById(R.id.user_img);
         TextView Name =(TextView)view.findViewById(R.id.NameNazardahandeTExtView) ;

@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -49,6 +50,8 @@ public class PagePorseshha extends TabActivity
             subjectid= (String) savedInstanceState.getSerializable("subjectid");
         }
 
+        //Toast.makeText(getApplicationContext(), subjectid, Toast.LENGTH_LONG).show();
+
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -73,15 +76,8 @@ public class PagePorseshha extends TabActivity
             }
         });
 
-        if(GlobalVar.getUserID().equals("100")){
-            Menu nav_Menu = navigationView.getMenu();
-            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
-            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
-            nav_Menu.findItem(R.id.nav_login).setVisible(true);
-            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
-            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
-            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
-        }else{
+        if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
+
             Menu nav_Menu = navigationView.getMenu();
             nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
             nav_Menu.findItem(R.id.nav_profile).setVisible(true);
@@ -89,6 +85,16 @@ public class PagePorseshha extends TabActivity
             nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
             nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
             nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+
+        }else{
+
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
         }
 
         TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
@@ -107,7 +113,7 @@ public class PagePorseshha extends TabActivity
         tabHost.addTab(tabSpec1);
         tabHost.addTab(tabSpec2);
 
-        tabHost.setCurrentTab(soallllllll);
+        tabHost.setCurrentTab(1);
 
     }
 

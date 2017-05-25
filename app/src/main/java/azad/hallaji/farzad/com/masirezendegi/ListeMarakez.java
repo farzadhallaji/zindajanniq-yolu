@@ -66,6 +66,7 @@ public class ListeMarakez extends AppCompatActivity {
 
                     Intent intent = new Intent(ListeMarakez.this,ExplainMarkaz.class);
                     intent.putExtra("placeid",markazs.get(position).getMID());
+                    //intent.putExtra("Mainplace",markazs.get(position));
                     startActivity(intent);
 
                 }
@@ -151,15 +152,13 @@ public class ListeMarakez extends AppCompatActivity {
                             Lat=tmp.getString("Lat");
                             Long=tmp.getString("Long");
                             Distance=tmp.getString("Distance");
-
+                            //Log.i("asdfghfgfvdcynbfv",result);
                             Markaz markaz = new Markaz(Lat,  Long,  PicAddress,  MID,  Address,
                                     AboutMainPlace,  MainPlaceName, Telephone,  Distance);
                             markazs.add(markaz);
                         }catch (Exception ignored){}
                         ListemarakezAdapter listemarakezAdapter = new ListemarakezAdapter(ListeMarakez.this,markazs);
                         ListeMarakezListView.setAdapter(listemarakezAdapter);
-
-
 
                     }
                 }

@@ -196,6 +196,7 @@ public class ListeMoshaverin extends AppCompatActivity {
                     }
                     Moshaver temp = new Moshaver(s.get("AID").toString(),s.get("AdviserName").toString(),
                             tag,s.get("PicAddress").toString(),s.get("CommentCount").toString());
+                    temp.setUniqueID(s.getString("UniqueID"));
                     templist.add(temp);
                 }
                 totalList.addAll(templist);

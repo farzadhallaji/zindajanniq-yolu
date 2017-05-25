@@ -2,16 +2,25 @@ package azad.hallaji.farzad.com.masirezendegi;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -45,28 +54,77 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import static android.R.id.message;
 
 
-public class PasoxePorsesh extends AppCompatActivity {
+public class PasoxePorsesh extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     TextView MozueSoalTextView ;
     TextView OnvaneSoalTextView;
     ListView listView;
     String qid="";
     ImageView sabizshey;
-    LinearLayout layeyeasli;
-    RelativeLayout likedisalage;
+    LinearLayout likedisalage;
     boolean alage=false;
     RequestQueue MyRequestQueue;
+    boolean josadsin=false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pasoxe_porsesh);
+        setContentView(R.layout.pasoxe_soal_ad);
 
-        layeyeasli=(LinearLayout)findViewById(R.id.layeyeasli);
-        likedisalage=(RelativeLayout)findViewById(R.id.layeyelikalage);
 
-        layeyeasli.setVisibility(View.VISIBLE);
+        ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PasoxePorsesh.this , PagePorseshha.class);
+                startActivity(intent);
+            }
+        });
+
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        ImageView imageView = (ImageView) findViewById(R.id.menuButton);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(Gravity.END);
+            }
+        });
+
+        if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(true);
+            nav_Menu.findItem(R.id.nav_login).setVisible(false);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+
+        }else{
+
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
+
+            }
+
+
+
+
+
+
+        if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
+            josadsin=true;
+        }
+        likedisalage=(LinearLayout)findViewById(R.id.layeyelikalage);
+
         likedisalage.setVisibility(View.GONE);
 
         /*Bundle bundle = getIntent().getExtras();
@@ -98,6 +156,35 @@ public class PasoxePorsesh extends AppCompatActivity {
             postgetData(qid,GlobalVar.getDeviceID());
 
 
+            ImageView afzudne=( ImageView)findViewById(R.id.afzudanepasox);
+            if(GlobalVar.getUserType().equals("adviser")){
+                afzudne.setVisibility(View.VISIBLE);
+                afzudne.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        final LinearLayout afzundanejavab=(LinearLayout)findViewById(R.id.afzudanejavab);
+                        afzundanejavab.setVisibility(View.VISIBLE);
+                        final EditText matneafzundanejavab =(EditText)findViewById(R.id.matneafzundanejavab);
+                        ImageView closeafzundanejavab = (ImageView)findViewById(R.id.closeafzundanejavab);
+                        Button afzundanejavabbutton = (Button)findViewById(R.id.afzundanejavabbutton);
+                        afzundanejavabbutton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                sendjavabejadid(matneafzundanejavab.getText().toString());
+                            }
+                        });
+                        closeafzundanejavab.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                afzundanejavab.setVisibility(View.GONE);
+                            }
+                        });
+
+                    }
+                });
+            }
+
 
         }else{
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
@@ -105,6 +192,42 @@ public class PasoxePorsesh extends AppCompatActivity {
 
     }
 
+    private void sendjavabejadid(final String s) {
+
+        String url = "http://telyar.dmedia.ir/webservice/Set_answer/";
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //This code is executed if the server responds, whether or not the response contains data.
+                //The String 'response' contains the server's response.
+                Log.i("aladfffgree", response);
+                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
+
+                responsesetfavor(response);
+
+
+
+            }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //This code is executed if there is an error.
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
+                MyData.put("text",s); //Add the data you'd like to send to the server.
+                MyData.put("pid", qid); //Add the data you'd like to send to the server.
+                MyData.put("adviserid", GlobalVar.getUserID()); //Add the data you'd like to send to the server.
+                MyData.put("deviceid", GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
+                return MyData;
+            }
+        };
+        MyRequestQueue.add(MyStringRequest);
+
+    }
 
 
     @Override
@@ -149,8 +272,37 @@ public class PasoxePorsesh extends AppCompatActivity {
                 sabizshey.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        layeyeasli.setVisibility(View.GONE);
-                        likedisalage.setVisibility(View.VISIBLE);
+                        if(josadsin){
+                            likedisalage.setVisibility(View.VISIBLE);
+                        }else{
+
+                            /*LayoutInflater inflater = getLayoutInflater();
+                            View dialogView = inflater.inflate(R.layout.alert_dialog_login, null);
+
+                            final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getApplicationContext());
+
+                            dialogBuilder.setView(dialogView);
+
+                            TextView textView =(TextView)dialogView.findViewById(R.id.aT);
+                            TextView textView2 =(TextView)dialogView.findViewById(R.id.aaT);
+                            textView.setText("");
+                            textView2.setText("ابتدا باید وارد سیستم شوید");
+
+                            Button button = (Button)dialogView.findViewById(R.id.buttombastan);
+
+                            final AlertDialog alertDialog = dialogBuilder.create();
+                            alertDialog.show();
+
+                            button.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    alertDialog.cancel();
+
+                                }
+                            });*/
+                            Toast.makeText(getApplicationContext(), "ابتدا باید وارد سیستم شوید", Toast.LENGTH_LONG).show();
+
+                        }
                     }
                 });
 
@@ -176,20 +328,19 @@ public class PasoxePorsesh extends AppCompatActivity {
                 dislikeimmmm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        likedislike(false);
+                        likedislike(false ,"question",qid);
                     }
                 });
                 likeimmmm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        likedislike(true);
+                        likedislike(true,"question",qid);
                     }
                 });
                 ImageView closeinvisibleimag = (ImageView)findViewById(R.id.closeinvisibleimag);
                 closeinvisibleimag.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        layeyeasli.setVisibility(View.VISIBLE);
                         likedisalage.setVisibility(View.GONE);
                     }
                 });
@@ -210,7 +361,7 @@ public class PasoxePorsesh extends AppCompatActivity {
 
     private void updateview(String response) {
 
-        List<Pasox> templist=new ArrayList<>();
+        final List<Pasox> templist=new ArrayList<>();
 
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -242,13 +393,80 @@ public class PasoxePorsesh extends AppCompatActivity {
         ListePasoxhayeksoalAdapter listePasoxhayeksoalAdapter = new ListePasoxhayeksoalAdapter(PasoxePorsesh.this,templist);
         listView.setAdapter(listePasoxhayeksoalAdapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if(josadsin){
+                    final LinearLayout layeyelikesoal =(LinearLayout)findViewById(R.id.layeyelikesoal);
+                    layeyelikesoal.setVisibility(View.VISIBLE);
+                    TextView matnesoal=(TextView)findViewById(R.id.matnesoal);
+                    ImageView likeimmmmsoal =(ImageView)findViewById(R.id.likeimmmmsoal);
+                    ImageView dislikeimmmmsoal =(ImageView)findViewById(R.id.dislikeimmmmsoal);
+                    ImageView closeinvisibleimagsoal =(ImageView)findViewById(R.id.closeinvisibleimagsoal);
+
+                    matnesoal.setText(templist.get(position).getMatnepasox());
+
+                    likeimmmmsoal.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            likedislike(true,"question",qid);
+                        }
+                    });
+                    dislikeimmmmsoal.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            likedislike(false,"question",qid);
+
+                        }
+                    });
+                    closeinvisibleimagsoal.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            layeyelikesoal.setVisibility(View.GONE);
+                        }
+                    });
+                }else{
+
+                    /*LayoutInflater inflater = getLayoutInflater();
+                    View dialogView = inflater.inflate(R.layout.alert_dialog_login, null);
+
+                    final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getApplicationContext());
+
+                    dialogBuilder.setView(dialogView);
+
+                    TextView textView =(TextView)dialogView.findViewById(R.id.aT);
+                    TextView textView2 =(TextView)dialogView.findViewById(R.id.aaT);
+                    textView.setText("");
+                    textView2.setText("ابتدا باید وارد سیستم شوید");
+
+                    Button button = (Button)dialogView.findViewById(R.id.buttombastan);
+
+                    final AlertDialog alertDialog = dialogBuilder.create();
+                    alertDialog.show();
+
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            alertDialog.cancel();
+
+                        }
+                    });*/
+
+                    Toast.makeText(getApplicationContext(), "ابتدا باید وارد سیستم شوید", Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
+
 
 
     }
 
     void setAlage(final String s) {
 
-        String url = "http://telyar.dmedia.ir/webservice/Set_like_dislike/";
+        String url = "http://telyar.dmedia.ir/webservice/Set_favourite/";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -281,7 +499,7 @@ public class PasoxePorsesh extends AppCompatActivity {
         MyRequestQueue.add(MyStringRequest);
     }
 
-    public void likedislike(final boolean like) {
+    public void likedislike(final boolean like , final String contenttypee , final String contentid) {
         String url = "http://telyar.dmedia.ir/webservice/Set_like_dislike/";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -301,8 +519,8 @@ public class PasoxePorsesh extends AppCompatActivity {
                 if(like)
                     aaa="1";
                 MyData.put("status", aaa); //Add the data you'd like to send to the server.
-                MyData.put("contenttype", "question"); //Add the data you'd like to send to the server.
-                MyData.put("contentid",qid); //Add the data you'd like to send to the server.
+                MyData.put("contenttype", contenttypee); //Add the data you'd like to send to the server.
+                MyData.put("contentid",contentid); //Add the data you'd like to send to the server.
                 MyData.put("deviceid",GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
                 return MyData;
             }
@@ -378,6 +596,31 @@ public class PasoxePorsesh extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+
+        int id = item.getItemId();
+
+        if (id == R.id.nav_marakez) {
+            startActivity(new Intent(this , PageMarakez.class));
+        } else if (id == R.id.nav_profile) {
+            startActivity(new Intent(this , PageVirayesh.class));
+        } else if (id == R.id.nav_login) {
+            startActivity(new Intent(this , PageLogin.class));
+        } else if (id == R.id.nav_moshaverin) {
+            startActivity(new Intent(this , PageMoshaverin.class));
+        } else if (id == R.id.nav_porseshha) {
+            startActivity(new Intent(this , PagePorseshha.class));
+        } else if (id == R.id.nav_logout){
+            startActivity(new Intent(this , PageLogout.class));
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.END);
+        return true;
+
+    }
 }
 
 

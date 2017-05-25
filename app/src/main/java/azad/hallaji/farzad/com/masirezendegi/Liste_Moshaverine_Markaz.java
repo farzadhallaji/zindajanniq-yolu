@@ -88,7 +88,9 @@ public class Liste_Moshaverine_Markaz extends AppCompatActivity {
                                 ((JSONObject)advisers.get(i)).getString("AdviserName"),
                                 new ArrayList<String>(),((JSONObject)advisers.get(i)).getString("PicAddress"),
                                 ((JSONObject)advisers.get(i)).getString("CommentCount"));
-
+                        try {
+                            aLagemandi.setUniqueID(jsonObject.getString("UniqueID"));
+                        }catch (Exception e){}
                         //aLagemandi.setUniqueID();
                         list.add(aLagemandi);
                     }

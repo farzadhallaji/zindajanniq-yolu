@@ -57,7 +57,9 @@ public class ListeComments extends AppCompatActivity {
             commentscomments= (String) savedInstanceState.getSerializable("comments");
         }
 
-        updatelistview(commentscomments);
+        try {
+            updatelistview(commentscomments);
+        }catch (Exception e){}
 
     }
 
@@ -78,7 +80,8 @@ public class ListeComments extends AppCompatActivity {
             e.printStackTrace();
         }
         try{
-            for(int i= 0 ; i<jsonArray2.length() ; i++){
+            assert jsonArray2 != null;
+            for(int i = 0; i<jsonArray2.length() ; i++){
                 JSONObject object = (JSONObject) jsonArray2.get(i);
                 Comment comment = new Comment(object.getString("comment"),object.getString("RegTime"),
                         object.getString("UserName"),object.getString("UserFamilyName") , object.getString("UserPicAddress"));

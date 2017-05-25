@@ -1,5 +1,6 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -9,11 +10,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -46,15 +51,8 @@ public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavi
         });
 
 
-        if(GlobalVar.getUserID().equals("100")){
-            Menu nav_Menu = navigationView.getMenu();
-            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
-            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
-            nav_Menu.findItem(R.id.nav_login).setVisible(true);
-            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
-            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
-            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
-        }else{
+        if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")){
+
             Menu nav_Menu = navigationView.getMenu();
             nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
             nav_Menu.findItem(R.id.nav_profile).setVisible(true);
@@ -62,6 +60,18 @@ public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavi
             nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
             nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
             nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+
+
+        }else{
+
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
+
         }
 
 
@@ -74,8 +84,37 @@ public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavi
         linearLayout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Pagemenu.this, PageAlaghemandiha.class);
-                startActivity(intent);
+                if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
+                    Intent intent = new Intent(Pagemenu.this, PageAlaghemandiha.class);
+                    startActivity(intent);
+                }else{
+                    /*LayoutInflater inflater = getLayoutInflater();
+                    View dialogView = inflater.inflate(R.layout.alert_dialog_login, null);
+
+                    final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getApplicationContext());
+
+                    dialogBuilder.setView(dialogView);
+
+                    TextView textView =(TextView)dialogView.findViewById(R.id.aT);
+                    TextView textView2 =(TextView)dialogView.findViewById(R.id.aaT);
+                    textView.setText("");
+                    textView2.setText("ابتدا باید وارد سیستم شوید");
+
+                    Button button = (Button)dialogView.findViewById(R.id.buttombastan);
+
+                    final AlertDialog alertDialog = dialogBuilder.create();
+                    alertDialog.show();
+
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            alertDialog.cancel();
+
+                        }
+                    });*/
+                    Toast.makeText(getApplicationContext(), "ابتدا باید وارد سیستم شوید", Toast.LENGTH_LONG).show();
+
+                }
             }
         });
         linearLayout2.setOnClickListener(new View.OnClickListener() {

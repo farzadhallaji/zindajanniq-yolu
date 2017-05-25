@@ -1,5 +1,6 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
+import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,9 +16,11 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -63,12 +66,13 @@ public class ExplainMoshaver extends TabActivity
     String License="";
     String comments="";
     String Mainplace="";
-    ImageView alagestarmarkaz;
+    ImageView alagestarmoshaver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explain_moshaver);
-        alagestarmarkaz = (ImageView)findViewById(R.id.alagestarmarkaz);
+
+        alagestarmoshaver = (ImageView)findViewById(R.id.alagestarmoshaver);
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -104,7 +108,7 @@ public class ExplainMoshaver extends TabActivity
             }
         });
 
-        if(GlobalVar.getUserID().equals("100")){
+        if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
             Menu nav_Menu = navigationView.getMenu();
             nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
             nav_Menu.findItem(R.id.nav_profile).setVisible(false);
@@ -146,9 +150,6 @@ public class ExplainMoshaver extends TabActivity
             postgetData();
             Log.i("Lieseesene",License);
 
-
-
-
             ImageView imageView2 = (ImageView)findViewById(R.id.adviser_about_img);
             imageView2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -165,24 +166,27 @@ public class ExplainMoshaver extends TabActivity
             });
 
 
-            final ImageView alagestarmarkaz = (ImageView)findViewById(R.id.alagestarmarkaz);
+            //
+            // final ImageView alagestarmarkaz = (ImageView)findViewById(R.id.alagestarmarkaz);
 
-            alagestarmarkaz.setOnClickListener(new View.OnClickListener() {
+            alagestarmoshaver.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //Log.i("sxascsdcpsdcpsdcpsdc","[sxascsdcpsdcpsdcpsdc"+alagestarmarkaz.getResources());
 
-                    if (alagestarmarkaz.getResources().equals(getResources().getDrawable(R.drawable.alage1)))
-                        setAlage("1");
-                    else
-                        setAlage("0");
+                    if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
+
+                            setAlage(hanyayo);
+                            Log.i("sxascsdcpsdcpsdcpsdc","[sxascsdcp2sdcpsdcpsdc"+hanyayo);
+
+                    }else{
+                        Toast.makeText(getApplicationContext(), "ابتدا باید وارد سیستم شوید", Toast.LENGTH_LONG).show();
+                    }
                 }
             });
-
-
         } else {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
         }
-
     }
 
     void setAlage(final String s) {
@@ -199,10 +203,19 @@ public class ExplainMoshaver extends TabActivity
 
                 try {
                     JSONObject jsonObject= new JSONObject(response);
-                    if (jsonObject.getString("ResultStatus").equals("1"))
-                        alagestarmarkaz.setImageResource(R.drawable.alage1);
-                    else
-                        alagestarmarkaz.setImageResource(R.drawable.alage0);
+                    if (jsonObject.getString("Status").equals("1")){
+                        if(hanyayo.equals("1")) {
+                            alagestarmoshaver.setImageResource(R.drawable.alage1);
+                            hanyayo="-1";
+                        }
+                        else{
+                            alagestarmoshaver.setImageResource(R.drawable.alage0);
+                            hanyayo="1";
+                        }
+
+                    }
+                    Toast.makeText(getApplicationContext(),jsonObject.getString("Message"), Toast.LENGTH_LONG).show();
+
 
 
 
@@ -233,40 +246,6 @@ public class ExplainMoshaver extends TabActivity
         MyRequestQueue.add(MyStringRequest);
     }
 
-
-    private void requestDataa() {
-        RequestParams params = new RequestParams();
-        //‫‪Input:‬‬ ‫‪adviserid‬‬ ‫‪،‬‬ ‫‪deviceid‬‬ ‫‪،placeid‬‬
-        params.put("adviserid",adviseridm); //Add the data you'd like to send to the server.
-        params.put("placeid", placeid);
-        params.put("deviceid", GlobalVar.getDeviceID());
-        client.post("http://telyar.dmedia.ir/webservice/Show_adviser_time/", params, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                try {
-
-                    Log.i("wertyuio",new String(responseBody));
-
-                    JSONObject jsonObject = new JSONObject(new String(responseBody));
-
-                    String Message = jsonObject.getString("Message");
-                    String s= jsonObject.getString("Status");
-
-                    //updategraf(Message,s,editText.getText().toString());
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.i("aassdfghjuytrew","1");
-            }
-        });
-    }
-
-
-
     private boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -276,6 +255,7 @@ public class ExplainMoshaver extends TabActivity
         }
         return false;
     }
+
     void postgetData(){
 
         MyRequestQueue = Volley.newRequestQueue(this);
@@ -339,7 +319,6 @@ public class ExplainMoshaver extends TabActivity
                 tabHost.addTab(tabSpec3);
 
                 tabHost.setCurrentTab(2);
-
             }
         };
 
@@ -381,12 +360,13 @@ public class ExplainMoshaver extends TabActivity
             String CostPerMin = jsonObject.get("AdviserName").toString();
             String IsFavourite= jsonObject.getString("IsFavourite");
             Mainplace= jsonObject.getString("mainplace");
+            Log.i("Explanfkdfdkfdfdfdfdfd",IsFavourite);
             if(IsFavourite.equals("-1")){
                 hanyayo="1";
-                alagestarmarkaz.setImageResource(R.drawable.alage0);
+                alagestarmoshaver.setImageResource(R.drawable.alage0);
             }else if(IsFavourite.equals("1")){
                 hanyayo="-1";
-                alagestarmarkaz.setImageResource(R.drawable.alage1);
+                alagestarmoshaver.setImageResource(R.drawable.alage1);
             }
             comments=jsonObject.getJSONArray("Comment").toString();
 
@@ -409,7 +389,6 @@ public class ExplainMoshaver extends TabActivity
             e.printStackTrace();
         }
     }
-
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -436,7 +415,6 @@ public class ExplainMoshaver extends TabActivity
 
 
     }
-
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -468,4 +446,35 @@ public class ExplainMoshaver extends TabActivity
         }
     }
 
+
+    /*private void requestDataa() {
+        RequestParams params = new RequestParams();
+        //‫‪Input:‬‬ ‫‪adviserid‬‬ ‫‪،‬‬ ‫‪deviceid‬‬ ‫‪،placeid‬‬
+        params.put("adviserid",adviseridm); //Add the data you'd like to send to the server.
+        params.put("placeid", placeid);
+        params.put("deviceid", GlobalVar.getDeviceID());
+        client.post("http://telyar.dmedia.ir/webservice/Show_adviser_time/", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+
+                    Log.i("wertyuio",new String(responseBody));
+
+                    JSONObject jsonObject = new JSONObject(new String(responseBody));
+
+                    String Message = jsonObject.getString("Message");
+                    String s= jsonObject.getString("Status");
+
+                    //updategraf(Message,s,editText.getText().toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.i("aassdfghjuytrew","1");
+            }
+        });
+    }*/
 }

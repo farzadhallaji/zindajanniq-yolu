@@ -162,6 +162,7 @@
                         android:layout_width="match_parent"
                         android:layout_margin="12dp"
                         android:gravity="center"
+                        android:id="@+id/sihhhhh1"
                         android:layout_height="match_parent"
                         android:text="اگر تعداد برچسب ها بیشتر شد ، با ویرگول آن ها را از هم جدا
                          کنید"/>
@@ -256,6 +257,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_margin="12dp"
+                        android:id="@+id/sihhhhh2"
                         android:gravity="center"
                         android:layout_height="match_parent"
                         android:text="اگر تعداد زبان ها از یک مورد بیشتر شد با ویرگول آن ها را از هم جدا کنید"/>

@@ -26,7 +26,7 @@
                 android:layout_margin="4dp"
                 android:padding="3dp"
                 android:textColor="#e78f02"
-                android:textSize="17dp"
+                android:textSize="15dp"
                 android:id="@+id/NameMoshaverTExtView"
                 android:gravity="right"/>
             <TextView
@@ -34,7 +34,7 @@
                 android:layout_height="match_parent"
                 android:text="adlmsljnsldkmlsdknlsjkdnlskdnl"
                 android:layout_margin="4dp"
-                android:textSize="15dp"
+                android:textSize="13dp"
                 android:padding="3dp"
                 android:id="@+id/MatnePasoxTextView"
                 android:gravity="right"/>
@@ -57,7 +57,7 @@
                         android:src="@drawable/dislike"/>
                     <TextView
                         android:layout_width="wrap_content"
-                        android:textSize="15dp"
+                        android:textSize="13dp"
                         android:layout_height="match_parent"
                         android:text="1321"
                         android:layout_marginLeft="5dp"
@@ -77,16 +77,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textSize="15dp"
+                        android:textSize="13dp"
                         android:text="1321"
                         android:layout_marginLeft="5dp"
                         android:id="@+id/LikeCountTextView"
                         android:gravity="right"/>
                 </LinearLayout>
             </LinearLayout>
-
-
-
 
         </LinearLayout>
 
@@ -95,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="3">
+            android:layout_weight="2">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -114,10 +111,9 @@
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:textColor="#0071f2"
-                android:textSize="15dp"
+                android:textSize="13dp"
                 android:id="@+id/TarixepasoxTextview"
-                android:layout_height="wrap_content"
-                android:text="13556"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
 
