@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.Toast;
 
@@ -33,7 +34,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Liste_Moshaverine_Markaz extends AppCompatActivity {
 
-    String placeid="";
+    String placeid="",Adviser="";
     ListView ListeMoshaverinMarakezListView;
     private static AsyncHttpClient client = new AsyncHttpClient();
     List<Moshaver>list=new ArrayList<>();
@@ -47,21 +48,64 @@ public class Liste_Moshaverine_Markaz extends AppCompatActivity {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
                 placeid= "0";
+                Adviser= "";
             } else {
                 placeid= extras.getString("placeid");
+                Adviser= extras.getString("Adviser");
             }
         } else {
             placeid= (String) savedInstanceState.getSerializable("placeid");
+            Adviser= (String) savedInstanceState.getSerializable("Adviser");
         }
 
         ListeMoshaverinMarakezListView =(ListView)findViewById(R.id.ListeMoshaverinMarakezListView);
 
-        if(isOnline()){
+
+        JSONArray advisers = null;
+        try {
+            advisers = new JSONArray(Adviser);
+            for(int i= 0 ; i < advisers.length() ; i++){
+                Log.i("1234y",advisers.toString() + " ");
+
+                Moshaver aLagemandi = new Moshaver(((JSONObject)advisers.get(i)).getString("AID"),
+                        ((JSONObject)advisers.get(i)).getString("AdviserName"),
+                        new ArrayList<String>(),((JSONObject)advisers.get(i)).getString("PicAddress"),
+                        ((JSONObject)advisers.get(i)).getString("CommentCount"));
+                try {
+                    aLagemandi.setUniqueID(((JSONObject)advisers.get(i)).getString("UniqueID"));
+                }catch (Exception e){}
+                //aLagemandi.setUniqueID();
+                list.add(aLagemandi);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        ListeMoshaverinAdapter adapter = new ListeMoshaverinAdapter(Liste_Moshaverine_Markaz.this,list);
+        ListeMoshaverinMarakezListView.setAdapter(adapter);
+
+        ListeMoshaverinMarakezListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent intent = new Intent(Liste_Moshaverine_Markaz.this , ExplainMoshaver.class);
+                intent.putExtra("adviserid", list.get(position).getAID());
+                intent.putExtra("placeid",placeid);
+                startActivity(intent);
+
+            }
+        });
+
+
+
+
+        /*if(isOnline()){
             requestData();
 
         } else {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
-        }
+        }*/
 
     }
 
@@ -69,48 +113,21 @@ public class Liste_Moshaverine_Markaz extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-    private void requestData() {
+    /*private void requestData() {
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
         RequestParams params = new RequestParams();
         params.put("placeid",  String.valueOf(placeid));
         params.put("deviceid", GlobalVar.getDeviceID());
         client.post("http://telyar.dmedia.ir/webservice/Get_mainplaceID", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
                 try {
                     JSONObject jsonObject = new JSONObject(new String(responseBody));
 
-                    JSONArray advisers =new JSONArray(jsonObject.getString("Adviser"));
 
-                    for(int i= 0 ; i < advisers.length() ; i++){
-                        Log.i("1234y",advisers.toString() + " ");
-
-                        Moshaver aLagemandi = new Moshaver(((JSONObject)advisers.get(i)).getString("AID"),
-                                ((JSONObject)advisers.get(i)).getString("AdviserName"),
-                                new ArrayList<String>(),((JSONObject)advisers.get(i)).getString("PicAddress"),
-                                ((JSONObject)advisers.get(i)).getString("CommentCount"));
-                        try {
-                            aLagemandi.setUniqueID(jsonObject.getString("UniqueID"));
-                        }catch (Exception e){}
-                        //aLagemandi.setUniqueID();
-                        list.add(aLagemandi);
-                    }
-
-                    Log.i("1234y",list.size() + " ");
-
-                    ListeMoshaverinAdapter adapter = new ListeMoshaverinAdapter(Liste_Moshaverine_Markaz.this,list);
-                    ListeMoshaverinMarakezListView.setAdapter(adapter);
-
-                    ListeMoshaverinMarakezListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                            Intent intent = new Intent(Liste_Moshaverine_Markaz.this , ExplainMoshaver.class);
-                            intent.putExtra("adviserid", list.get(position).getAID());
-                            intent.putExtra("placeid",placeid);
-                            startActivity(intent);
-
-                        }
-                    });
 
 
                 } catch (JSONException e) {
@@ -119,10 +136,13 @@ public class Liste_Moshaverine_Markaz extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {}
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
+            }
         });
 
-    }
+    }*/
 
     private boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager)

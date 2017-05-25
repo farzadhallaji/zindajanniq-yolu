@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -243,6 +244,10 @@ public class PasoxePorsesh extends AppCompatActivity
 
 
     void postgetData(final String qid , final String deviceid){
+
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
+
         MyRequestQueue = Volley.newRequestQueue(this);
         String url = "http://telyar.dmedia.ir/webservice/get_question_answer";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -255,6 +260,9 @@ public class PasoxePorsesh extends AppCompatActivity
                 try {
                     updateview(response);
                 }catch (Exception e){}
+
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
 
 
             }
@@ -464,6 +472,9 @@ public class PasoxePorsesh extends AppCompatActivity
 
     void setAlage(final String s) {
 
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
+
         String url = "http://telyar.dmedia.ir/webservice/Set_favourite/";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -474,6 +485,9 @@ public class PasoxePorsesh extends AppCompatActivity
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
                 responsesetfavor(response);
+
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
 
 
             }
@@ -498,16 +512,27 @@ public class PasoxePorsesh extends AppCompatActivity
     }
 
     public void likedislike(final boolean like , final String contenttypee , final String contentid) {
+
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
+
         String url = "http://telyar.dmedia.ir/webservice/Set_like_dislike/";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.i("ahmad",response);
                 responsesetfavor(response);
+
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
             }
         }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
             @Override
             public void onErrorResponse(VolleyError error) {
+
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
+
             }
         }) {
             protected Map<String, String> getParams() {

@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -143,6 +144,12 @@ public class PageVirayesh extends AppCompatActivity
                 });
 
                 imageView1.setVisibility(View.VISIBLE);
+                barchasbEdit.setVisibility(View.VISIBLE);
+                costperminEdit.setVisibility(View.VISIBLE);
+                maxtimeEdit.setVisibility(View.VISIBLE);
+                sexEdit.setVisibility(View.VISIBLE);
+                dialtecEdit.setVisibility(View.VISIBLE);
+                aboutmeEdit.setVisibility(View.VISIBLE);
 
             }else if(GlobalVar.getUserType().equals("user")) {
 
@@ -284,6 +291,8 @@ public class PageVirayesh extends AppCompatActivity
 
         sihhhhh1 = (TextView)findViewById(R.id.sihhhhh1);
         sihhhhh2 = (TextView)findViewById(R.id.sihhhhh2);
+        sihhhhh1.setVisibility(View.GONE);
+        sihhhhh2.setVisibility(View.GONE);
         shomareteleEdit=(EditText)findViewById(R.id.shomareteleEdit);
         namexanivadeEdit=(EditText)findViewById(R.id.namexanivadeEdit);
         shomareteleEdit=(EditText)findViewById(R.id.shomareteleEdit);
@@ -295,6 +304,13 @@ public class PageVirayesh extends AppCompatActivity
         dialtecEdit=(EditText)findViewById(R.id.dialtecEdit);
         aboutmeEdit=(EditText)findViewById(R.id.aboutmeEdit);
         imageviewuserVirayesh=(CircleImageView)findViewById(R.id.imageviewuserVirayesh);
+
+        barchasbEdit.setVisibility(View.GONE);
+        costperminEdit.setVisibility(View.GONE);
+        maxtimeEdit.setVisibility(View.GONE);
+        sexEdit.setVisibility(View.GONE);
+        dialtecEdit.setVisibility(View.GONE);
+        aboutmeEdit.setVisibility(View.GONE);
 
     }
 
@@ -310,6 +326,9 @@ public class PageVirayesh extends AppCompatActivity
     }
 
     private void requestData() {
+
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
 
         RequestPackage p = new RequestPackage();
         p.setMethod("POST");
@@ -382,7 +401,8 @@ public class PageVirayesh extends AppCompatActivity
                 JSONObject jsonObject =new JSONObject(result);
                 jostaruzunueymahziba(jsonObject.getString("Message"));
 
-
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
                 //Toast.makeText(getApplicationContext(),jsonObject.getString("Message"), Toast.LENGTH_LONG).show();
 
             } catch (JSONException e) {
@@ -422,6 +442,10 @@ public class PageVirayesh extends AppCompatActivity
     }
 
     void setAlage() {
+
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
+
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
         String url = "http://telyar.dmedia.ir/webservice/Get_profile/";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -472,6 +496,8 @@ public class PageVirayesh extends AppCompatActivity
                 }
 
 
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
 
             }
         }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.

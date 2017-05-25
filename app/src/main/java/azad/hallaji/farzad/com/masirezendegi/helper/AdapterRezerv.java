@@ -2,6 +2,7 @@ package azad.hallaji.farzad.com.masirezendegi.helper;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,54 @@ public class AdapterRezerv  extends ArrayAdapter<Rezervable> {
         TextView timeTextRezerv =(TextView)view.findViewById(R.id.timeTextRezerv) ;
 
         Name.setText(reportItemList.get(position).getName());
-        dataTextRezerv.setText(reportItemList.get(position).getAdviserDate());
+
+
+        String date="" ,dd=reportItemList.get(position).getAdviserDate();
+        String [] asaddddddd = new String[3];
+
+        try {
+            if (!dd.equals("")){
+                asaddddddd=dd.split("-");
+                Log.i("asdfghjntikuikuuyh",asaddddddd[0]);
+                Log.i("asdfghjntikuikuuyh",asaddddddd[1]);
+                Log.i("asdfghjntikuikuuyh",asaddddddd[2]);
+            }
+        }catch (Exception ignored){}
+
+        //int y = Integer.getInteger();
+
+        //Log.i("asdfghjntikuikuuyh",date.substring(3)+"dsd");
+
+        //String asad =PersianDate.Shamsi(Integer.valueOf(asaddddddd[0]) ,Integer.valueOf(asaddddddd[1]) ,Integer.valueOf(asaddddddd[2]) );
+
+        int y, m,d;
+        try {
+            y=Integer.parseInt(asaddddddd[0]);
+        }catch (Exception e){
+            y=0;
+        }
+        try {
+            m=Integer.parseInt(asaddddddd[1]);
+        }catch (Exception e){
+            m=0;
+            //m=Integer.parseInt(String.valueOf(asaddddddd[1].charAt(1)));
+        }
+        try {
+            d=Integer.parseInt(asaddddddd[2]);
+        }catch (Exception e){
+            d=0;
+            //d=Integer.parseInt(String.valueOf(asaddddddd[2].charAt(1)));
+        }
+        Log.i("hjntiasdsdkuikuuyh",y+"dsd"+m);
+
+        String asad =PersianDate.Shamsi(y,m,d);
+        if (y==0){
+            dataTextRezerv.setText("");
+        }else{
+            dataTextRezerv.setText(asad);
+        }
+
+
         timeTextRezerv.setText(reportItemList.get(position).getAdviserTime());
 
         String b=reportItemList.get(position).getFree();

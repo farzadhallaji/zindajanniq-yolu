@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -91,7 +92,7 @@ public class ExplainMoshaver extends TabActivity
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ExplainMoshaver.this , Pagemenu.class);
+                Intent intent = new Intent(ExplainMoshaver.this , PageMoshaverin.class);
                 startActivity(intent);
             }
         });
@@ -112,23 +113,24 @@ public class ExplainMoshaver extends TabActivity
         if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
             Menu nav_Menu = navigationView.getMenu();
             nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
-            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
-            nav_Menu.findItem(R.id.nav_login).setVisible(true);
-            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
-            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
-            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
-        }else{
-            Menu nav_Menu = navigationView.getMenu();
-            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
             nav_Menu.findItem(R.id.nav_profile).setVisible(true);
             nav_Menu.findItem(R.id.nav_login).setVisible(false);
             nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
             nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
             nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+        }else{
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
         }
+
         userimg = (ImageView)findViewById(R.id.adviser_image);
         name_moshaver_textview =(TextView) findViewById(R.id.name_moshaver_textview);
-        taxassose_moshaver_textview =(TextView) findViewById(R.id.taxassose_moshaver_textview);
+        //taxassose_moshaver_textview =(TextView) findViewById(R.id.taxassose_moshaver_textview);
         code_moshaver_textview =(TextView) findViewById(R.id.code_moshaver_textview);
 
 
@@ -226,6 +228,9 @@ public class ExplainMoshaver extends TabActivity
 
     void setAlage(final String s) {
 
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
+
         String url = "http://telyar.dmedia.ir/webservice/Set_like_dislike/";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -235,6 +240,9 @@ public class ExplainMoshaver extends TabActivity
                 Log.i("aladfffgree", response);
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
+
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
 
                 try {
                     JSONObject jsonObject= new JSONObject(response);
@@ -293,10 +301,15 @@ public class ExplainMoshaver extends TabActivity
 
     void postgetData(){
 
+
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
+
         MyRequestQueue = Volley.newRequestQueue(this);
 
         String url = "http://telyar.dmedia.ir/webservice/Get_adviser_profile/";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
             @Override
             public void onResponse(String response) {
                 //This code is executed if the server responds, whether or not the response contains data.
@@ -323,6 +336,9 @@ public class ExplainMoshaver extends TabActivity
 
             @Override
             protected void onFinish() {
+
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
 
                 TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
 
@@ -411,7 +427,7 @@ public class ExplainMoshaver extends TabActivity
             }
 
             name_moshaver_textview.setText(AdviserName);
-            taxassose_moshaver_textview.setText(tuzihat);
+//            taxassose_moshaver_textview.setText(tuzihat);
             code_moshaver_textview.setText(UniqueID);
 
             Moshaver moshaver = new Moshaver(AID,AdviserName ,strings,PicAddress,"");

@@ -127,7 +127,8 @@ public class AddQuestion extends AppCompatActivity
     }
 
     private void requestData(String subjectid , String text , String questioncategory ) {
-
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
         //progressbardahaya.setVisibility(View.VISIBLE);
         RequestPackage p = new RequestPackage();
         p.setMethod("POST");
@@ -258,7 +259,8 @@ public class AddQuestion extends AppCompatActivity
                 updategraf(mess,m,"");
                 //progressbardahaya.setVisibility(View.INVISIBLE);
 
-
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
             } catch (JSONException e) {
                 //e.printStackTrace();
             }

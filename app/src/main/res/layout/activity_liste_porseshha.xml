@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     tools:context="azad.hallaji.farzad.com.masirezendegi.ListePorseshha">
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressbarsandaha"
+        android:layout_gravity="center"/>
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

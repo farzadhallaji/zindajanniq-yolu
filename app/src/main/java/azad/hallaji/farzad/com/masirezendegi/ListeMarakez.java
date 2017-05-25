@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
@@ -97,6 +98,9 @@ public class ListeMarakez extends AppCompatActivity {
 
     private void requestData(String lat ,String lon ,String start , String adviserid , String subjectid ) {
 
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
+
         RequestPackage p = new RequestPackage();
         p.setMethod("POST");
         //p.setUri("http://telyar.dmedia.ir/webservice/Get_all_subject");
@@ -167,6 +171,9 @@ public class ListeMarakez extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+            ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+            progressbarsandaha.setVisibility(View.INVISIBLE);
 
 
         }

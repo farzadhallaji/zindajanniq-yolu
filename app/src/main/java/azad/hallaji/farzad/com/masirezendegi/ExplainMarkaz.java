@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -152,26 +153,7 @@ public class ExplainMarkaz extends TabActivity
             //Set_favourite();
 
             //postgetData(placeid);
-            TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
-            TabHost.TabSpec tabSpec1 = tabHost.newTabSpec("nazar");
-            TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("madarek");
 
-
-
-            tabSpec2.setIndicator("نقشه");
-            Intent intent2 =new Intent(this, MapsActivity.class);
-            intent2.putExtra("Mainplace",MainplaceMainplace);
-            tabSpec2.setContent(intent2);
-
-            tabSpec1.setIndicator("همکاران");
-            Intent intent1 =new Intent(this, Liste_Moshaverine_Markaz.class);
-            intent1.putExtra("placeid",placeid);
-            tabSpec1.setContent(intent1);
-
-            tabHost.addTab(tabSpec2);
-            tabHost.addTab(tabSpec1);
-
-            tabHost.setCurrentTab(1);
 
             //ImageView imageView2 = (ImageView)findViewById(R.id.alagestarmarkazasdfgfd);
             alagestarmarkaz.setOnClickListener(new View.OnClickListener() {
@@ -251,6 +233,9 @@ public class ExplainMarkaz extends TabActivity
 
     void setAlage() {
 
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
+
         MyRequestQueue = Volley.newRequestQueue(this);
 
         String url = "http://telyar.dmedia.ir/webservice/Set_favourite/";
@@ -258,6 +243,8 @@ public class ExplainMarkaz extends TabActivity
             @Override
             public void onResponse(String response) {
                 Log.i("aladfffgree", response);
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
 
                 try {
                     JSONObject jsonObject= new JSONObject(response);
@@ -366,12 +353,32 @@ public class ExplainMarkaz extends TabActivity
 
     private void requestData() {
 
+
+
         RequestParams params = new RequestParams();
         params.put("placeid",  String.valueOf(placeid));
         params.put("deviceid", GlobalVar.getDeviceID());
         client.post("http://telyar.dmedia.ir/webservice/Get_mainplaceID", params, new AsyncHttpResponseHandler() {
             @Override
+            public void onFinish() {
+
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
+
+            }
+
+            @Override
+            public void onStart() {
+
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
                 try {
                     JSONObject jsonObject = new JSONObject(new String(responseBody));
                     Log.i("asdfghytrewiuytr",jsonObject.toString());
@@ -412,10 +419,41 @@ public class ExplainMarkaz extends TabActivity
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+
+                TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
+                TabHost.TabSpec tabSpec1 = tabHost.newTabSpec("nazar");
+                TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("madarek");
+
+
+
+                tabSpec2.setIndicator("نقشه");
+                Intent intent2 =new Intent(ExplainMarkaz.this, MapsActivity.class);
+                intent2.putExtra("Mainplace",MainplaceMainplace);
+                tabSpec2.setContent(intent2);
+
+                tabSpec1.setIndicator("همکاران");
+                Intent intent1 =new Intent(ExplainMarkaz.this, Liste_Moshaverine_Markaz.class);
+                intent1.putExtra("placeid",placeid);
+                intent1.putExtra("Adviser",Adviser);
+                tabSpec1.setContent(intent1);
+
+                tabHost.addTab(tabSpec2);
+                tabHost.addTab(tabSpec1);
+
+                tabHost.setCurrentTab(1);
+
+
+
+
+
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {}
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
+            }
         });
 
     }

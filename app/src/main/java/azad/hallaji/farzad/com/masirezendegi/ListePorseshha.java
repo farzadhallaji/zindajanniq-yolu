@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -116,16 +117,14 @@ public class ListePorseshha extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                /*if(GlobalVar.getUserType().equals("user")){ //ToDO what type is valid?
-                    //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
-                    Log.i("asdfghjefwqdtytjhrgefembvc","asdfghmhjgdfss");
+                if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
+                    Intent intent = new Intent(ListePorseshha.this,namhansiTaxassus.class);
                     startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(), "ابتدا باید وارد سیستم شوید", Toast.LENGTH_LONG).show();
+                }
 
-                }*/
 
-                Intent intent = new Intent(ListePorseshha.this,namhansiTaxassus.class);
-                startActivity(intent);
 
 
             }
@@ -149,6 +148,9 @@ public class ListePorseshha extends AppCompatActivity {
     }
 
     private void requestData(String pid , int start) {
+
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
 
         RequestPackage p = new RequestPackage();
         p.setMethod("POST");
@@ -216,6 +218,9 @@ public class ListePorseshha extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+            ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+            progressbarsandaha.setVisibility(View.INVISIBLE);
 
         }
 

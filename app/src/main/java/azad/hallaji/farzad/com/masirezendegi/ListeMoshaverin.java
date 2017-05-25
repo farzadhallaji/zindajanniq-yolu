@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -144,6 +145,9 @@ public class ListeMoshaverin extends AppCompatActivity {
 
     private void requestData(String subid , int start) {
 
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
+
         RequestPackage p = new RequestPackage();
         p.setMethod("POST");
         p.setUri("http://telyar.dmedia.ir/webservice/get_adviser");
@@ -213,6 +217,9 @@ public class ListeMoshaverin extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+            ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+            progressbarsandaha.setVisibility(View.INVISIBLE);
 
         }
 

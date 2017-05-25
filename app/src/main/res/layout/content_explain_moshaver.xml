@@ -7,6 +7,12 @@
     android:layoutDirection="ltr"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressbarsandaha"
+        android:layout_centerInParent="true"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"

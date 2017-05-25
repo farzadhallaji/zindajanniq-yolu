@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -155,6 +156,10 @@ public class PageLogin extends AppCompatActivity
     }
 
     private void requestDataa() {
+
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
+
         RequestParams params = new RequestParams();
 
         params.put("phone_number",editText.getText().toString()); //Add the data you'd like to send to the server.
@@ -167,6 +172,9 @@ public class PageLogin extends AppCompatActivity
 
                     String Message = jsonObject.getString("Message");
                     String s= jsonObject.getString("Status");
+
+                    ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                    progressbarsandaha.setVisibility(View.INVISIBLE);
 
                     updategraf(Message,s,editText.getText().toString());
 
@@ -257,6 +265,9 @@ public class PageLogin extends AppCompatActivity
     }
 
     private void requestDataaa(String phone) {
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
+
         RequestParams params = new RequestParams();
 
         params.put("phone_number",phone); //Add the data you'd like to send to the server.
@@ -269,7 +280,8 @@ public class PageLogin extends AppCompatActivity
                     JSONObject jsonObject = new JSONObject(new String(responseBody));
 
                     Log.i("974861329+46",new String(responseBody));
-
+                    ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                    progressbarsandaha.setVisibility(View.INVISIBLE);
 
                     try {
 
@@ -317,6 +329,8 @@ public class PageLogin extends AppCompatActivity
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.i("aassdfghjuytrew","1");
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
             }
         });
     }

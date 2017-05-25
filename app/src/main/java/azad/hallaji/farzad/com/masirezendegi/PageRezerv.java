@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -139,6 +140,10 @@ public class PageRezerv extends AppCompatActivity
 
 
     private void requestDataa() {
+
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
+
         RequestParams params = new RequestParams();
         //‫‪Input:‬‬ ‫‪adviserid‬‬ ‫‪،‬‬ ‫‪deviceid‬‬ ‫‪،placeid‬‬
         params.put("adviserid",adviseridm); //Add the data you'd like to send to the server.
@@ -203,10 +208,15 @@ public class PageRezerv extends AppCompatActivity
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.i("aassdfghjuytrew","1");
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -253,6 +263,8 @@ public class PageRezerv extends AppCompatActivity
     }
     private void Reserve2(final String placeID, final String adviserID, final String rid) {
 
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
 
@@ -265,6 +277,8 @@ public class PageRezerv extends AppCompatActivity
                 Log.i("ExplainMoshaver",response);
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
 
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
 
             }
         }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.

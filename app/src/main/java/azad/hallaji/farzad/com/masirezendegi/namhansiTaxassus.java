@@ -16,6 +16,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -192,7 +193,8 @@ public class namhansiTaxassus extends AppCompatActivity {
     }
 
     void postgetData(final String pid , final String start , final String deviceid){
-
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
 
@@ -205,13 +207,16 @@ public class namhansiTaxassus extends AppCompatActivity {
                 Log.i("ahsdfghmad",response);
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
                 updatelistview(response);
-
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
 
             }
         }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
             @Override
             public void onErrorResponse(VolleyError error) {
                 //This code is executed if there is an error.
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
             }
         }) {
             protected Map<String, String> getParams() {

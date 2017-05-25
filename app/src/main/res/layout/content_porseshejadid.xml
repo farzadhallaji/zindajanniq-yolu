@@ -44,6 +44,9 @@
                         android:textColor="#ffffff"
                         android:textSize="17dp"
                         android:text="پرسش جدید"/>
+
+
+
                 </LinearLayout>
 
                 <ImageView
@@ -121,6 +124,14 @@
                 android:text="ارسال"
                 android:textColor="#FFF"
                 android:background="@drawable/login_button"/>
+
+            <ProgressBar
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center"
+                android:id="@+id/progressbarsandaha"/>
+
 
         </LinearLayout>
 
