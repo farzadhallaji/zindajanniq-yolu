@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,7 +58,7 @@ public class ExplainMoshaver extends TabActivity
 
     private static AsyncHttpClient client = new AsyncHttpClient();
     RequestQueue MyRequestQueue;
-    String hanyayo="0";
+    String hanyayo="0" , Tagggggggs="";
     String adviseridm="100",placeid="",namemoshaver="";
     ImageView userimg;
     TextView name_moshaver_textview;
@@ -184,6 +185,40 @@ public class ExplainMoshaver extends TabActivity
                     }
                 }
             });
+
+
+
+            ImageView adviser_reserve_img = (ImageView) findViewById(R.id.adviser_reserve_img);
+            adviser_reserve_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final LinearLayout darbareyehuseyin = (LinearLayout)findViewById(R.id.darbareyehuseyin);
+                    darbareyehuseyin.setVisibility(View.VISIBLE);
+                    TextView textTagsHusseyin = (TextView)findViewById(R.id.textTagsHusseyin);
+                    try {
+                        textTagsHusseyin.setText(Tagggggggs);
+                        ImageView closeafzundanejavab = (ImageView)findViewById(R.id.closeinvisibleimag);
+                        closeafzundanejavab.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                darbareyehuseyin.setVisibility(View.GONE);
+                            }
+                        });
+
+                    }catch (Exception e){
+                        textTagsHusseyin.setText("");
+                    }
+
+                }
+            });
+
+
+
+
+
+
+
+
         } else {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
         }
@@ -369,6 +404,11 @@ public class ExplainMoshaver extends TabActivity
                 alagestarmoshaver.setImageResource(R.drawable.alage1);
             }
             comments=jsonObject.getJSONArray("Comment").toString();
+
+            JSONArray tags =new JSONArray(jsonObject.getString("Tag"));
+            for(int ii=0 ; ii< tags.length() ; ii++){
+                Tagggggggs+=tags.getString(ii)+"\n";
+            }
 
             name_moshaver_textview.setText(AdviserName);
             taxassose_moshaver_textview.setText(tuzihat);

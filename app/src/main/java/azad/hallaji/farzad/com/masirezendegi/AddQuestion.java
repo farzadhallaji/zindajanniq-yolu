@@ -15,11 +15,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,13 +38,16 @@ public class AddQuestion extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     String subjectid="0";
+    //ProgressBar progressbardahaya;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
         //Toast.makeText(getApplicationContext(), qid, Toast.LENGTH_LONG).show();
-
+        //progressbardahaya=(ProgressBar)findViewById(R.id.progressbardahaya);
+        //progressbardahaya.setVisibility(View.GONE);
 
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -65,10 +70,22 @@ public class AddQuestion extends AppCompatActivity
         });
 
 
-        if(GlobalVar.getUserID().equals("100")){
-            GlobalVar.Jirmiyib(this);
+        if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
         }else{
-            GlobalVar.Jirib(this);
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(true);
+            nav_Menu.findItem(R.id.nav_login).setVisible(false);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(true);
         }
 
         if(isOnline()){
@@ -80,9 +97,8 @@ public class AddQuestion extends AppCompatActivity
                 public void onClick(View v) {
 
                     EditText editText =(EditText) findViewById(R.id.edittextsoal);
-                    requestData(subjectid,editText.getText().toString(),""); //ToDO what is the questioncategory?
-
-
+                    EditText editText2 =(EditText) findViewById(R.id.edittextOnvanesoal);
+                    requestData(subjectid,editText.getText().toString(),editText2.getText().toString()); //ToDO what is the questioncategory?
 
                 }
 
@@ -112,6 +128,7 @@ public class AddQuestion extends AppCompatActivity
 
     private void requestData(String subjectid , String text , String questioncategory ) {
 
+        //progressbardahaya.setVisibility(View.VISIBLE);
         RequestPackage p = new RequestPackage();
         p.setMethod("POST");
         p.setUri("http://telyar.dmedia.ir/webservice/Set_new_question");
@@ -239,6 +256,8 @@ public class AddQuestion extends AppCompatActivity
                 String m = jsonObject.getString("Status");
                 String mess = jsonObject.getString("Message");
                 updategraf(mess,m,"");
+                //progressbardahaya.setVisibility(View.INVISIBLE);
+
 
             } catch (JSONException e) {
                 //e.printStackTrace();

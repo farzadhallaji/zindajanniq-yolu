@@ -4,6 +4,7 @@
     android:layoutDirection="ltr"
     android:layout_height="match_parent" android:background="@drawable/mohaverinpage">
 
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -61,6 +62,33 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="3.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text=" عنوان سوال خود را در زیر انتخاب کنید :"/>
+
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:hint="عنوان سوال "
+                android:textSize="14dp"
+                android:id="@+id/edittextOnvanesoal"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
@@ -75,7 +103,7 @@
 
             <EditText
                 android:layout_width="250dp"
-                android:layout_height="370dp"
+                android:layout_height="300dp"
                 android:padding="20dp"
                 android:textSize="14dp"
                 android:id="@+id/edittextsoal"

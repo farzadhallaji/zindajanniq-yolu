@@ -22,15 +22,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import azad.hallaji.farzad.com.masirezendegi.helper.ListePasoxhayeksoalAdapter;
 import azad.hallaji.farzad.com.masirezendegi.helper.ListePorseshhaAdapter;
-import azad.hallaji.farzad.com.masirezendegi.helper.ProductListAdapter;
 import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
 import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
-import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 import azad.hallaji.farzad.com.masirezendegi.model.Question;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -127,7 +124,7 @@ public class ListePorseshha extends AppCompatActivity {
 
                 }*/
 
-                Intent intent = new Intent(ListePorseshha.this,SichOlanTaxassus.class);
+                Intent intent = new Intent(ListePorseshha.this,namhansiTaxassus.class);
                 startActivity(intent);
 
 

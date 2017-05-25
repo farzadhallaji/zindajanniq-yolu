@@ -95,6 +95,7 @@ public class PasoxePorsesh extends AppCompatActivity
         });
 
         if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
+
             Menu nav_Menu = navigationView.getMenu();
             nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
             nav_Menu.findItem(R.id.nav_profile).setVisible(true);
@@ -113,12 +114,7 @@ public class PasoxePorsesh extends AppCompatActivity
             nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
             nav_Menu.findItem(R.id.nav_logout).setVisible(false);
 
-            }
-
-
-
-
-
+        }
 
         if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
             josadsin=true;
@@ -256,7 +252,9 @@ public class PasoxePorsesh extends AppCompatActivity
                 //The String 'response' contains the server's response.
                 Log.i("ahmad",response);
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
-                updateview(response);
+                try {
+                    updateview(response);
+                }catch (Exception e){}
 
 
             }

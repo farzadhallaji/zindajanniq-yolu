@@ -1,6 +1,9 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -11,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -35,19 +40,20 @@ import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Taxassos;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class SichOlanTaxassus extends AppCompatActivity {
+public class namhansiTaxassus extends AppCompatActivity {
 
     View ftView;
     ListView listView;
     ListeTaxassoshaAdapter adapter;
     List<Taxassos> totalList=new ArrayList<>();
     int tempcount=0;
+    Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sich_olan_taxassus);
-
+        activity=this;
         listView=(ListView)findViewById(R.id.ListeTxassoshaListView);
 
 
@@ -63,25 +69,44 @@ public class SichOlanTaxassus extends AppCompatActivity {
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                     //Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
                     if(totalList.get(position).getHasChild().equals("1")){
 
-                        /*Intent intent = new Intent(ListeTaxassosHa.this,PagePorseshha.class);
-                        intent.putExtra("subjectid",totalList.get(position).getSID());
-                        intent.putExtra("soallllllll","0");
-                        startActivity(intent);*/
-                        String s =totalList.get(position).getSID();
-                        totalList=new ArrayList<Taxassos>();
-                        postgetData(s,"0",GlobalVar.getDeviceID());
-                        adapter=new ListeTaxassoshaAdapter(getApplicationContext(),totalList);
-                        listView.setAdapter(adapter);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                        builder.setMessage("آیا خود این موضوع را انتخاب میکنید یا زیرشاخه های آن را؟");
+
+                        builder.setPositiveButton("بله", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(namhansiTaxassus.this,AddQuestion.class);
+                                intent.putExtra("subjectid",totalList.get(position).getSID());
+
+                                Allllert(intent);
+                            }
+                        });
+                        builder.setNegativeButton("نه", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String s =totalList.get(position).getSID();
+                                totalList=new ArrayList<Taxassos>();
+                                postgetData(s,"0",GlobalVar.getDeviceID());
+                                adapter=new ListeTaxassoshaAdapter(getApplicationContext(),totalList);
+                                listView.setAdapter(adapter);
+                            }
+                        });
+
+                        AlertDialog alert = builder.create();
+                        alert.show();
+
+
 
                     }else {
                         //postgetData(totalList.get(position).getSID(),"0",GlobalVar.getDeviceID());
-                        Intent intent = new Intent(SichOlanTaxassus.this,AddQuestion.class);
+                        Intent intent = new Intent(namhansiTaxassus.this,AddQuestion.class);
                         intent.putExtra("subjectid",totalList.get(position).getSID());
-                        startActivity(intent);
+
+                        Allllert(intent);
                     }
 
 
@@ -121,7 +146,36 @@ public class SichOlanTaxassus extends AppCompatActivity {
 
     }
 
+    private void Allllert(final Intent intent) {
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_dialog_login, null);
 
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        dialogBuilder.setView(dialogView);
+
+        TextView textView =(TextView)dialogView.findViewById(R.id.aaT);
+        textView.setText("تخصص مورد نظر شما انتخاب شد.");
+
+        Button button = (Button)dialogView.findViewById(R.id.buttombastan);
+
+            /*EditText editText = (EditText) dialogView.findViewById(R.id.label_field);
+            editText.setText("test label");*/
+        final AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.cancel();
+                //changeui(phone);
+                startActivity(intent);
+
+
+            }
+        });
+
+    }
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -191,7 +245,7 @@ public class SichOlanTaxassus extends AppCompatActivity {
             //Log.i("lisrtt",templist.toString());
 
             if(tempcount==0){
-                adapter =new ListeTaxassoshaAdapter(SichOlanTaxassus.this,totalList);
+                adapter =new ListeTaxassoshaAdapter(namhansiTaxassus.this,totalList);
                 listView.setAdapter(adapter);
                 tempcount++;
             }

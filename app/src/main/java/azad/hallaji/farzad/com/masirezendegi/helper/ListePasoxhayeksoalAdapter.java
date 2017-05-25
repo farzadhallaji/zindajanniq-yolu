@@ -24,6 +24,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -105,6 +107,7 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
         CountdisLike.setText(Ittem.getCountdisLike());
         TarixeJavab.setText(Ittem.getTarixeJavab());
         String date="";
+        String [] asaddddddd = new String[3];
         try {
             Long aLong ;
             String dd=Ittem.getTarixeJavab().trim();
@@ -112,89 +115,52 @@ public class ListePasoxhayeksoalAdapter extends ArrayAdapter<Pasox> {
                 aLong=Long.parseLong(dd);
                 date=new java.text.SimpleDateFormat("yyyy/MM/dd")
                         .format(new java.util.Date (aLong*1000));
+                asaddddddd=date.split("/");
+                Log.i("asdfghjntikuikuuyh",asaddddddd[0]);
+                Log.i("asdfghjntikuikuuyh",asaddddddd[1]);
+                Log.i("asdfghjntikuikuuyh",asaddddddd[2]);
+
+
             }
         }catch (Exception ignored){}
 
-        TarixeJavab.setText(date);
+        //int y = Integer.getInteger();
+
+        //Log.i("asdfghjntikuikuuyh",date.substring(3)+"dsd");
+
+        //String asad =PersianDate.Shamsi(Integer.valueOf(asaddddddd[0]) ,Integer.valueOf(asaddddddd[1]) ,Integer.valueOf(asaddddddd[2]) );
+
+        int y, m,d;
+        try {
+            y=Integer.parseInt(asaddddddd[0]);
+        }catch (Exception e){
+            y=0;
+        }
+        try {
+            m=Integer.parseInt(asaddddddd[1]);
+        }catch (Exception e){
+            m=0;
+            //m=Integer.parseInt(String.valueOf(asaddddddd[1].charAt(1)));
+        }
+        try {
+            d=Integer.parseInt(asaddddddd[2]);
+        }catch (Exception e){
+            d=0;
+            //d=Integer.parseInt(String.valueOf(asaddddddd[2].charAt(1)));
+        }
+        Log.i("hjntiasdsdkuikuuyh",y+"dsd"+m);
+
+        String asad =PersianDate.Shamsi(y,m,d);
+        if (y==0){
+            TarixeJavab.setText("");
+        }else{
+            TarixeJavab.setText(asad);
+        }
+        //Log.i("asdfghjntikuikuuyh",convertedDate.getYear() +"" +convertedDate.getMonth()+"" +convertedDate.getDay());
 
 
         return view;
     }
-
-    /*void postgetData(final String qid , final String deviceid, final String likdis, final String contentid , final int pozishen){
-
-
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(mContext);
-
-        String url = "http://telyar.dmedia.ir/webservice/Set_like_dislike";
-        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //This code is executed if the server responds, whether or not the response contains data.
-                //The String 'response' contains the server's response.
-                Log.i("qwqaasasaeq",response);
-
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-
-                    String Message=jsonObject.getString("Message");
-                    if(jsonObject.getString("Status").equals("1")) {
-
-                        if(likdis.equals("1")){
-                            String s=viewHolders.get(pozishen).getCountLikee().getText().toString();
-                            Log.i("1111111","2"+likdis+".");
-                            if (s == null || s == "null") {
-                                viewHolders.get(pozishen).getCountLikee().setText("1");
-                            } else {
-                                try {
-                                    viewHolders.get(pozishen).getCountLikee()
-                                            .setText(String.valueOf(Integer.parseInt(s) + 1));
-                                } catch (Exception ignored) {
-                                }
-                            }
-                        }else if(likdis.equals("-1")) {
-                            Log.i("111111111","3");
-                            String s=viewHolders.get(pozishen).getCountdisLikee().getText().toString();
-                            if (s == null || s == "null") {
-                                viewHolders.get(pozishen).getCountdisLikee().setText("1");
-                            } else {
-                                try {
-                                    viewHolders.get(pozishen).getCountdisLikee()
-                                            .setText(String.valueOf(Integer.parseInt(s) + 1));
-                                } catch (Exception ignored) {
-                                }
-                            }
-                        }
-                    }
-                    Toast.makeText(mContext, Message, Toast.LENGTH_SHORT).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
-                //updateview(response);
-            }
-        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //This code is executed if there is an error.
-            }
-        }) {
-            protected Map<String, String> getParams() {
-                //Input: userid , contentid , contenttype , status , deviceid
-                Map<String, String> MyData = new HashMap<String, String>();
-                MyData.put("questionid", qid); //Add the data you'd like to send to the server.
-                MyData.put("deviceid",deviceid); //Add the data you'd like to send to the server.
-                MyData.put("status",likdis); //Add the data you'd like to send to the server.
-                MyData.put("contenttype","question"); //Add the data you'd like to send to the server.
-                MyData.put("contentid",contentid); //Add the data you'd like to send to the server.
-                MyData.put("userid",GlobalVar.getUserID()); //Add the data you'd like to send to the server.
-                return MyData;
-            }
-        };
-
-        MyRequestQueue.add(MyStringRequest);
-
-    }*/
 
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
