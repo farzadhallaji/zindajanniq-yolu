@@ -57,10 +57,14 @@ public class ListePorseshha extends AppCompatActivity {
             if(extras == null) subjectid = "0";
             else {
                 subjectid= extras.getString("subjectid");
+                //Toast.makeText(getApplicationContext(), subjectid, Toast.LENGTH_LONG).show();
+
             }
         } else {
             subjectid= (String) savedInstanceState.getSerializable("subjectid");
         }
+        //Log.i("qwertassasasasyuioiuytre",subjectid);
+
 
         listView=(ListView)findViewById(R.id.ListePorseshhaListView);
 
@@ -78,6 +82,11 @@ public class ListePorseshha extends AppCompatActivity {
 
                     Intent intent = new Intent(ListePorseshha.this, PasoxePorsesh.class);
                     intent.putExtra("questionid",totalList.get(position).getQID());
+                    /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    finish();
                     ListePasoxhayeksoalAdapter.contentid=totalList.get(position).getQID();
                     startActivity(intent);
 
@@ -116,7 +125,6 @@ public class ListePorseshha extends AppCompatActivity {
         }
 
 
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +132,9 @@ public class ListePorseshha extends AppCompatActivity {
 
                 if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
                     Intent intent = new Intent(ListePorseshha.this,namhansiTaxassus.class);
+                    /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                     startActivity(intent);
                 }else{
                     Toast.makeText(getApplicationContext(), "ابتدا باید وارد سیستم شوید", Toast.LENGTH_LONG).show();

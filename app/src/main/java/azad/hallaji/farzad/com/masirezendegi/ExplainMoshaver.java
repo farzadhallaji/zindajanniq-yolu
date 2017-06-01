@@ -1,6 +1,5 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
-import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,18 +9,17 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -36,8 +34,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,10 +45,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import azad.hallaji.farzad.com.masirezendegi.model.Comment;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
 import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
-import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
@@ -62,7 +56,8 @@ public class ExplainMoshaver extends TabActivity
 
     private static AsyncHttpClient client = new AsyncHttpClient();
     RequestQueue MyRequestQueue;
-    String hanyayo="0" , Tagggggggs="";
+    String Tagggggggs="";
+    boolean IsFavorite=false;
     String adviseridm="100",placeid="",namemoshaver="";
     ImageView userimg;
     TextView name_moshaver_textview;
@@ -97,6 +92,9 @@ public class ExplainMoshaver extends TabActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ExplainMoshaver.this , PageMoshaverin.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
         });
@@ -155,7 +153,7 @@ public class ExplainMoshaver extends TabActivity
             //requestData();
 
             postgetData();
-            Log.i("Lieseesene",License);
+            //Log.i("Lieseesene",License);
 
             ImageView imageView2 = (ImageView)findViewById(R.id.adviser_about_img);
             imageView2.setOnClickListener(new View.OnClickListener() {
@@ -163,11 +161,19 @@ public class ExplainMoshaver extends TabActivity
                 public void onClick(View v) {
                     //requestDataa();
 
-                    Intent intent3 = new Intent(ExplainMoshaver.this,PageRezerv.class);
-                    intent3.putExtra("adviseridm",adviseridm);
-                    intent3.putExtra("placeid",placeid);
-                    intent3.putExtra("namemoshaver",namemoshaver);
-                    startActivity(intent3);
+                    if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
+
+                        Intent intent3 = new Intent(ExplainMoshaver.this,PageRezerv.class);
+                        intent3.putExtra("adviseridm",adviseridm);
+                        intent3.putExtra("placeid",placeid);
+                        intent3.putExtra("namemoshaver",namemoshaver);
+
+                        startActivity(intent3);
+
+                    }else{
+                        Toast.makeText(getApplicationContext(), "ابتدا باید وارد سیستم شوید", Toast.LENGTH_LONG).show();
+                    }
+
 
                 }
             });
@@ -183,8 +189,8 @@ public class ExplainMoshaver extends TabActivity
 
                     if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
 
-                            setAlage(hanyayo);
-                            Log.i("sxascsdcpsdcpsdcpsdc","[sxascsdcp2sdcpsdcpsdc"+hanyayo);
+                            setAlage();
+                            //Log.i("sxascsdcpsdcpsdcpsdc","[sxascsdcp2sdcpsdcpsdc"+hanyayo);
 
                     }else{
                         Toast.makeText(getApplicationContext(), "ابتدا باید وارد سیستم شوید", Toast.LENGTH_LONG).show();
@@ -223,7 +229,7 @@ public class ExplainMoshaver extends TabActivity
         }
     }
 
-    void setAlage(final String s) {
+    void setAlage() {
 
         ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
         progressbarsandaha.setVisibility(View.VISIBLE);
@@ -242,18 +248,15 @@ public class ExplainMoshaver extends TabActivity
                 progressbarsandaha.setVisibility(View.INVISIBLE);
 
                 try {
-
                     JSONObject jsonObject= new JSONObject(response);
                     if (jsonObject.getString("Status").equals("1")){
-                        if(hanyayo.equals("1")) {
+                        IsFavorite=!IsFavorite;
+                        if(IsFavorite) {
                             alagestarmoshaver.setImageResource(R.drawable.alage1);
-                            hanyayo="-1";
                         }
                         else{
                             alagestarmoshaver.setImageResource(R.drawable.alage0);
-                            hanyayo="1";
                         }
-
                     }
                     Toast.makeText(getApplicationContext(),jsonObject.getString("Message"), Toast.LENGTH_LONG).show();
 
@@ -274,6 +277,7 @@ public class ExplainMoshaver extends TabActivity
             }
         }) {
             protected Map<String, String> getParams() {
+                String s = IsFavorite ? "-1" : "1";
                 Map<String, String> MyData = new HashMap<String, String>();
                 //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
                 MyData.put("userid", GlobalVar.getUserID()); //Add the data you'd like to send to the server.
@@ -329,6 +333,7 @@ public class ExplainMoshaver extends TabActivity
                 //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
                 MyData.put("adviserid", adviseridm); //Add the data you'd like to send to the server.
                 MyData.put("deviceid",GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
+                MyData.put("userid",GlobalVar.getUserID()); //Add the data you'd like to send to the server.
                 return MyData;
             }
 
@@ -348,19 +353,28 @@ public class ExplainMoshaver extends TabActivity
                 Intent intent1 =new Intent(ExplainMoshaver.this, ListeComments.class);
                 intent1.putExtra("adviseridm",adviseridm);
                 intent1.putExtra("comments",comments);
+                /*intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                 Log.i("aaaaaaaaaaaaaaa",comments+" ");
                 tabSpec3.setContent(intent1);
 
                 tabSpec2.setIndicator("مدارک");
-                Intent intent2 =new Intent(ExplainMoshaver.this, PageLiecence.class);
+                Intent intent2 =new Intent(ExplainMoshaver.this, ListeLiecence.class);
                 intent2.putExtra("adviseridm",adviseridm);
                 intent2.putExtra("License",License);
+                /*intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent2.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                 tabSpec2.setContent(intent2);
 
                 tabSpec1.setIndicator("نقشه");
                 final Intent intent = new Intent(ExplainMoshaver.this, MapsActivity.class);
                 intent.putExtra("adviseridm",adviseridm);
                 intent.putExtra("Mainplace",Mainplace);
+                /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                 tabSpec1.setContent(intent);
 
                 tabHost.addTab(tabSpec1);
@@ -407,15 +421,13 @@ public class ExplainMoshaver extends TabActivity
             String Telephone = jsonObject.getString("Telephone");
             String UniqueID = jsonObject.getString("UniqueID");
             String CostPerMin = jsonObject.get("AdviserName").toString();
-            String IsFavourite= jsonObject.getString("IsFavourite");
+            IsFavorite= jsonObject.getString("IsFavourite").equals("1");
             Mainplace= jsonObject.getString("mainplace");
-            Log.i("Explanfkdfdkfdfdfdfdfd",IsFavourite);
-            if(IsFavourite.equals("-1")){
-                hanyayo="1";
-                alagestarmoshaver.setImageResource(R.drawable.alage0);
-            }else if(IsFavourite.equals("1")){
-                hanyayo="-1";
+            //Log.i("Explanfkdfdkfdfdfdfdfd",IsFavourite);
+            if(IsFavorite){
                 alagestarmoshaver.setImageResource(R.drawable.alage1);
+            }else{
+                alagestarmoshaver.setImageResource(R.drawable.alage0);
             }
             comments=jsonObject.getJSONArray("Comment").toString();
 
@@ -432,7 +444,7 @@ public class ExplainMoshaver extends TabActivity
 
             moshaver.setCostPerMin(CostPerMin);
             moshaver.setTelephone(Telephone);
-            moshaver.setIsFavourite(IsFavourite);
+            moshaver.setIsFavourite(IsFavorite ? "1" : "-1");
             moshaver.setDialect(Dialect);
             moshaver.setRating(Rating);
 
@@ -450,26 +462,41 @@ public class ExplainMoshaver extends TabActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            startActivity(new Intent(this , PageMarakez.class));
+            Intent intent =new Intent(this , PageMarakez.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent(this , PageVirayesh.class));
+            Intent intent =new Intent(this , PageVirayesh.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_login) {
-            startActivity(new Intent(this , PageLogin.class));
+            Intent intent =new Intent(this , PageLogin.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_moshaverin) {
-            startActivity(new Intent(this , PageMoshaverin.class));
+            Intent intent =new Intent(this , PageMoshaverin.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_porseshha) {
-            startActivity(new Intent(this , PagePorseshha.class));
+            Intent intent =new Intent(this , PagePorseshha.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_logout){
-            startActivity(new Intent(this , PageLogout.class));
+            Intent intent =new Intent(this , PageLogout.class);
+            finish();
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.END);
         return true;
 
-
     }
-
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -517,5 +544,17 @@ public class ExplainMoshaver extends TabActivity
             }
             ((ViewGroup) view).removeAllViews();
         }
+    }
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        }
+        //super.onBackPressed();
+        Intent intent =new Intent(this , PageMoshaverin.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        finish();
+        startActivity(intent);
     }
 }

@@ -61,10 +61,12 @@ public class ListeMoshaverin extends AppCompatActivity {
             if(extras == null) subjectid = "0";
             else {
                 subjectid= extras.getString("subjectid");
+                //Toast.makeText(getApplicationContext(), subjectid, Toast.LENGTH_SHORT).show();
             }
         } else {
             subjectid= (String) savedInstanceState.getSerializable("subjectid");
         }
+
 
 
 
@@ -84,6 +86,14 @@ public class ListeMoshaverin extends AppCompatActivity {
                     //Toast.makeText(getApplicationContext(), totalList.get(position).getAID(), Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplication() , ExplainMoshaver.class);
                     intent.putExtra("adviserid",totalList.get(position).getAID());
+                    //finish();
+                    intent.addFlags(Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                     startActivity(intent);
 
                 }
@@ -229,5 +239,6 @@ public class ListeMoshaverin extends AppCompatActivity {
         }
 
     }
+
 
 }

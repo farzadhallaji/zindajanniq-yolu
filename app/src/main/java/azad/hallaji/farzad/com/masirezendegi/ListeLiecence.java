@@ -1,44 +1,24 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import azad.hallaji.farzad.com.masirezendegi.helper.LisenseAdapter;
-import azad.hallaji.farzad.com.masirezendegi.helper.ListeAlagemandiHaAdapter;
-import azad.hallaji.farzad.com.masirezendegi.model.Comment;
-import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
-import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class PageLiecence extends AppCompatActivity {
+public class ListeLiecence extends AppCompatActivity {
     String adviseridm,commentscomments="";
     ListView listView;
 
@@ -99,7 +79,7 @@ public class PageLiecence extends AppCompatActivity {
             Log.i("asadasasfasadfd",jsonArray.length()+"");
 
 
-            LisenseAdapter listeAlagemandiHaAdapter = new LisenseAdapter(PageLiecence.this,comments);
+            LisenseAdapter listeAlagemandiHaAdapter = new LisenseAdapter(ListeLiecence.this,comments);
             listView.setAdapter(listeAlagemandiHaAdapter);
 
 
@@ -111,26 +91,3 @@ public class PageLiecence extends AppCompatActivity {
     }
 
 }
-
-
-        /*try {
-            JSONObject jsonObject = new JSONObject(response);
-
-            JSONArray jsonArray= new JSONArray(jsonObject.getJSONArray("PicAddress").toString());
-
-            for(int i=0 ; i<jsonObject.length() ; i++){
-
-                String License = jsonArray.get(i).toString();
-                comments.add(License);
-
-            }
-            LisenseAdapter listeAlagemandiHaAdapter = new LisenseAdapter(PageLiecence.this,comments);
-            listView.setAdapter(listeAlagemandiHaAdapter);
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
-
-
-

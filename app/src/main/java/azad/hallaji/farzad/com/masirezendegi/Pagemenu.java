@@ -3,6 +3,7 @@ package azad.hallaji.farzad.com.masirezendegi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -92,6 +93,9 @@ public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavi
             public void onClick(View v) {
                 if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
                     Intent intent = new Intent(Pagemenu.this, PageAlaghemandiha.class);
+                    /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                     startActivity(intent);
                 }else{
                     /*LayoutInflater inflater = getLayoutInflater();
@@ -127,6 +131,9 @@ public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplication(), PagePorseshha.class);
+                /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                 startActivity(intent);
             }
         });
@@ -134,6 +141,9 @@ public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Pagemenu.this, PageMarakez.class);
+                /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                 startActivity(intent);
             }
         });
@@ -141,6 +151,9 @@ public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Pagemenu.this, PageMoshaverin.class);
+                /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                 startActivity(intent);
             }
         });
@@ -158,21 +171,27 @@ public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            startActivity(new Intent(this , PageMarakez.class));
+            Intent intent =new Intent(this , PageMarakez.class);
+            startActivity(intent);
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent(this , PageVirayesh.class));
+            Intent intent =new Intent(this , PageVirayesh.class);
+            startActivity(intent);
         } else if (id == R.id.nav_login) {
-            startActivity(new Intent(this , PageLogin.class));
+            Intent intent =new Intent(this , PageLogin.class);
+            startActivity(intent);
         } else if (id == R.id.nav_moshaverin) {
-            startActivity(new Intent(this , PageMoshaverin.class));
+            Intent intent =new Intent(this , PageMoshaverin.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            startActivity(intent);
         } else if (id == R.id.nav_porseshha) {
-            startActivity(new Intent(this , PagePorseshha.class));
+            Intent intent =new Intent(this , PagePorseshha.class);
+            startActivity(intent);
         } else if (id == R.id.nav_logout){
-            startActivity(new Intent(this , PageLogout.class));
+            Intent intent =new Intent(this , PageLogout.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -180,4 +199,25 @@ public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavi
         return true;
 
     }
+    private int  time_interval = 2000;
+    private long oldCurrentTimeMillis;
+    @Override
+    public void onBackPressed()
+    {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        }
+
+        if (oldCurrentTimeMillis + time_interval > System.currentTimeMillis())
+        {
+            finish();
+
+        }
+        else {
+            Toast.makeText(getBaseContext(), "برای خروج دوباره کلیک کنید.", Toast.LENGTH_SHORT).show();
+        }
+        oldCurrentTimeMillis = System.currentTimeMillis();
+    }
+
 }

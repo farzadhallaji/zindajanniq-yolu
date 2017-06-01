@@ -71,6 +71,10 @@ public class ListeMarakez extends AppCompatActivity {
 
                     Intent intent = new Intent(ListeMarakez.this,ExplainMarkaz.class);
                     intent.putExtra("placeid",markazs.get(position).getMID());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                     //intent.putExtra("Mainplace",markazs.get(position));
                     startActivity(intent);
 

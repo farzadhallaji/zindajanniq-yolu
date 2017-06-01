@@ -3,6 +3,7 @@ package azad.hallaji.farzad.com.masirezendegi;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -50,6 +52,7 @@ public class PageMoshaverin extends TabActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PageMoshaverin.this , Pagemenu.class);
+                finish();
                 startActivity(intent);
             }
         });
@@ -103,10 +106,13 @@ public class PageMoshaverin extends TabActivity
         tabSpec1.setIndicator("تخصص ها");
         Intent intent = new Intent(this, ListeTaxassussss.class);
         intent.putExtra("subjectid",subjectid);
+        //Toast.makeText(getApplicationContext(), "*0*"+subjectid, Toast.LENGTH_SHORT).show();
         tabSpec1.setContent(intent);
 
         tabSpec2.setIndicator("لیست مشاورین");
-        tabSpec2.setContent(new Intent(this, ListeMoshaverin.class));
+        Intent intent1 = new Intent(this, ListeMoshaverin.class);
+        intent1.putExtra("subjectid",subjectid);
+        tabSpec2.setContent(intent1);
 
         tabHost.addTab(tabSpec1);
         tabHost.addTab(tabSpec2);
@@ -122,15 +128,6 @@ public class PageMoshaverin extends TabActivity
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.END)) {
-            drawer.closeDrawer(GravityCompat.END);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -140,29 +137,52 @@ public class PageMoshaverin extends TabActivity
     }
 
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            startActivity(new Intent(this , PageMarakez.class));
+            Intent intent =new Intent(this , PageMarakez.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent(this , PageVirayesh.class));
+            Intent intent =new Intent(this , PageVirayesh.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_login) {
-            startActivity(new Intent(this , PageLogin.class));
+            Intent intent =new Intent(this , PageLogin.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_moshaverin) {
-            startActivity(new Intent(this , PageMoshaverin.class));
+            Intent intent =new Intent(this , PageMoshaverin.class);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_porseshha) {
-            startActivity(new Intent(this , PagePorseshha.class));
+            Intent intent =new Intent(this , PagePorseshha.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_logout){
-            startActivity(new Intent(this , PageLogout.class));
+            Intent intent =new Intent(this , PageLogout.class);
+            finish();
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.END);
         return true;
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        }
+        super.onBackPressed();
 
     }
 

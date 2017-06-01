@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -248,7 +249,7 @@ public class PageVirayesh extends AppCompatActivity
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.END)) {
@@ -256,7 +257,7 @@ public class PageVirayesh extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -265,32 +266,6 @@ public class PageVirayesh extends AppCompatActivity
         return true;
     }
 
-
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.nav_marakez) {
-            startActivity(new Intent(this , PageMarakez.class));
-        } else if (id == R.id.nav_profile) {
-            startActivity(new Intent(this , PageVirayesh.class));
-        } else if (id == R.id.nav_login) {
-            startActivity(new Intent(this , PageLogin.class));
-        } else if (id == R.id.nav_moshaverin) {
-            startActivity(new Intent(this , PageMoshaverin.class));
-        } else if (id == R.id.nav_porseshha) {
-            startActivity(new Intent(this , PagePorseshha.class));
-        } else if (id == R.id.nav_logout){
-            startActivity(new Intent(this , PageLogout.class));
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.END);
-        return true;
-
-    }
 
     private void init() {
 
@@ -465,9 +440,26 @@ public class PageVirayesh extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 alertDialog.cancel();
+                Intent intent = new Intent(PageVirayesh.this,PageVirayesh.class);
+                startActivity(intent);
 
             }
         });
+
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        }
+        Intent intent =new Intent(this , Pagemenu.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
 
     }
 
@@ -545,4 +537,43 @@ public class PageVirayesh extends AppCompatActivity
         };
         MyRequestQueue.add(MyStringRequest);
     }
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.nav_marakez) {
+            Intent intent =new Intent(this , PageMarakez.class);
+            finish();
+            startActivity(intent);
+        } else if (id == R.id.nav_profile) {
+            Intent intent =new Intent(this , PageVirayesh.class);
+            finish();
+            startActivity(intent);
+        } else if (id == R.id.nav_login) {
+            Intent intent =new Intent(this , PageLogin.class);
+            finish();
+            startActivity(intent);
+        } else if (id == R.id.nav_moshaverin) {
+            Intent intent =new Intent(this , PageMoshaverin.class);
+            finish();
+            startActivity(intent);
+        } else if (id == R.id.nav_porseshha) {
+            Intent intent =new Intent(this , PagePorseshha.class);
+            finish();
+            startActivity(intent);
+        } else if (id == R.id.nav_logout){
+            Intent intent =new Intent(this , PageLogout.class);
+            finish();
+            startActivity(intent);
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.END);
+        return true;
+
+    }
+
 }

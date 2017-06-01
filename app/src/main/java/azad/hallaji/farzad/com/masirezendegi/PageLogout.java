@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -52,6 +53,9 @@ public class PageLogout extends AppCompatActivity
         GlobalVar.setUserType("");
 
         Intent intent = new Intent(this,MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
 
 
@@ -82,7 +86,6 @@ public class PageLogout extends AppCompatActivity
         }
         return false;
     }
-
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -119,17 +122,29 @@ public class PageLogout extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            startActivity(new Intent(this , PageMarakez.class));
+            Intent intent =new Intent(this , PageMarakez.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent(this , PageVirayesh.class));
+            Intent intent =new Intent(this , PageVirayesh.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_login) {
-            startActivity(new Intent(this , PageLogin.class));
+            Intent intent =new Intent(this , PageLogin.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_moshaverin) {
-            startActivity(new Intent(this , PageMoshaverin.class));
+            Intent intent =new Intent(this , PageMoshaverin.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_porseshha) {
-            startActivity(new Intent(this , PagePorseshha.class));
+            Intent intent =new Intent(this , PagePorseshha.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_logout){
-            startActivity(new Intent(this , PageLogout.class));
+            Intent intent =new Intent(this , PageLogout.class);
+            finish();
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -137,4 +152,37 @@ public class PageLogout extends AppCompatActivity
         return true;
 
     }
+
+
+    boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        }
+        if (doubleBackToExitPressedOnce) {
+            finish();
+        }else {
+            this.doubleBackToExitPressedOnce = true;
+            //Toast.makeText(this, "click again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, 2000);
+
+            Intent intent =new Intent(this , Pagemenu.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+
+        }
+
+    }
+
 }

@@ -3,6 +3,7 @@ package azad.hallaji.farzad.com.masirezendegi;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -78,6 +79,9 @@ public class PagePorseshha extends TabActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PagePorseshha.this , Pagemenu.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
         });
@@ -109,12 +113,14 @@ public class PagePorseshha extends TabActivity
         TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("Partners");
 
         tabSpec1.setIndicator("تخصص ها");
-        tabSpec1.setContent(new Intent(this, ListeTaxassosHa.class));
+        Intent intent =new Intent(this, ListeTaxassosHa.class);
+        tabSpec1.setContent(intent);
 
         tabSpec2.setIndicator("سوالات");
-        Intent intent = new Intent(this, ListePorseshha.class);
-        intent.putExtra("subjectid",subjectid);
-        tabSpec2.setContent(intent);
+        Intent intent2 = new Intent(this, ListePorseshha.class);
+        intent2.putExtra("subjectid",subjectid);
+        //Toast.makeText(getApplicationContext(), "Network isn't available"+subjectid, Toast.LENGTH_LONG).show();
+        tabSpec2.setContent(intent2);
 
         tabHost.addTab(tabSpec1);
         tabHost.addTab(tabSpec2);
@@ -130,15 +136,6 @@ public class PagePorseshha extends TabActivity
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.END)) {
-            drawer.closeDrawer(GravityCompat.END);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -148,24 +145,35 @@ public class PagePorseshha extends TabActivity
     }
 
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            startActivity(new Intent(this , PageMarakez.class));
+            Intent intent =new Intent(this , PageMarakez.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent(this , PageVirayesh.class));
+            Intent intent =new Intent(this , PageVirayesh.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_login) {
-            startActivity(new Intent(this , PageLogin.class));
+            Intent intent =new Intent(this , PageLogin.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_moshaverin) {
-            startActivity(new Intent(this , PageMoshaverin.class));
+            Intent intent =new Intent(this , PageMoshaverin.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_porseshha) {
-            startActivity(new Intent(this , PagePorseshha.class));
+            Intent intent =new Intent(this , PagePorseshha.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_logout){
-            startActivity(new Intent(this , PageLogout.class));
+            Intent intent =new Intent(this , PageLogout.class);
+            finish();
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -173,4 +181,19 @@ public class PagePorseshha extends TabActivity
         return true;
 
     }
+    boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        }
+        Intent intent = new Intent(PagePorseshha.this , Pagemenu.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
+
+    }
+
 }

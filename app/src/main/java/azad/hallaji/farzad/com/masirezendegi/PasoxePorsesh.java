@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -66,7 +67,7 @@ public class PasoxePorsesh extends AppCompatActivity
     String qid="";
     ImageView sabizshey;
     LinearLayout likedisalage;
-    boolean alage=false;
+    boolean IsFavourite=false;
     RequestQueue MyRequestQueue;
     boolean josadsin=false;
 
@@ -83,6 +84,9 @@ public class PasoxePorsesh extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PasoxePorsesh.this , PagePorseshha.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
         });
@@ -319,7 +323,7 @@ public class PasoxePorsesh extends AppCompatActivity
                 ImageView dislikeimmmm=(ImageView)findViewById(R.id.dislikeimmmm);
                 ImageView likeimmmm=(ImageView)findViewById(R.id.likeimmmm);
 
-                if(alage)
+                if(IsFavourite)
                     startalagemandiImageView.setImageResource(R.drawable.alage1);
                 else
                     startalagemandiImageView.setImageResource(R.drawable.alage0);
@@ -328,10 +332,14 @@ public class PasoxePorsesh extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
 
-                        if(alage)
+                        if(IsFavourite){
+                            IsFavourite=false;
                             setAlage("-1");
-                        else
+                        }
+                        else{
+                            IsFavourite=true;
                             setAlage("1");
+                        }
                     }
                 });
                 dislikeimmmm.setOnClickListener(new View.OnClickListener() {
@@ -359,7 +367,8 @@ public class PasoxePorsesh extends AppCompatActivity
             protected Map<String, String> getParams() {
                 Map<String, String> MyData = new HashMap<String, String>();
                 MyData.put("questionid", qid); //Add the data you'd like to send to the server.
-                MyData.put("deviceid",deviceid); //Add the data you'd like to send to the server.
+                MyData.put("deviceid",GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
+                MyData.put("userid",GlobalVar.getUserID()); //Add the data you'd like to send to the server.
                 return MyData;
             }
         };
@@ -378,8 +387,14 @@ public class PasoxePorsesh extends AppCompatActivity
             OnvaneSoalTextView.setText(jsonObject.get("QuestionSubject").toString());
             //OnvaneSoalTextView.setText(jsonObject.get("TextText").toString());
             Log.i("asastuikjhg",jsonObject.toString());
-            alage = jsonObject.getString("IsFavourite").equals("1");
-
+            IsFavourite = jsonObject.getString("IsFavourite").equals("1");
+            ImageView startalagemandiImageView=(ImageView)findViewById(R.id.startalagemandiImageView);
+            if(IsFavourite){
+                startalagemandiImageView.setImageResource(R.drawable.alage1);
+            }else {
+                startalagemandiImageView.setImageResource(R.drawable.alage0);
+            }
+            Log.i("werhm,jhmghfgbf",IsFavourite + "sdfvd");
             JSONArray jsonArray = new JSONArray(jsonObject.getJSONArray("Answer").toString());
 
             for(int i = 0 ; i < jsonArray.length() ; i++){
@@ -487,7 +502,7 @@ public class PasoxePorsesh extends AppCompatActivity
                 Log.i("aladfffgree", response);
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
-                responsesetfavor(response);
+                responsesetfavorisfavor(response);
 
                 ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
                 progressbarsandaha.setVisibility(View.INVISIBLE);
@@ -563,14 +578,28 @@ public class PasoxePorsesh extends AppCompatActivity
         try {
             JSONObject jsonObject = new JSONObject(response);
             m=jsonObject.getString("Status");
+            ImageView startalagemandiImageView=(ImageView)findViewById(R.id.startalagemandiImageView);
+
+            if(m.equals("1")){
+                if(IsFavourite){
+                    startalagemandiImageView.setImageResource(R.drawable.alage1);
+                }else {
+                    startalagemandiImageView.setImageResource(R.drawable.alage0);
+                }
+            }else {
+                IsFavourite=!IsFavourite;
+            }
+
             mmessage=jsonObject.getString("Message");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.alert_dialog_login, null);
+        //LayoutInflater inflater = this.getLayoutInflater();
+        //View dialogView = inflater.inflate(R.layout.alert_dialog_login, null);
 
-        if(m.equals("1")){
+        Toast.makeText(getApplicationContext(), mmessage, Toast.LENGTH_LONG).show();
+
+        /*if(m.equals("1")){
 
             final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
@@ -581,8 +610,8 @@ public class PasoxePorsesh extends AppCompatActivity
 
             Button button = (Button)dialogView.findViewById(R.id.buttombastan);
 
-            /*EditText editText = (EditText) dialogView.findViewById(R.id.label_field);
-            editText.setText("test label");*/
+            *//*EditText editText = (EditText) dialogView.findViewById(R.id.label_field);
+            editText.setText("test label");*//*
             final AlertDialog alertDialog = dialogBuilder.create();
             alertDialog.show();
 
@@ -590,6 +619,12 @@ public class PasoxePorsesh extends AppCompatActivity
                 @Override
                 public void onClick(View v) {
                     alertDialog.cancel();
+                    Intent intent = new Intent(PasoxePorsesh.this,PagePorseshha.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
+
 
                 }
             });
@@ -605,8 +640,8 @@ public class PasoxePorsesh extends AppCompatActivity
             te.setText("خطا");
             Button button = (Button)dialogView.findViewById(R.id.buttombastan);
 
-            /*EditText editText = (EditText) dialogView.findViewById(R.id.label_field);
-            editText.setText("test label");*/
+            *//*EditText editText = (EditText) dialogView.findViewById(R.id.label_field);
+            editText.setText("test label");*//*
             final AlertDialog alertDialog = dialogBuilder.create();
             alertDialog.show();
 
@@ -618,28 +653,66 @@ public class PasoxePorsesh extends AppCompatActivity
                 }
             });
 
-        }
+        }*/
     }
 
+    private void responsesetfavorisfavor(String response) {
+
+        Log.i("asadsfbghh nrjh nsdvsdc",response);
+        String m="-1" ,  mmessage="";
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            m=jsonObject.getString("Status");
+            ImageView startalagemandiImageView=(ImageView)findViewById(R.id.startalagemandiImageView);
+
+            if(m.equals("1")){
+                if(IsFavourite){
+                    startalagemandiImageView.setImageResource(R.drawable.alage1);
+                }else {
+                    startalagemandiImageView.setImageResource(R.drawable.alage0);
+                }
+            }else {
+                IsFavourite=!IsFavourite;
+            }
+
+            mmessage=jsonObject.getString("Message");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Toast.makeText(getApplicationContext(), mmessage, Toast.LENGTH_LONG).show();
+
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            startActivity(new Intent(this , PageMarakez.class));
+            Intent intent =new Intent(this , PageMarakez.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent(this , PageVirayesh.class));
+            Intent intent =new Intent(this , PageVirayesh.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_login) {
-            startActivity(new Intent(this , PageLogin.class));
+            Intent intent =new Intent(this , PageLogin.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_moshaverin) {
-            startActivity(new Intent(this , PageMoshaverin.class));
+            Intent intent =new Intent(this , PageMoshaverin.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_porseshha) {
-            startActivity(new Intent(this , PagePorseshha.class));
+            Intent intent =new Intent(this , PagePorseshha.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_logout){
-            startActivity(new Intent(this , PageLogout.class));
+            Intent intent =new Intent(this , PageLogout.class);
+            finish();
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -647,6 +720,18 @@ public class PasoxePorsesh extends AppCompatActivity
         return true;
 
     }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        }
+        Intent intent = new Intent(PasoxePorsesh.this , PagePorseshha.class);
+        finish();
+        startActivity(intent);
+    }
+
 }
 
 

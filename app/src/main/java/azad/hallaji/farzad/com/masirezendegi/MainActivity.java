@@ -11,8 +11,11 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         String UserType = preferences.getString("UserType","");
         String UID = preferences.getString("UID","");
         String PicAddress = preferences.getString("PicAddress","");
+
         if(!UID.equalsIgnoreCase(""))
         {
             GlobalVar.setUserID(UID);
@@ -60,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         }else{
-            GlobalVar.setUserID("100");
+            GlobalVar.setUserID("0");
             GlobalVar.setPicAddress("");
             GlobalVar.setUserType("");
             Log.i("tytuyjhtgrfed","ashfkjtrhwef");
@@ -197,9 +201,18 @@ public class MainActivity extends AppCompatActivity {
             GlobalVar.setDeviceID(result);
 
             Intent intent = new Intent(MainActivity.this, Pagemenu.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
 
         }
 
+    }
+
+    boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

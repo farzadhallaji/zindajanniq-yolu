@@ -7,14 +7,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -43,7 +52,8 @@ import azad.hallaji.farzad.com.masirezendegi.model.Taxassos;
 import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class namhansiTaxassus extends AppCompatActivity {
+public class namhansiTaxassus extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     View ftView;
     ListView listView;
@@ -55,9 +65,35 @@ public class namhansiTaxassus extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sich_olan_taxassus);
+        setContentView(R.layout.namhansi);
 
         Fabric.with(this, new Crashlytics());
+
+
+        ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(namhansiTaxassus.this , PageMoshaverin.class);
+                /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
+                startActivity(intent);
+            }
+        });
+
+
+
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        ImageView imageView = (ImageView) findViewById(R.id.menuButton);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(Gravity.END);
+            }
+        });
 
 
         activity=this;
@@ -68,6 +104,26 @@ public class namhansiTaxassus extends AppCompatActivity {
         ftView = li.inflate(R.layout.footer_view, null);
         //mHandler = new MyHandler();
 
+        if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
+
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(true);
+            nav_Menu.findItem(R.id.nav_login).setVisible(false);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+
+        }else{
+
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
+        }
         if (isOnline()) {
 
 
@@ -87,7 +143,11 @@ public class namhansiTaxassus extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(namhansiTaxassus.this,AddQuestion.class);
+                               /* intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                                 intent.putExtra("subjectid",totalList.get(position).getSID());
+                                intent.putExtra("questioncategory",totalList.get(position).getName());
 
                                 Allllert(intent);
                             }
@@ -111,7 +171,11 @@ public class namhansiTaxassus extends AppCompatActivity {
                     }else {
                         //postgetData(totalList.get(position).getSID(),"0",GlobalVar.getDeviceID());
                         Intent intent = new Intent(namhansiTaxassus.this,AddQuestion.class);
+                        /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                         intent.putExtra("subjectid",totalList.get(position).getSID());
+                        intent.putExtra("questioncategory",totalList.get(position).getName());
 
                         Allllert(intent);
                     }
@@ -176,6 +240,9 @@ public class namhansiTaxassus extends AppCompatActivity {
             public void onClick(View v) {
                 alertDialog.cancel();
                 //changeui(phone);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
 
 
@@ -270,33 +337,51 @@ public class namhansiTaxassus extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-    /*private void requestData(int pid , int start) {
+        int id = item.getItemId();
 
-        RequestPackage p = new RequestPackage();
-        p.setMethod("POST");
-        p.setUri("http://telyar.dmedia.ir/webservice/Get_all_subject");
+        if (id == R.id.nav_marakez) {
+            Intent intent =new Intent(this , PageMarakez.class);
+            finish();
+            startActivity(intent);
+        } else if (id == R.id.nav_profile) {
+            Intent intent =new Intent(this , PageVirayesh.class);
+            finish();
+            startActivity(intent);
+        } else if (id == R.id.nav_login) {
+            Intent intent =new Intent(this , PageLogin.class);
+            finish();
+            startActivity(intent);
+        } else if (id == R.id.nav_moshaverin) {
+            Intent intent =new Intent(this , PageMoshaverin.class);
+            finish();
+            startActivity(intent);
+        } else if (id == R.id.nav_porseshha) {
+            Intent intent =new Intent(this , PagePorseshha.class);
+            finish();
+            startActivity(intent);
+        } else if (id == R.id.nav_logout){
+            Intent intent =new Intent(this , PageLogout.class);
+            finish();
+            startActivity(intent);
+        }
 
-        *//*p.setParam("pid",  String.valueOf(pid));
-        p.setParam("start", String.valueOf(start));
-        p.setParam("deviceid", GlobalVar.getDeviceID());*//*
-
-        //Log.i("deviceid",GlobalVar.getDeviceID());
-        p.setParam("pid", "0");
-        p.setParam("start","0");
-        p.setParam("deviceid", "3");
-
-
-        *//*p.setParam("subjectid",  String.valueOf(pid));
-        p.setParam("start", String.valueOf(start));
-        p.setParam("deviceid", GlobalVar.getDeviceID());*//*
-
-        LoginAsyncTask task = new LoginAsyncTask();
-        task.execute(p);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.END);
+        return true;
 
     }
+    boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        }
+        super.onBackPressed();
 
 
-*/
-
+    }
 }

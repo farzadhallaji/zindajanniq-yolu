@@ -118,6 +118,10 @@ public class ListeTaxassosHa extends AppCompatActivity {
                         //postgetData(totalList.get(position).getSID(),"0",GlobalVar.getDeviceID());
                         Intent intent = new Intent(ListeTaxassosHa.this,PagePorseshha.class);
                         intent.putExtra("subjectid",totalList.get(position).getSID());
+                        //Log.i("aghjmnbdvfvfbfgbf",totalList.get(position).getSID());
+                        /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                         startActivity(intent);
                     }
 
@@ -180,6 +184,10 @@ public class ListeTaxassosHa extends AppCompatActivity {
             public void onClick(View v) {
                 alertDialog.cancel();
                 //changeui(phone);
+                //intent.putExtra("subjectid",);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
 
 

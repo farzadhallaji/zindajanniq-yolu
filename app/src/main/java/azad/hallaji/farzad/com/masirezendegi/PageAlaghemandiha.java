@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -86,6 +87,9 @@ public class PageAlaghemandiha extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PageAlaghemandiha.this , Pagemenu.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
         });
@@ -235,7 +239,7 @@ public class PageAlaghemandiha extends AppCompatActivity
                 Map<String, String> MyData = new HashMap<String, String>();
                 //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
                 MyData.put("contenttype", "adviser"); //Add the data you'd like to send to the server.
-                MyData.put("userid", "100"); //Add the data you'd like to send to the server.
+                MyData.put("userid", GlobalVar.getUserID()); //Add the data you'd like to send to the server.
                 MyData.put("deviceid", GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
                 return MyData;
             }
@@ -310,7 +314,7 @@ public class PageAlaghemandiha extends AppCompatActivity
                 Map<String, String> MyData = new HashMap<String, String>();
                 //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
                 MyData.put("contenttype", "mainplace"); //Add the data you'd like to send to the server.
-                MyData.put("userid", "100"); //Add the data you'd like to send to the server.
+                MyData.put("userid", GlobalVar.getUserID()); //Add the data you'd like to send to the server.
                 MyData.put("deviceid", GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
                 return MyData;
             }
@@ -363,14 +367,26 @@ public class PageAlaghemandiha extends AppCompatActivity
                 if(typee.equals("مشاور")){
                     Intent intent = new Intent(PageAlaghemandiha.this,ExplainMoshaver.class);
                     intent.putExtra("adviserid",aLagemandi.getID());
+                    finish();
+                    /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                     startActivity(intent);
                 }else if (typee.equals("پرسش")){
                     Intent intent = new Intent(PageAlaghemandiha.this,PasoxePorsesh.class);
                     intent.putExtra("questionid",aLagemandi.getID());
+                    finish();
+                    /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                     startActivity(intent);
                 }else if (typee.equals("مرکز")){
                     Intent intent = new Intent(PageAlaghemandiha.this,ExplainMarkaz.class);
                     intent.putExtra("placeid",aLagemandi.getID());
+                    finish();
+                    /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                     startActivity(intent);
                 }
 
@@ -403,17 +419,29 @@ public class PageAlaghemandiha extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            startActivity(new Intent(this , PageMarakez.class));
+            Intent intent =new Intent(this , PageMarakez.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent(this , PageVirayesh.class));
+            Intent intent =new Intent(this , PageVirayesh.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_login) {
-            startActivity(new Intent(this , PageLogin.class));
+            Intent intent =new Intent(this , PageLogin.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_moshaverin) {
-            startActivity(new Intent(this , PageMoshaverin.class));
+            Intent intent =new Intent(this , PageMoshaverin.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_porseshha) {
-            startActivity(new Intent(this , PagePorseshha.class));
+            Intent intent =new Intent(this , PagePorseshha.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_logout){
-            startActivity(new Intent(this , PageLogout.class));
+            Intent intent =new Intent(this , PageLogout.class);
+            finish();
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -421,7 +449,6 @@ public class PageAlaghemandiha extends AppCompatActivity
         return true;
 
     }
-
 
     private class LoginAsyncTask extends AsyncTask<RequestPackage, String, String> {
 
@@ -453,7 +480,7 @@ public class PageAlaghemandiha extends AppCompatActivity
         RequestParams params = new RequestParams();
 
         params.put("contenttype", "mainplace"); //Add the data you'd like to send to the server.
-        params.put("userid", "100");
+        params.put("userid", GlobalVar.getUserID());
         params.put("deviceid", GlobalVar.getDeviceID());
         client.post("http://telyar.dmedia.ir/webservice/Get_favourite/", params, new AsyncHttpResponseHandler() {
             @Override
@@ -481,4 +508,34 @@ public class PageAlaghemandiha extends AppCompatActivity
 
     }
 
+    boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        }
+        if (doubleBackToExitPressedOnce) {
+            finish();
+        }else {
+            this.doubleBackToExitPressedOnce = true;
+            //Toast.makeText(this, "click again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, 2000);
+
+            Intent intent =new Intent(this , Pagemenu.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+
+        }
+
+    }
 }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -41,6 +42,7 @@ public class AddQuestion extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     String subjectid="0";
+    String questioncategoryquestioncategory="";
     //ProgressBar progressbardahaya;
 
 
@@ -50,9 +52,37 @@ public class AddQuestion extends AppCompatActivity
         setContentView(R.layout.activity_add_question);
         Fabric.with(this, new Crashlytics());
 
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) subjectid = "0";
+            else {
+                subjectid= extras.getString("subjectid");
+                questioncategoryquestioncategory= extras.getString("questioncategory");
+                //Toast.makeText(getApplicationContext(), subjectid, Toast.LENGTH_LONG).show();
+
+            }
+        } else {
+            subjectid= (String) savedInstanceState.getSerializable("subjectid");
+            questioncategoryquestioncategory= (String) savedInstanceState.getSerializable("questioncategory");
+        }
+
         //Toast.makeText(getApplicationContext(), qid, Toast.LENGTH_LONG).show();
         //progressbardahaya=(ProgressBar)findViewById(R.id.progressbardahaya);
         //progressbardahaya.setVisibility(View.GONE);
+
+        ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddQuestion.this , PagePorseshha.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        });
+
+
 
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -65,25 +95,9 @@ public class AddQuestion extends AppCompatActivity
             }
         });
 
-        ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
-        imageView1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AddQuestion.this , Pagemenu.class);
-                startActivity(intent);
-            }
-        });
-
 
         if(GlobalVar.getUserType().equals("adviser") || GlobalVar.getUserType().equals("user")) {
-            Menu nav_Menu = navigationView.getMenu();
-            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
-            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
-            nav_Menu.findItem(R.id.nav_login).setVisible(true);
-            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
-            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
-            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
-        }else{
+
             Menu nav_Menu = navigationView.getMenu();
             nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
             nav_Menu.findItem(R.id.nav_profile).setVisible(true);
@@ -91,6 +105,16 @@ public class AddQuestion extends AppCompatActivity
             nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
             nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
             nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+
+        }else{
+
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_marakez).setVisible(true);
+            nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_moshaverin).setVisible(true);
+            nav_Menu.findItem(R.id.nav_porseshha).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
         }
 
         if(isOnline()){
@@ -103,8 +127,11 @@ public class AddQuestion extends AppCompatActivity
 
                     EditText editText =(EditText) findViewById(R.id.edittextsoal);
                     EditText editText2 =(EditText) findViewById(R.id.edittextOnvanesoal);
-                    requestData(subjectid,editText.getText().toString(),editText2.getText().toString()); //ToDO what is the questioncategory?
-
+                    if(editText.getText().toString().equals("") || editText2.getText().toString().equals("")){
+                        Toast.makeText(getApplicationContext(), "لطفا فیلدهای مربوطه را پر کنید", Toast.LENGTH_LONG).show();
+                    }else {
+                        requestData(subjectid, editText.getText().toString(), editText2.getText().toString()); //ToDO what is the questioncategory?
+                    }
                 }
 
 
@@ -145,8 +172,9 @@ public class AddQuestion extends AppCompatActivity
         p.setParam("deviceid", GlobalVar.getDeviceID());
         p.setParam("subjectid", subjectid);
         p.setParam("text",text);
-        p.setParam("questioncategory", questioncategory);
+        p.setParam("questioncategory",questioncategoryquestioncategory);
         p.setParam("userid", GlobalVar.getUserID());
+        p.setParam("QuestionSubject",questioncategory );
 
         LoginAsyncTask task = new LoginAsyncTask();
         task.execute(p);
@@ -159,17 +187,29 @@ public class AddQuestion extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            startActivity(new Intent(this , PageMarakez.class));
+            Intent intent =new Intent(this , PageMarakez.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent(this , PageVirayesh.class));
+            Intent intent =new Intent(this , PageVirayesh.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_login) {
-            startActivity(new Intent(this , PageLogin.class));
+            Intent intent =new Intent(this , PageLogin.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_moshaverin) {
-            startActivity(new Intent(this , PageMoshaverin.class));
+            Intent intent =new Intent(this , PageMoshaverin.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_porseshha) {
-            startActivity(new Intent(this , PagePorseshha.class));
+            Intent intent =new Intent(this , PagePorseshha.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_logout){
-            startActivity(new Intent(this , PageLogout.class));
+            Intent intent =new Intent(this , PageLogout.class);
+            finish();
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -177,7 +217,6 @@ public class AddQuestion extends AppCompatActivity
         return true;
 
     }
-
     private void updategraf(String message, String m, final String phone) {
 
         LayoutInflater inflater = this.getLayoutInflater();
@@ -208,6 +247,9 @@ public class AddQuestion extends AppCompatActivity
 
                     Intent intent = new Intent(AddQuestion.this,PagePorseshha.class);
                     intent.putExtra("soallllll","1");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
 
                 }
@@ -274,5 +316,15 @@ public class AddQuestion extends AppCompatActivity
         }
 
     }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        }
+        super.onBackPressed();
+    }
+
 
 }

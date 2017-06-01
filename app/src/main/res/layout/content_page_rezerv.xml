@@ -84,7 +84,7 @@
                 android:textSize="15dp"
                 android:layout_gravity="center"
                 android:id="@+id/Titlasdfghgfds"
-                android:text="زمان حضور در مرکز "/>
+                android:text="زمان حضور در مرکز مشاور "/>
 
             <ListView
                 android:layout_width="match_parent"

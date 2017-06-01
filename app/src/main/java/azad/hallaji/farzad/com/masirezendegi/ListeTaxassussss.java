@@ -174,6 +174,9 @@ public class ListeTaxassussss extends AppCompatActivity {
             public void onClick(View v) {
                 alertDialog.cancel();
                 //changeui(phone);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
 
 

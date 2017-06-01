@@ -10,6 +10,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -67,8 +69,8 @@ public class ExplainMarkaz extends TabActivity
     private static AsyncHttpClient client = new AsyncHttpClient();
     //private static AsyncHttpClient client2 = new AsyncHttpClient();
 
+    boolean IsFavourite=false;
     RequestQueue MyRequestQueue;
-    String hanyayo="0";
     String placeid="0";
     ImageView userimg;
     String Adviser;
@@ -77,6 +79,8 @@ public class ExplainMarkaz extends TabActivity
     TextView code_markaz_textview;
     String PicAddress ,Address,AboutMainplace,MainPlaceName= " ";
     ImageView alagestarmarkaz;
+
+    TextView textdarvabasasHusseyin ;
 
     String MainplaceMainplace="";
 
@@ -89,11 +93,16 @@ public class ExplainMarkaz extends TabActivity
 
         alagestarmarkaz = (ImageView)findViewById(R.id.alagestarmarkazasdfgfd);
 
+        textdarvabasasHusseyin=(TextView)findViewById(R.id.textdarvabasasHusseyin);
+
         ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ExplainMarkaz.this , Pagemenu.class);
+                Intent intent = new Intent(ExplainMarkaz.this , PageMarakez.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
         });
@@ -185,6 +194,29 @@ public class ExplainMarkaz extends TabActivity
                 }
             });*/
 
+            ImageView adviser_reserve_img = (ImageView) findViewById(R.id.adviser_reserve_img);
+            adviser_reserve_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final LinearLayout darbareyehuseyin = (LinearLayout)findViewById(R.id.darbareyehuseyin);
+                    darbareyehuseyin.setVisibility(View.VISIBLE);
+                    TextView textTagsHusseyin = (TextView)findViewById(R.id.textTagsHusseyin);
+                    try {
+                        textTagsHusseyin.setText(Address);
+                        ImageView closeafzundanejavab = (ImageView)findViewById(R.id.closeinvisibleimag);
+                        closeafzundanejavab.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                darbareyehuseyin.setVisibility(View.GONE);
+                            }
+                        });
+
+                    }catch (Exception e){
+                        textTagsHusseyin.setText("");
+                    }
+
+                }
+            });
 
         } else {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
@@ -197,23 +229,7 @@ public class ExplainMarkaz extends TabActivity
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-    private void requestData(String subid , int start) {
 
-        RequestPackage p = new RequestPackage();
-        p.setMethod("POST");
-        p.setUri("http://telyar.dmedia.ir/webservice/Set_favourite/");
-
-        p.setParam("deviceid", GlobalVar.getDeviceID());
-        p.setParam("contenttype", "mainplace");
-        p.setParam("status", hanyayo);
-        p.setParam("contentid", placeid);
-        p.setParam("userid",  GlobalVar.getUserID());
-
-
-        LoginAsyncTask task = new LoginAsyncTask();
-        task.execute(p);
-
-    }
 
 
     private class LoginAsyncTask extends AsyncTask<RequestPackage, String, String> {
@@ -253,18 +269,16 @@ public class ExplainMarkaz extends TabActivity
                 try {
                     JSONObject jsonObject= new JSONObject(response);
                     if (jsonObject.getString("Status").equals("1")){
-                        if(hanyayo.equals("1")) {
+                        if(IsFavourite) {
                             alagestarmarkaz.setImageResource(R.drawable.alage1);
-                            hanyayo="-1";
                         }
                         else{
                             alagestarmarkaz.setImageResource(R.drawable.alage0);
-                            hanyayo="1";
                         }
                     }
-                    /*else{
-                        Toast.makeText(getApplicationContext(),jsonObject.getString("Message"), Toast.LENGTH_LONG).show();
-                    }*/
+                    else{
+                        IsFavourite=!IsFavourite;
+                    }
                     Toast.makeText(getApplicationContext(),jsonObject.getString("Message"), Toast.LENGTH_LONG).show();
 
                 } catch (JSONException e) {
@@ -277,13 +291,15 @@ public class ExplainMarkaz extends TabActivity
             }
         }) {
             protected Map<String, String> getParams() {
+                String isfav=  IsFavourite ? "1" :"-1";
+                IsFavourite=!IsFavourite;
+                Log.i("asdgmh,mnbv",isfav);
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("userid",  GlobalVar.getUserID());
                 params.put("deviceid", GlobalVar.getDeviceID());
                 params.put("contenttype", "mainplace");
-                params.put("status", hanyayo);
+                params.put("status", isfav);
                 params.put("contentid", placeid);
-                params.put("contenttype", "mainplace");
                 return params;
             }
         };
@@ -360,6 +376,7 @@ public class ExplainMarkaz extends TabActivity
         RequestParams params = new RequestParams();
         params.put("placeid",  String.valueOf(placeid));
         params.put("deviceid", GlobalVar.getDeviceID());
+        params.put("userid", GlobalVar.getUserID());
         client.post("http://telyar.dmedia.ir/webservice/Get_mainplaceID", params, new AsyncHttpResponseHandler() {
             @Override
             public void onFinish() {
@@ -397,18 +414,18 @@ public class ExplainMarkaz extends TabActivity
 
                     }catch (Exception ignored){}
                     try {
-                        AboutMainplace = jsonObject.getString("AboutMainplace");
+                        AboutMainplace = jsonObject.getString("AboutMainPlace");
+                        textdarvabasasHusseyin.setText(AboutMainplace);
+                        //Log.i("asaasasasasasasads",AboutMainplace );
 
                     }catch (Exception ignored){}
-                    Log.i("asads",PicAddress + Address + AboutMainplace + MainPlaceName);
+                    //Log.i("asaasasasasasasads",PicAddress + Address + AboutMainplace + MainPlaceName);
 
-                    String IsFavourite= jsonObject.getString("IsFavourite");
-                    if(IsFavourite.equals("-1")){
-                        hanyayo="1";
-                        alagestarmarkaz.setImageResource(R.drawable.alage0);
-                    }else if(IsFavourite.equals("1")){
-                        hanyayo="-1";
+                    IsFavourite= jsonObject.getString("IsFavourite").equals("1");
+                    if(IsFavourite){
                         alagestarmarkaz.setImageResource(R.drawable.alage1);
+                    }else {
+                        alagestarmarkaz.setImageResource(R.drawable.alage0);
                     }
 
                     Adviser=jsonObject.getString("Adviser");
@@ -417,15 +434,23 @@ public class ExplainMarkaz extends TabActivity
                     jsonObject1.put("Lat",jsonObject.getString("Lat"));
                     jsonObject1.put("Long",jsonObject.getString("Long"));
                     jsonObject1.put("Name",jsonObject.getString("MainPlaceName"));
-                    jsonObject1.put("MID","0"); // TODO Birdan da
+                    try {
+                        jsonObject1.put("MID",jsonObject.getString("MID"));
 
-                    Log.i("asdfghytrewiuytr",jsonObject1.toString());
+                    }catch (Exception e){
+                        jsonObject1.put("MID","0");
+                    }
+
+                    //Log.i("asdfghytrewiuytrsasas",jsonObject1.toString());
 
 
                     new DownloadImageTask(userimg).execute(PicAddress);
                     name_markaz_textview.setText(MainPlaceName);
-                    taxassose_markaz_textview.setText(Address);
-                    code_markaz_textview.setText(AboutMainplace);
+                    try {
+                        taxassose_markaz_textview.setText("کد مرکز : " +placeid );
+
+                    }catch (Exception e){}
+                    //code_markaz_textview.setText();
                     Log.i("uldu","miu");
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -441,12 +466,18 @@ public class ExplainMarkaz extends TabActivity
                 tabSpec2.setIndicator("نقشه");
                 Intent intent2 =new Intent(ExplainMarkaz.this, MapsActivity2.class);
                 intent2.putExtra("Mainplace",res);
+                /*intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent2.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                 tabSpec2.setContent(intent2);
 
                 tabSpec1.setIndicator("همکاران");
                 Intent intent1 =new Intent(ExplainMarkaz.this, Liste_Moshaverine_Markaz.class);
                 intent1.putExtra("placeid",placeid);
                 intent1.putExtra("Adviser",Adviser);
+                /*intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                 tabSpec1.setContent(intent1);
 
                 tabHost.addTab(tabSpec2);
@@ -485,22 +516,35 @@ public class ExplainMarkaz extends TabActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_marakez) {
-            startActivity(new Intent(this , PageMarakez.class));
+            Intent intent =new Intent(this , PageMarakez.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent(this , PageVirayesh.class));
+            Intent intent =new Intent(this , PageVirayesh.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_login) {
-            startActivity(new Intent(this , PageLogin.class));
+            Intent intent =new Intent(this , PageLogin.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_moshaverin) {
-            startActivity(new Intent(this , PageMoshaverin.class));
+            Intent intent =new Intent(this , PageMoshaverin.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_porseshha) {
-            startActivity(new Intent(this , PagePorseshha.class));
+            Intent intent =new Intent(this , PagePorseshha.class);
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_logout){
-            startActivity(new Intent(this , PageLogout.class));
+            Intent intent =new Intent(this , PageLogout.class);
+            finish();
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.END);
         return true;
+
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -526,6 +570,15 @@ public class ExplainMarkaz extends TabActivity
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        }
+        super.onBackPressed();
     }
 
 }

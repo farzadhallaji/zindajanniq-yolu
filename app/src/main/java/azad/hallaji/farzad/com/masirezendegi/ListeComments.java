@@ -46,7 +46,6 @@ public class ListeComments extends AppCompatActivity {
         Fabric.with(this, new Crashlytics());
 
 
-
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {

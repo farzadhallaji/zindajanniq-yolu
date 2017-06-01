@@ -5,7 +5,7 @@
     android:layoutDirection="ltr"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="azad.hallaji.farzad.com.masirezendegi.PageLiecence">
+    tools:context="azad.hallaji.farzad.com.masirezendegi.ListeLiecence">
 
     <ListView
         android:layout_width="match_parent"
