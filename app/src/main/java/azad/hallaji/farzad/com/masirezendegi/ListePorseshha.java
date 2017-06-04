@@ -242,4 +242,28 @@ public class ListePorseshha extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        //Toast.makeText(getApplicationContext(), "pageporsesh", Toast.LENGTH_LONG).show();
+
+        if(!GlobalVar.porseshdataxassusvirmisham){
+            Intent intent = new Intent(this , Pagemenu.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+            startActivity(intent);
+        }else {
+            Intent intent = new Intent(this , PagePorseshha.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.putExtra("subjectid","0");
+            GlobalVar.porseshdataxassusvirmisham=false;
+            //Toast.makeText(getApplicationContext(), "156156516", Toast.LENGTH_LONG).show();
+
+            startActivity(intent);
+        }
+
+    }
 }

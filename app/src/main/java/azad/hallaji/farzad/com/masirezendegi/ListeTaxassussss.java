@@ -86,6 +86,7 @@ public class ListeTaxassussss extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(ListeTaxassussss.this,PageMoshaverin.class);
                                 intent.putExtra("subjectid",totalList.get(position).getSID());
+                                intent.putExtra("soallllllll","1");
 
                                 Allllert(intent);
                             }
@@ -98,6 +99,8 @@ public class ListeTaxassussss extends AppCompatActivity {
                                 postgetData(s,"0",GlobalVar.getDeviceID());
                                 adapter=new ListeTaxassoshaAdapter(getApplicationContext(),totalList);
                                 listView.setAdapter(adapter);
+                                GlobalVar.moshaverindataxassusvirmisham=true;
+
                             }
                         });
 
@@ -272,4 +275,32 @@ public class ListeTaxassussss extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+        /*Intent intent = new Intent(this , Pagemenu.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);*/
+
+        if(!GlobalVar.moshaverindataxassusvirmisham){
+            Intent intent = new Intent(this , Pagemenu.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+            startActivity(intent);
+        }else {
+            Intent intent = new Intent(this , PageMoshaverin.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.putExtra("subjectid","0");
+            GlobalVar.moshaverindataxassusvirmisham=false;
+            //Toast.makeText(getApplicationContext() , "156156516", Toast.LENGTH_LONG).show();
+
+            startActivity(intent);
+        }
+    }
 }

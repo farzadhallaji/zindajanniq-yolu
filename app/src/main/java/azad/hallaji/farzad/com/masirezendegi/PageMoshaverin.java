@@ -29,6 +29,7 @@ public class PageMoshaverin extends TabActivity
 
     DrawerLayout drawer;
     String subjectid="";
+    int soallllllll=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,21 +40,47 @@ public class PageMoshaverin extends TabActivity
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
-            if(extras == null) subjectid = "0";
-            else {
+            if(extras == null) {
+                subjectid= "0";
+                soallllllll= 1;
+            } else {
                 subjectid= extras.getString("subjectid");
+                String s="10";
+                try {
+                    s=extras.getString("soallllllll");
+                    assert s != null;
+                    soallllllll= s.equals("1") ? 1 :0 ;
+                }catch (Exception ignored){}
             }
-        } else {
-            subjectid= (String) savedInstanceState.getSerializable("subjectid");
         }
 
         ImageView imageView1 = (ImageView) findViewById(R.id.backButton);
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PageMoshaverin.this , Pagemenu.class);
+                /*Intent intent = new Intent(PageMoshaverin.this , Pagemenu.class);
                 finish();
-                startActivity(intent);
+                startActivity(intent);*/
+
+                if(!GlobalVar.moshaverindataxassusvirmisham){
+
+                    Intent intent = new Intent(PageMoshaverin.this , Pagemenu.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
+
+                }else {
+
+                    Intent intent = new Intent(PageMoshaverin.this , PageMoshaverin.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    intent.putExtra("subjectid","0");
+                    GlobalVar.moshaverindataxassusvirmisham=false;
+                    //Toast.makeText(getApplicationContext(), "156156516", Toast.LENGTH_LONG).show();
+                    startActivity(intent);
+                }
             }
         });
 
@@ -117,7 +144,7 @@ public class PageMoshaverin extends TabActivity
         tabHost.addTab(tabSpec1);
         tabHost.addTab(tabSpec2);
 
-        tabHost.setCurrentTab(1);
+        tabHost.setCurrentTab(soallllllll);
 
     }
 
@@ -182,7 +209,11 @@ public class PageMoshaverin extends TabActivity
         if (drawer.isDrawerOpen(GravityCompat.END)) {
             drawer.closeDrawer(GravityCompat.END);
         }
-        super.onBackPressed();
+        Intent intent = new Intent(this , Pagemenu.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
 
     }
 

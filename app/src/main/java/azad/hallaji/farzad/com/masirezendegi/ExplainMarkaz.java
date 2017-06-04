@@ -578,7 +578,17 @@ public class ExplainMarkaz extends TabActivity
         if (drawer.isDrawerOpen(GravityCompat.END)) {
             drawer.closeDrawer(GravityCompat.END);
         }
-        super.onBackPressed();
+        //super.onBackPressed();
+        /*Intent intent = new Intent(ExplainMarkaz.this , PageMarakez.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);*/
+
+        Intent intent =new Intent(this , PageMarakez.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        finish();
+        startActivity(intent);
     }
 
 }

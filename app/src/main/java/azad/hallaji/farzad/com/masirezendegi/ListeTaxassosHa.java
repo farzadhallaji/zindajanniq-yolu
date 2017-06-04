@@ -85,9 +85,6 @@ public class ListeTaxassosHa extends AppCompatActivity {
                     //Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
                     if(totalList.get(position).getHasChild().equals("1")){
 
-
-
-
                         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                         builder.setMessage("آیا میخواهید خود موضوع را انتخاب کنید یا از بین زیر شاخه های آن؟");
 
@@ -96,6 +93,7 @@ public class ListeTaxassosHa extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(ListeTaxassosHa.this,PagePorseshha.class);
                                 intent.putExtra("subjectid",totalList.get(position).getSID());
+                                intent.putExtra("soallllllll","1");
 
                                 Allllert(intent);
                             }
@@ -108,6 +106,8 @@ public class ListeTaxassosHa extends AppCompatActivity {
                                 postgetData(s,"0",GlobalVar.getDeviceID());
                                 adapter=new ListeTaxassoshaAdapter(getApplicationContext(),totalList);
                                 listView.setAdapter(adapter);
+                                //Toast.makeText(getApplicationContext(), view.getLastVisiblePosition(), Toast.LENGTH_LONG).show();
+                                GlobalVar.porseshdataxassusvirmisham=true;
                             }
                         });
 
@@ -315,4 +315,25 @@ public class ListeTaxassosHa extends AppCompatActivity {
 
 */
 
+    @Override
+    public void onBackPressed() {
+        if(!GlobalVar.porseshdataxassusvirmisham){
+            Intent intent = new Intent(this , Pagemenu.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+            startActivity(intent);
+        }else {
+            Intent intent = new Intent(this , PagePorseshha.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.putExtra("subjectid","0");
+            GlobalVar.porseshdataxassusvirmisham=false;
+            //Toast.makeText(getApplicationContext(), "156156516", Toast.LENGTH_LONG).show();
+
+            startActivity(intent);
+        }
+    }
 }

@@ -14,6 +14,10 @@ public class GlobalVar {
     private static String PicAddress="";
     private static String UserID="100";
 
+
+    public static boolean porseshdataxassusvirmisham=false;
+    public static boolean moshaverindataxassusvirmisham=false;
+
     public static String getUserType() {
         return UserType;
     }

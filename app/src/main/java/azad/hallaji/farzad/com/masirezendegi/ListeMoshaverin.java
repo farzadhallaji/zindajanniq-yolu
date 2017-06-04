@@ -240,5 +240,14 @@ public class ListeMoshaverin extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
 
+        Intent intent = new Intent(this , Pagemenu.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
+
+    }
 }

@@ -1,6 +1,7 @@
 package azad.hallaji.farzad.com.masirezendegi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -102,4 +103,13 @@ public class ListeComments extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent(this , PageMoshaverin.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
+    }
 }

@@ -3,6 +3,8 @@ package azad.hallaji.farzad.com.masirezendegi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -15,6 +17,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -41,6 +44,11 @@ import com.crashlytics.android.Crashlytics;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,7 +68,7 @@ public class PageVirayesh extends AppCompatActivity
     EditText namexanivadeEdit , shomareteleEdit , emailEdit;
     EditText barchasbEdit  , costperminEdit;
     EditText maxtimeEdit , sexEdit , dialtecEdit , aboutmeEdit;
-
+    String selectedImageString ="";
     TextView sihhhhh1,sihhhhh2;
 
     CircleImageView imageviewuserVirayesh;
@@ -227,7 +235,7 @@ public class PageVirayesh extends AppCompatActivity
 
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        switch(requestCode) {
+        /*switch(requestCode) {
             case 0:
                 if(resultCode == RESULT_OK){
                     selectedImage = imageReturnedIntent.getData();
@@ -241,9 +249,49 @@ public class PageVirayesh extends AppCompatActivity
                     imageviewuserVirayesh.setImageURI(selectedImage);
                 }
                 break;
+        }*/
+
+        if (resultCode == RESULT_OK) {
+            final Uri imageUri = imageReturnedIntent.getData();
+            InputStream imageStream = null;
+            try {
+                imageStream = getContentResolver().openInputStream(imageUri);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+            imageviewuserVirayesh.setImageURI(imageUri);
+            selectedImageString = encodeImage(selectedImage);
         }
     }
 
+    private String encodeImage(Bitmap bm)
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[] b = baos.toByteArray();
+        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+        return encImage;
+    }
+    private String encodeImage(String path)
+    {
+        File imagefile = new File(path);
+        FileInputStream fis = null;
+        try{
+            fis = new FileInputStream(imagefile);
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+        Bitmap bm = BitmapFactory.decodeStream(fis);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[] b = baos.toByteArray();
+        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+        //Base64.de
+        return encImage;
+
+    }
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -284,7 +332,7 @@ public class PageVirayesh extends AppCompatActivity
         dialtecEdit=(EditText)findViewById(R.id.dialtecEdit);
         aboutmeEdit=(EditText)findViewById(R.id.aboutmeEdit);
         imageviewuserVirayesh=(CircleImageView)findViewById(R.id.imageviewuserVirayesh);
-
+        maxtimeEdit=(EditText)findViewById(R.id.maxtimeEdit);
         barchasbEdit.setVisibility(View.GONE);
         costperminEdit.setVisibility(View.GONE);
         maxtimeEdit.setVisibility(View.GONE);
@@ -317,14 +365,16 @@ public class PageVirayesh extends AppCompatActivity
         try {
             p.setParam("userid", GlobalVar.getUserID());
         }catch (Exception ignored){
-            p.setParam("userid","100");
+            p.setParam("userid","");
 
         }
         try {
             p.setParam("familyname",namexanivadeEdit.getText().toString());
+            p.setParam("name",namexanivadeEdit.getText().toString());
 
         }catch (Exception ignored){
-            p.setParam("familyname","");
+            p.setParam("familyname","");  //TODO jofaran
+            p.setParam("name","");
         }
         try {
             p.setParam("email",emailEdit.getText().toString());
@@ -345,10 +395,11 @@ public class PageVirayesh extends AppCompatActivity
 
         }
         try {
-            p.setParam("picaddress",selectedImage.toString());
 
+            p.setParam("pic",selectedImageString);
+            //Log.i("asssasasa",selectedImageString);
         }catch (Exception ignored){
-            p.setParam("picaddress","");
+            p.setParam("pic","");
 
         }
         try {
@@ -373,10 +424,19 @@ public class PageVirayesh extends AppCompatActivity
 
         }
         try {
-
             p.setParam("advisermaxtim",maxtimeEdit.getText().toString());
         }catch (Exception ignored){
             p.setParam("advisermaxtim","");
+        }
+        try {
+            p.setParam("license","");
+        }catch (Exception ignored){
+            p.setParam("license","");
+        }
+        try {
+            p.setParam("tag",barchasbEdit.getText().toString());
+        }catch (Exception ignored){
+            p.setParam("tag","");
         }
 
 

@@ -242,6 +242,8 @@ public class PageLogin extends AppCompatActivity
 
         editText.setText("");
         textView.setText("لطفا کد تایید را وارد نمایید");
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.GONE);
         editText.setHint("کد تایید");
         button.setText("ارسال کد");
         button.setOnClickListener(new View.OnClickListener() {

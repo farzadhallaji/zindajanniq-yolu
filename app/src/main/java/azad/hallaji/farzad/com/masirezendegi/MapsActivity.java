@@ -264,7 +264,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onBackPressed() {
 
-        if (doubleBackToExitPressedOnce) {
+
+        Intent intent = new Intent(this , PageMoshaverin.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
+
+        /*if (doubleBackToExitPressedOnce) {
             finish();
         }else {
 
@@ -283,9 +290,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivity(intent);
+            startActivity(intent);}*/
 
-        }
+
     }
 
 }

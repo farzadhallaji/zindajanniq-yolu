@@ -62,11 +62,13 @@ public class namhansiTaxassus extends AppCompatActivity
     int tempcount=0;
     Activity activity;
 
+    boolean geyidmahuzune=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.namhansi);
-
+        geyidmahuzune=false;
         Fabric.with(this, new Crashlytics());
 
 
@@ -74,13 +76,17 @@ public class namhansiTaxassus extends AppCompatActivity
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(namhansiTaxassus.this , PageMoshaverin.class);
-                /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
-                startActivity(intent);
+                /*Intent intent = new Intent(namhansiTaxassus.this , PagePorseshha.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);*/
+
+                masalanharfayeto();
+
             }
         });
+
 
 
 
@@ -148,8 +154,8 @@ public class namhansiTaxassus extends AppCompatActivity
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
                                 intent.putExtra("subjectid",totalList.get(position).getSID());
                                 intent.putExtra("questioncategory",totalList.get(position).getName());
-
                                 Allllert(intent);
+                                geyidmahuzune=false;
                             }
                         });
                         builder.setNegativeButton("از بین زیرشاخه ها ", new DialogInterface.OnClickListener() {
@@ -160,6 +166,7 @@ public class namhansiTaxassus extends AppCompatActivity
                                 postgetData(s,"0",GlobalVar.getDeviceID());
                                 adapter=new ListeTaxassoshaAdapter(getApplicationContext(),totalList);
                                 listView.setAdapter(adapter);
+                                geyidmahuzune=true;
                             }
                         });
 
@@ -373,6 +380,12 @@ public class namhansiTaxassus extends AppCompatActivity
         return true;
 
     }
+
+    public void masalanharfayeto(){
+        this.onBackPressed();
+    }
+
+
     boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {
@@ -380,7 +393,17 @@ public class namhansiTaxassus extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.END)) {
             drawer.closeDrawer(GravityCompat.END);
         }
-        super.onBackPressed();
+        if(geyidmahuzune){
+
+            Intent intent = new Intent(this,namhansiTaxassus.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+
+        }else {
+            super.onBackPressed();
+        }
 
 
     }

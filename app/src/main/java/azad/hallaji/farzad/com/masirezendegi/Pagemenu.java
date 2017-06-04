@@ -204,6 +204,7 @@ public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public void onBackPressed()
     {
+        Toast toast = Toast.makeText(getBaseContext(), "برای خروج دوباره کلیک کنید.", Toast.LENGTH_SHORT);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.END)) {
             drawer.closeDrawer(GravityCompat.END);
@@ -212,10 +213,11 @@ public class Pagemenu extends AppCompatActivity implements NavigationView.OnNavi
         if (oldCurrentTimeMillis + time_interval > System.currentTimeMillis())
         {
             finish();
+            toast.cancel();
 
         }
         else {
-            Toast.makeText(getBaseContext(), "برای خروج دوباره کلیک کنید.", Toast.LENGTH_SHORT).show();
+            toast.show();
         }
         oldCurrentTimeMillis = System.currentTimeMillis();
     }

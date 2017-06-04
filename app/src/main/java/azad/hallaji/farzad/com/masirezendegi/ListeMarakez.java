@@ -164,7 +164,7 @@ public class ListeMarakez extends AppCompatActivity {
                             Lat=tmp.getString("Lat");
                             Long=tmp.getString("Long");
                             Distance=tmp.getString("Distance");
-                            Log.i("asdfghfgfvdcynbfv",result);
+                            //Log.i("asdfghfgfvdcynbfv",result);
                             Markaz markaz = new Markaz(Lat,  Long,  PicAddress,  MID,  Address,
                                     AboutMainPlace,  MainPlaceName, Telephone,  Distance);
                             markazs.add(markaz);
@@ -246,5 +246,14 @@ public class ListeMarakez extends AppCompatActivity {
         return location;
     }
 
+    @Override
+    public void onBackPressed() {
 
+        Intent intent = new Intent(this , Pagemenu.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
+
+    }
 }
