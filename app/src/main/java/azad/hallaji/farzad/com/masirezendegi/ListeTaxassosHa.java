@@ -118,6 +118,7 @@ public class ListeTaxassosHa extends AppCompatActivity {
                         //postgetData(totalList.get(position).getSID(),"0",GlobalVar.getDeviceID());
                         Intent intent = new Intent(ListeTaxassosHa.this,PagePorseshha.class);
                         intent.putExtra("subjectid",totalList.get(position).getSID());
+                        intent.putExtra("soallllllll","1");
                         //Log.i("aghjmnbdvfvfbfgbf",totalList.get(position).getSID());
                         /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -224,7 +225,7 @@ public class ListeTaxassosHa extends AppCompatActivity {
             public void onResponse(String response) {
                 //This code is executed if the server responds, whether or not the response contains data.
                 //The String 'response' contains the server's response.
-                Log.i("ahsdfghmad",response);
+                Log.i("aladfffgree",response);
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
                 updatelistview(response);
 
@@ -246,6 +247,7 @@ public class ListeTaxassosHa extends AppCompatActivity {
                 MyData.put("pid", pid); //Add the data you'd like to send to the server.
                 MyData.put("start", start); //Add the data you'd like to send to the server.
                 MyData.put("deviceid",deviceid); //Add the data you'd like to send to the server.
+                Log.i("aladfffgree",MyData.toString());
                 return MyData;
             }
         };

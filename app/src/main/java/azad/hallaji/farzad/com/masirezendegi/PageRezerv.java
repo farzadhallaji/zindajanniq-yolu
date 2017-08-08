@@ -154,13 +154,15 @@ public class PageRezerv extends AppCompatActivity
         params.put("adviserid",adviseridm); //Add the data you'd like to send to the server.
         params.put("placeid", placeid);
         params.put("deviceid", GlobalVar.getDeviceID());
+        Log.i("iokumjnhb",params.toString());
+
         client.post("http://telyar.dmedia.ir/webservice/Show_adviser_time/", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
 
                     final List<Rezervable> rezervableList=new ArrayList<>();
-                    Log.i("wertyuio",new String(responseBody));
+                    Log.i("iokumjnhb",new String(responseBody));
                     JSONArray jsonArray = new JSONArray(new String(responseBody));
 
                     for(int i = 0 ; i<jsonArray.length() ; i++){
@@ -241,6 +243,7 @@ public class PageRezerv extends AppCompatActivity
         params.put("placeid", placeID);
         params.put("userid", GlobalVar.getUserID());
         params.put("deviceid", GlobalVar.getDeviceID());
+        Log.i("iokumjnhb",params.toString());
         /*params.put("adviserid","177"); //Add the data you'd like to send to the server.
         params.put("rid","1"); //Add the data you'd like to send to the server.
         params.put("placeid", "2");
@@ -252,7 +255,7 @@ public class PageRezerv extends AppCompatActivity
                 try {
 
                     final List<Rezervable> rezervableList=new ArrayList<>();
-                    Log.i("wertyuio",new String(responseBody));
+                    Log.i("iokumjnhb",new String(responseBody));
 
 
                 } catch (Exception e) {

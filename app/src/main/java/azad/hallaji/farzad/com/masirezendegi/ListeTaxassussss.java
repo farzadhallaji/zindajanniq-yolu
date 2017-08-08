@@ -113,6 +113,7 @@ public class ListeTaxassussss extends AppCompatActivity {
                         //postgetData(totalList.get(position).getSID(),"0",GlobalVar.getDeviceID());
                         Intent intent = new Intent(ListeTaxassussss.this,PageMoshaverin.class);
                         intent.putExtra("subjectid",totalList.get(position).getSID());
+                        intent.putExtra("soallllllll","1");
 
                         Allllert(intent);
                     }

@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,6 +73,7 @@ public class PageVirayesh extends AppCompatActivity
     TextView sihhhhh1,sihhhhh2;
 
     CircleImageView imageviewuserVirayesh;
+    private RequestQueue MyRequestQueue;
 
 
     @Override
@@ -81,12 +83,10 @@ public class PageVirayesh extends AppCompatActivity
 
         Fabric.with(this, new Crashlytics());
 
-
         TextView virayeshTextinToolbar=(TextView) findViewById(R.id.virayeshTextinToolbar);
         final TextView zaxireTextinToolbar=(TextView) findViewById(R.id.zaxireTextinToolbar);
         init();
         ableall(false);
-
 
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -151,7 +151,7 @@ public class PageVirayesh extends AppCompatActivity
                         zaxireTextinToolbar.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                requestData();
+                                postgetData();
                             }
                         });
                     }
@@ -200,23 +200,15 @@ public class PageVirayesh extends AppCompatActivity
                         zaxireTextinToolbar.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                requestData();
+                                postgetData();
                             }
                         });
                     }
                 });
-
-
-
             }
-
-
         }else{
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
         }
-
-
-
     }
 
     private void ableall(boolean b) {
@@ -235,21 +227,6 @@ public class PageVirayesh extends AppCompatActivity
 
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        /*switch(requestCode) {
-            case 0:
-                if(resultCode == RESULT_OK){
-                    selectedImage = imageReturnedIntent.getData();
-                    imageviewuserVirayesh.setImageURI(selectedImage);
-                }
-
-                break;
-            case 1:
-                if(resultCode == RESULT_OK){
-                    selectedImage = imageReturnedIntent.getData();
-                    imageviewuserVirayesh.setImageURI(selectedImage);
-                }
-                break;
-        }*/
 
         if (resultCode == RESULT_OK) {
             final Uri imageUri = imageReturnedIntent.getData();
@@ -262,6 +239,9 @@ public class PageVirayesh extends AppCompatActivity
             final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
             imageviewuserVirayesh.setImageURI(imageUri);
             selectedImageString = encodeImage(selectedImage);
+            Log.i("asadsddfghghjhj",selectedImageString);
+
+
         }
     }
 
@@ -296,16 +276,6 @@ public class PageVirayesh extends AppCompatActivity
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
-    /*@Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.END)) {
-            drawer.closeDrawer(GravityCompat.END);
-        } else {
-            super.onBackPressed();
-        }
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -342,7 +312,6 @@ public class PageVirayesh extends AppCompatActivity
 
     }
 
-
     private boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -351,132 +320,6 @@ public class PageVirayesh extends AppCompatActivity
             return true;
         }
         return false;
-    }
-
-    private void requestData() {
-
-        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
-        progressbarsandaha.setVisibility(View.VISIBLE);
-
-        RequestPackage p = new RequestPackage();
-        p.setMethod("POST");
-        p.setUri("http://telyar.dmedia.ir/webservice/Edit_profile");
-
-        try {
-            p.setParam("userid", GlobalVar.getUserID());
-        }catch (Exception ignored){
-            p.setParam("userid","");
-
-        }
-        try {
-            p.setParam("familyname",namexanivadeEdit.getText().toString());
-            p.setParam("name",namexanivadeEdit.getText().toString());
-
-        }catch (Exception ignored){
-            p.setParam("familyname","");  //TODO jofaran
-            p.setParam("name","");
-        }
-        try {
-            p.setParam("email",emailEdit.getText().toString());
-
-        }catch (Exception ignored){
-            p.setParam("email","");
-        }
-        try {
-            p.setParam("gender", sexEdit.getText().toString());
-        }catch (Exception ignored){
-            p.setParam("gender", "");
-        }
-        try {
-            p.setParam("telephone",shomareteleEdit.getText().toString());
-
-        }catch (Exception ignored){
-            p.setParam("telephone","");
-
-        }
-        try {
-
-            p.setParam("pic",selectedImageString);
-            //Log.i("asssasasa",selectedImageString);
-        }catch (Exception ignored){
-            p.setParam("pic","");
-
-        }
-        try {
-            p.setParam("aboutme",aboutmeEdit.getText().toString());
-
-        }catch (Exception ignored){
-            p.setParam("aboutme","");
-        }
-        try {
-            p.setParam("costpermin",costperminEdit.getText().toString());
-
-        }catch (Exception ignored){
-
-            p.setParam("costpermin","");
-
-        }
-        try {
-            p.setParam("dialect",dialtecEdit.getText().toString());
-
-        }catch (Exception ignored){
-            p.setParam("dialect","");
-
-        }
-        try {
-            p.setParam("advisermaxtim",maxtimeEdit.getText().toString());
-        }catch (Exception ignored){
-            p.setParam("advisermaxtim","");
-        }
-        try {
-            p.setParam("license","");
-        }catch (Exception ignored){
-            p.setParam("license","");
-        }
-        try {
-            p.setParam("tag",barchasbEdit.getText().toString());
-        }catch (Exception ignored){
-            p.setParam("tag","");
-        }
-
-
-        LoginAsyncTask task = new LoginAsyncTask();
-        task.execute(p);
-
-    }
-
-
-    private class LoginAsyncTask extends AsyncTask<RequestPackage, String, String> {
-
-
-        @Override
-        protected String doInBackground(RequestPackage... params) {
-            String content = HttpManager.getData(params[0]);
-            return content;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            //Toast.makeText(getApplicationContext(), "0"+result+"0", Toast.LENGTH_LONG).show();
-
-            //Log.i("resuuuuuul",result);
-
-            try {
-                JSONObject jsonObject =new JSONObject(result);
-                jostaruzunueymahziba(jsonObject.getString("Message"));
-
-                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
-                progressbarsandaha.setVisibility(View.INVISIBLE);
-                //Toast.makeText(getApplicationContext(),jsonObject.getString("Message"), Toast.LENGTH_LONG).show();
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-        }
-
     }
 
     private void jostaruzunueymahziba(String message) {
@@ -500,8 +343,8 @@ public class PageVirayesh extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 alertDialog.cancel();
-                Intent intent = new Intent(PageVirayesh.this,PageVirayesh.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(PageVirayesh.this,PageVirayesh.class);
+                startActivity(intent);*/
 
             }
         });
@@ -528,14 +371,14 @@ public class PageVirayesh extends AppCompatActivity
         ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
         progressbarsandaha.setVisibility(View.VISIBLE);
 
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
+        MyRequestQueue = Volley.newRequestQueue(this);
         String url = "http://telyar.dmedia.ir/webservice/Get_profile/";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //This code is executed if the server responds, whether or not the response contains data.
                 //The String 'response' contains the server's response.
-                Log.i("aladfffgree", response);
+                Log.i("dfvflgnkjdfd", response);
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
 
@@ -592,6 +435,7 @@ public class PageVirayesh extends AppCompatActivity
                 Map<String, String> MyData = new HashMap<String, String>();
                 //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
                 MyData.put("userid", GlobalVar.getUserID()); //Add the data you'd like to send to the server.
+                Log.i("dfvflgnkjdfd",MyData.toString());
                 return MyData;
             }
         };
@@ -636,4 +480,139 @@ public class PageVirayesh extends AppCompatActivity
 
     }
 
+    void postgetData(){
+
+
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
+
+        MyRequestQueue = Volley.newRequestQueue(this);
+
+        String url = "http://telyar.dmedia.ir/webservice/Edit_profile/";
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+
+                Log.i("dfvflgnkjdfd",response);
+
+
+                try {
+                    JSONObject jsonObject =new JSONObject(response);
+                    jostaruzunueymahziba(jsonObject.getString("Message"));
+
+                    //Toast.makeText(getApplicationContext(),jsonObject.getString("Message"), Toast.LENGTH_LONG).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                //Log.i("aladffgree", response);
+
+
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
+
+            }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //This code is executed if there is an error.
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> p = new HashMap<String, String>();
+                try {
+                    p.put("name",namexanivadeEdit.getText().toString());
+                    //p.setParam("name",namexanivadeEdit.getText().toString());
+
+                }catch (Exception ignored){
+                    //p.setParam("familyname","");  //
+                    p.put("name"," ");
+                }
+                p.put("userid", GlobalVar.getUserID());
+
+
+                try {
+                    p.put("email",emailEdit.getText().toString());
+
+                }catch (Exception ignored){
+                    p.put("email"," ");
+                }
+                try {
+                    p.put("gender", sexEdit.getText().toString());
+                }catch (Exception ignored){
+                    p.put("gender", " ");
+                }
+                try {
+                    p.put("telephone",shomareteleEdit.getText().toString());
+
+                }catch (Exception ignored){
+                    p.put("telephone"," ");
+
+                }
+                try {
+
+                    p.put("pic",selectedImageString);
+                    //Log.i("asssasasa",selectedImageString);
+                }catch (Exception ignored){
+                    p.put("pic"," ");
+
+                }
+                try {
+                    p.put("aboutme",aboutmeEdit.getText().toString());
+
+                }catch (Exception ignored){
+                    p.put("aboutme"," ");
+                }
+                try {
+                    p.put("costpermin",costperminEdit.getText().toString());
+
+                }catch (Exception ignored){
+
+                    p.put("costpermin","");
+
+                }
+                try {
+                    p.put("dialect",dialtecEdit.getText().toString());
+
+                }catch (Exception ignored){
+                    p.put("dialect","");
+
+                }
+                try {
+                    p.put("advisermaxtim",maxtimeEdit.getText().toString());
+                }catch (Exception ignored){
+                    p.put("advisermaxtim"," ");
+                }
+                try {
+                    p.put("license"," ");
+                }catch (Exception ignored){
+                    p.put("license"," ");
+                }
+                try {
+                    p.put("tag",barchasbEdit.getText().toString());
+                }catch (Exception ignored){
+                    p.put("tag"," ");
+                }
+                //Log.i("aladffgree", "gedir ba");
+
+                Log.i("dfvflgnkjdfd",p.toString());
+
+
+                return p;
+            }
+
+            @Override
+            protected void onFinish() {
+
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
+
+            }
+        };
+
+        MyRequestQueue.add(MyStringRequest);
+    }
 }

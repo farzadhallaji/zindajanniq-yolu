@@ -17,6 +17,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
 
 import org.json.JSONArray;
@@ -24,13 +30,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import azad.hallaji.farzad.com.masirezendegi.helper.ListeMoshaverinAdapter;
 import azad.hallaji.farzad.com.masirezendegi.helper.ListePasoxhayeksoalAdapter;
 import azad.hallaji.farzad.com.masirezendegi.helper.ListePorseshhaAdapter;
 import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
 import azad.hallaji.farzad.com.masirezendegi.internet.RequestPackage;
 import azad.hallaji.farzad.com.masirezendegi.model.GlobalVar;
+import azad.hallaji.farzad.com.masirezendegi.model.Moshaver;
 import azad.hallaji.farzad.com.masirezendegi.model.Question;
 import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -43,6 +53,7 @@ public class ListePorseshha extends AppCompatActivity {
     List<Question> totalList=new ArrayList<>();
     int tempcount=0;
     String subjectid="";
+    private RequestQueue MyRequestQueue;
 
 
     @Override
@@ -73,7 +84,7 @@ public class ListePorseshha extends AppCompatActivity {
 
         if (isOnline()) {
 
-           requestData(subjectid,0);
+           method2(subjectid,"0");
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -106,7 +117,7 @@ public class ListePorseshha extends AppCompatActivity {
 
                         }else{
                             listView.addFooterView(ftView);
-                            requestData(subjectid,((totalList.size()/20+1)*20));
+                            method2(subjectid,String.valueOf((totalList.size()/20+1)*20));
                         }
                     }
 
@@ -163,84 +174,81 @@ public class ListePorseshha extends AppCompatActivity {
         return false;
     }
 
-    private void requestData(String pid , int start) {
+
+    void method2(final String subid ,final String start) {
 
         ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
         progressbarsandaha.setVisibility(View.VISIBLE);
 
-        RequestPackage p = new RequestPackage();
-        p.setMethod("POST");
-        //p.setUri("http://telyar.dmedia.ir/webservice/Get_all_subject");
+        MyRequestQueue = Volley.newRequestQueue(this);
+        String url = "http://telyar.dmedia.ir/webservice/get_all_question/";
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //This code is executed if the server responds, whether or not the response contains data.
+                //The String 'response' contains the server's response.
+                Log.i("aladfffgree", response);
+                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
 
-        p.setUri("http://telyar.dmedia.ir/webservice/get_all_question");
+                List<Question> templist=new ArrayList<>();
 
-        p.setParam("subjectid", pid);
-        p.setParam("start", String.valueOf(start));
-        p.setParam("deviceid", GlobalVar.getDeviceID());
+                try {
 
+                    JSONArray jsonArray = new JSONArray(response);
 
+                    for(int i= 0 ; i<jsonArray.length() ; i++){
+                        JSONObject s = (JSONObject) jsonArray.get(i);
+                        Question temp = new Question(s.get("QID").toString(),s.get("SubjectID").toString(),
+                                s.get("QuestionSubject").toString(),s.get("Text").toString()
+                                ,s.get("RegTime").toString(),s.get("AnswerCount").toString());
+                        temp.setDisLikeCount(s.getString("DisLikeCount"));
+                        temp.setLikeCount(s.getString("LikeCount"));
+                        templist.add(temp);
+                    }
+                    totalList.addAll(templist);
 
-        LoginAsyncTask task = new LoginAsyncTask();
-        task.execute(p);
+                    Log.i("lisrtt",templist.toString());
 
-    }
-
-
-    private class LoginAsyncTask extends AsyncTask<RequestPackage, String, String> {
-
-
-        @Override
-        protected String doInBackground(RequestPackage... params) {
-            String content = HttpManager.getData(params[0]);
-            return content;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            //Toast.makeText(getApplicationContext(), "0"+result+"0", Toast.LENGTH_LONG).show();
-            Log.i("qwertyuiuhg",result);
+                    if(tempcount==0){
+                        adapter =new ListePorseshhaAdapter(ListePorseshha.this,totalList);
+                        listView.setAdapter(adapter);
+                        tempcount++;
+                    }
+                    adapter.notifyDataSetChanged();
+                    listView.removeFooterView(ftView);
 
 
-            List<Question> templist=new ArrayList<>();
 
-            try {
-
-                JSONArray jsonArray = new JSONArray(result);
-
-                for(int i= 0 ; i<jsonArray.length() ; i++){
-                    JSONObject s = (JSONObject) jsonArray.get(i);
-                    Question temp = new Question(s.get("QID").toString(),s.get("SubjectID").toString(),
-                            s.get("QuestionSubject").toString(),s.get("Text").toString()
-                            ,s.get("RegTime").toString(),s.get("AnswerCount").toString());
-                    temp.setDisLikeCount(s.getString("DisLikeCount"));
-                    temp.setLikeCount(s.getString("LikeCount"));
-                    templist.add(temp);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                totalList.addAll(templist);
 
-                Log.i("lisrtt",templist.toString());
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
 
-                if(tempcount==0){
-                    adapter =new ListePorseshhaAdapter(ListePorseshha.this,totalList);
-                    listView.setAdapter(adapter);
-                    tempcount++;
-                }
-                adapter.notifyDataSetChanged();
-                listView.removeFooterView(ftView);
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //This code is executed if there is an error.
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
+                MyData.put("subjectid", subid);
+                MyData.put("start", String.valueOf(start));
+                MyData.put("deviceid", GlobalVar.getDeviceID());
 
-            ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
-            progressbarsandaha.setVisibility(View.INVISIBLE);
-
-        }
-
+                //Toast.makeText(getApplicationContext(), subid, Toast.LENGTH_SHORT).show();
+                Log.i("aladfffgree",MyData.toString());
+                return MyData;
+            }
+        };
+        MyRequestQueue.add(MyStringRequest);
     }
+
 
     @Override
     public void onBackPressed() {

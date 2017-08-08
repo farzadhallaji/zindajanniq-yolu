@@ -123,7 +123,7 @@ public class ListeMarakez extends AppCompatActivity {
         p.setParam("deviceid", GlobalVar.getDeviceID());
 
 
-
+        Log.i("qwertyuio",p.getParams().toString());
         LoginAsyncTask task = new LoginAsyncTask();
         task.execute(p);
 
@@ -145,6 +145,8 @@ public class ListeMarakez extends AppCompatActivity {
             /*Log.i("ahmadigum","0000ahmadigum");
             Log.i("ahmadigum",result);
 */
+            Log.i("qwertyuio",result);
+
             try {
                 JSONArray jsonArray = new JSONArray(result);
                 JSONObject tmp;

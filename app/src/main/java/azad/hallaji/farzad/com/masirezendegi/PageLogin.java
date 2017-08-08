@@ -158,7 +158,7 @@ public class PageLogin extends AppCompatActivity
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
                     JSONObject jsonObject = new JSONObject(new String(responseBody));
-
+                    Log.i("'oliknhbvc",jsonObject.toString());
                     String Message = jsonObject.getString("Message");
                     String s= jsonObject.getString("Status");
 
@@ -264,13 +264,14 @@ public class PageLogin extends AppCompatActivity
         params.put("phone_number",phone); //Add the data you'd like to send to the server.
         params.put("regcode",editText.getText().toString()); //Add the data you'd like to send to the server.
         params.put("deviceid", GlobalVar.getDeviceID());
+        Log.i("asdvdfgfgbghngh",params.toString());
         client.post("http://telyar.dmedia.ir/webservice/check_registration_code/", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
                     JSONObject jsonObject = new JSONObject(new String(responseBody));
 
-                    Log.i("974861329+46",new String(responseBody));
+                    Log.i("asdvdfgfgbghngh",jsonObject.toString());
                     ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
                     progressbarsandaha.setVisibility(View.INVISIBLE);
 

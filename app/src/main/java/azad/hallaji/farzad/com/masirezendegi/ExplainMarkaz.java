@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -201,6 +202,7 @@ public class ExplainMarkaz extends TabActivity
                     final LinearLayout darbareyehuseyin = (LinearLayout)findViewById(R.id.darbareyehuseyin);
                     darbareyehuseyin.setVisibility(View.VISIBLE);
                     TextView textTagsHusseyin = (TextView)findViewById(R.id.textTagsHusseyin);
+                    textTagsHusseyin.setMovementMethod(new ScrollingMovementMethod());
                     try {
                         textTagsHusseyin.setText(Address);
                         ImageView closeafzundanejavab = (ImageView)findViewById(R.id.closeinvisibleimag);
@@ -269,18 +271,18 @@ public class ExplainMarkaz extends TabActivity
                 try {
                     JSONObject jsonObject= new JSONObject(response);
                     if (jsonObject.getString("Status").equals("1")){
+                        IsFavourite=!IsFavourite;
+
                         if(IsFavourite) {
+
                             alagestarmarkaz.setImageResource(R.drawable.alage1);
                         }
                         else{
                             alagestarmarkaz.setImageResource(R.drawable.alage0);
                         }
                     }
-                    else{
-                        IsFavourite=!IsFavourite;
-                    }
-                    Toast.makeText(getApplicationContext(),jsonObject.getString("Message"), Toast.LENGTH_LONG).show();
 
+                    Toast.makeText(getApplicationContext(),jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -291,8 +293,8 @@ public class ExplainMarkaz extends TabActivity
             }
         }) {
             protected Map<String, String> getParams() {
-                String isfav=  IsFavourite ? "1" :"-1";
-                IsFavourite=!IsFavourite;
+                String isfav=  IsFavourite ? "-1" :"1";
+
                 Log.i("asdgmh,mnbv",isfav);
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("userid",  GlobalVar.getUserID());
@@ -377,6 +379,8 @@ public class ExplainMarkaz extends TabActivity
         params.put("placeid",  String.valueOf(placeid));
         params.put("deviceid", GlobalVar.getDeviceID());
         params.put("userid", GlobalVar.getUserID());
+
+        Log.i("asadafasadaddsds",params.toString());
         client.post("http://telyar.dmedia.ir/webservice/Get_mainplaceID", params, new AsyncHttpResponseHandler() {
             @Override
             public void onFinish() {
@@ -400,6 +404,7 @@ public class ExplainMarkaz extends TabActivity
                 String res="";
                 try {
                     res=new String(responseBody);
+                    Log.i("asadafasadaddsds",res);
                     JSONObject jsonObject = new JSONObject(res);
                     Log.i("asdfghytrewiuytr",jsonObject.toString());
                     try {
@@ -416,6 +421,8 @@ public class ExplainMarkaz extends TabActivity
                     try {
                         AboutMainplace = jsonObject.getString("AboutMainPlace");
                         textdarvabasasHusseyin.setText(AboutMainplace);
+                        textdarvabasasHusseyin.setMovementMethod(new ScrollingMovementMethod());
+
                         //Log.i("asaasasasasasasads",AboutMainplace );
 
                     }catch (Exception ignored){}
@@ -466,6 +473,7 @@ public class ExplainMarkaz extends TabActivity
                 tabSpec2.setIndicator("نقشه");
                 Intent intent2 =new Intent(ExplainMarkaz.this, MapsActivity2.class);
                 intent2.putExtra("Mainplace",res);
+                intent2.putExtra("hardandi","marakez");
                 /*intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent2.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/

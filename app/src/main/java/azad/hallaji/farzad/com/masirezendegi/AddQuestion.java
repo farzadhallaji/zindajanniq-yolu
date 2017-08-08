@@ -14,6 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -175,6 +176,7 @@ public class AddQuestion extends AppCompatActivity
         p.setParam("questioncategory",questioncategoryquestioncategory);
         p.setParam("userid", GlobalVar.getUserID());
         p.setParam("QuestionSubject",questioncategory );
+        Log.i("ujyh",p.getEncodedParams());
 
         LoginAsyncTask task = new LoginAsyncTask();
         task.execute(p);
@@ -301,6 +303,8 @@ public class AddQuestion extends AppCompatActivity
             //Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
             try {
                 JSONObject jsonObject= new JSONObject(result);
+                Log.i("ujyh",result);
+
                 String m = jsonObject.getString("Status");
                 String mess = jsonObject.getString("Message");
                 updategraf(mess,m,"");

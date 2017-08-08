@@ -5,14 +5,9 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -20,10 +15,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -43,6 +35,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    boolean menuya =false;
     List<Markaz> markazs=new ArrayList<>();
 
     @Override
@@ -63,16 +56,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
+
                 if (isOnline()) {
                     requestData("0", "0", "0", "0", "0");
                 } else {
                     Toast.makeText(getApplicationContext(), "internet isn't available !", Toast.LENGTH_LONG).show();
                 }
+
             } else {
-                Mainplace= extras.getString("Mainplace");
-                Log.i("qwytumnhbgfvcds",Mainplace);
-                LAsyncTask task = new LAsyncTask();
-                task.execute(Mainplace);
+
+                try {
+                    menuya = extras.getString("menuya").equals("ha");
+                }catch ( Exception e){
+                    menuya=false;
+                }
+                try {
+                    Mainplace= extras.getString("Mainplace");
+                    Log.i("qwytumnhbgfvcds",Mainplace);
+                    LAsyncTask task = new LAsyncTask();
+                    task.execute(Mainplace);
+                }catch (Exception e1){
+                    if (isOnline()) {
+                        requestData("0", "0", "0", "0", "0");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "internet isn't available !", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+
             }
         } else {
             Mainplace= (String) savedInstanceState.getSerializable("Mainplace");
@@ -265,11 +276,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onBackPressed() {
 
 
-        Intent intent = new Intent(this , PageMoshaverin.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        startActivity(intent);
+        if(menuya){
+            Intent intent = new Intent(this , Pagemenu.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(this , PageMoshaverin.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+        }
+
 
         /*if (doubleBackToExitPressedOnce) {
             finish();

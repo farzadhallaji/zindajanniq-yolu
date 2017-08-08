@@ -258,7 +258,7 @@ public class ExplainMoshaver extends TabActivity
                             alagestarmoshaver.setImageResource(R.drawable.alage0);
                         }
                     }
-                    Toast.makeText(getApplicationContext(),jsonObject.getString("Message"), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
 
 
 
@@ -285,6 +285,7 @@ public class ExplainMoshaver extends TabActivity
                 MyData.put("status", s); //Add the data you'd like to send to the server.
                 MyData.put("contenttype", "adviser"); //Add the data you'd like to send to the server.
                 MyData.put("deviceid", GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
+                Log.i("aladfffgree",MyData.toString());
                 return MyData;
             }
         };
@@ -334,6 +335,8 @@ public class ExplainMoshaver extends TabActivity
                 MyData.put("adviserid", adviseridm); //Add the data you'd like to send to the server.
                 MyData.put("deviceid",GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
                 MyData.put("userid",GlobalVar.getUserID()); //Add the data you'd like to send to the server.
+                Log.i("ExplainMoshaver",MyData.toString());
+
                 return MyData;
             }
 
@@ -372,6 +375,7 @@ public class ExplainMoshaver extends TabActivity
                 final Intent intent = new Intent(ExplainMoshaver.this, MapsActivity.class);
                 intent.putExtra("adviseridm",adviseridm);
                 intent.putExtra("Mainplace",Mainplace);
+                intent.putExtra("menuya","ya");
                 /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
@@ -523,8 +527,10 @@ public class ExplainMoshaver extends TabActivity
         }
 
         protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-            result.recycle();
+            try{
+                bmImage.setImageBitmap(result);
+                result.recycle();
+            }catch (Exception e){}
         }
     }
 

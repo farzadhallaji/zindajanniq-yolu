@@ -144,6 +144,8 @@ public class PasoxePorsesh extends AppCompatActivity
             qid= (String) savedInstanceState.getSerializable("questionid");
         }
 
+        Log.i("lohsasasisankjnkjndjdjj",qid);
+
 
         MozueSoalTextView = (TextView)findViewById(R.id.MozueSoalTextView);
         OnvaneSoalTextView = (TextView)findViewById(R.id.OnvaneSoalTextView);
@@ -204,7 +206,7 @@ public class PasoxePorsesh extends AppCompatActivity
             public void onResponse(String response) {
                 //This code is executed if the server responds, whether or not the response contains data.
                 //The String 'response' contains the server's response.
-                Log.i("aladfffgree", response);
+                Log.i("dfvflgnkjdfddfvflgnkjdfd", response);
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
 
@@ -226,6 +228,7 @@ public class PasoxePorsesh extends AppCompatActivity
                 MyData.put("pid", qid); //Add the data you'd like to send to the server.
                 MyData.put("adviserid", GlobalVar.getUserID()); //Add the data you'd like to send to the server.
                 MyData.put("deviceid", GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
+                Log.i("dfvflgnkjdfddfvflgnkjdfd", MyData.toString());
                 return MyData;
             }
         };
@@ -262,7 +265,7 @@ public class PasoxePorsesh extends AppCompatActivity
             public void onResponse(String response) {
                 //This code is executed if the server responds, whether or not the response contains data.
                 //The String 'response' contains the server's response.
-                Log.i("ahmad",response);
+                Log.i("dfvflgnkjdfddfvflgnkjdfd",response);
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
                 try {
                     updateview(response);
@@ -369,6 +372,8 @@ public class PasoxePorsesh extends AppCompatActivity
                 MyData.put("questionid", qid); //Add the data you'd like to send to the server.
                 MyData.put("deviceid",GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
                 MyData.put("userid",GlobalVar.getUserID()); //Add the data you'd like to send to the server.
+                Log.i("dfvflgnkjdfddfvflgnkjdfd",MyData.toString());
+
                 return MyData;
             }
         };
@@ -383,6 +388,7 @@ public class PasoxePorsesh extends AppCompatActivity
 
         try {
             JSONObject jsonObject = new JSONObject(response);
+            Log.i("ahmadolgohuum",response.toString());
             MozueSoalTextView.setText(jsonObject.get("SName").toString());
             OnvaneSoalTextView.setText(jsonObject.get("QuestionSubject").toString());
             //OnvaneSoalTextView.setText(jsonObject.get("TextText").toString());
@@ -538,7 +544,7 @@ public class PasoxePorsesh extends AppCompatActivity
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.i("ahmad",response);
+                Log.i("dfvflgnkjdfddfvflgnkjdfd",response);
                 responsesetfavor(response);
 
                 ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
@@ -563,6 +569,7 @@ public class PasoxePorsesh extends AppCompatActivity
                 MyData.put("contenttype", contenttypee); //Add the data you'd like to send to the server.
                 MyData.put("contentid",contentid); //Add the data you'd like to send to the server.
                 MyData.put("deviceid",GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
+                Log.i("dfvflgnkjdfddfvflgnkjdfd",MyData.toString());
                 return MyData;
             }
         };

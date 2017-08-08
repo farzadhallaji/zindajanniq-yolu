@@ -94,7 +94,12 @@ public class PageMarakez extends TabActivity
         TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("List");
 
         tabSpec1.setIndicator("نقشه مراکز");
-        tabSpec1.setContent(new Intent(this, MapsActivity.class));
+        Intent intent=new Intent(this, MapsActivity.class);
+        intent.putExtra("menuya","ha");
+        tabSpec1.setContent(intent);
+        //tabSpec1.setContent(new Intent(this, MapsActivity.class));
+        tabSpec1.setContent(intent);
+
 
         tabSpec2.setIndicator("لیست مراکز");
         tabSpec2.setContent(new Intent(this, ListeMarakez.class));

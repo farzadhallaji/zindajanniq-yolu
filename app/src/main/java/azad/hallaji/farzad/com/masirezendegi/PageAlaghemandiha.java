@@ -121,9 +121,10 @@ public class PageAlaghemandiha extends AppCompatActivity
 
         if(isOnline()){
             postgetData1();
+
             //Log.i("elabella1",aLagemandis.size()+ " ");
-            postgetData2();
-            postgetData3();
+            //postgetData2();
+            //postgetData3();
             //requestDataa();
 
             //requestDatsssa();
@@ -137,7 +138,6 @@ public class PageAlaghemandiha extends AppCompatActivity
         }
 
     }
-
     private boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -160,12 +160,117 @@ public class PageAlaghemandiha extends AppCompatActivity
             public void onResponse(String response) {
                 //This code is executed if the server responds, whether or not the response contains data.
                 //The String 'response' contains the server's response.
-                Log.i("ahmadabiabiabi",response);
+                Log.i("ahmadabiabiabri",response);
                 //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
 
-                updatelistview1(response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray ads = new JSONArray(jsonObject.getString("Adviser"));
+                    JSONArray mns = new JSONArray(jsonObject.getString("MainPlace"));
+                    JSONArray qus = new JSONArray(jsonObject.getString("Question"));
+
+                    Log.i("qwertyuiosdvgnghnghnghng",ads.toString());
+                    Log.i("qwertyuiosdvgnghnghnghng",qus.toString());
+
+                    Log.i("qwertyuiosdvgnghnghnghng",ads.length()+" ");
+
+                    Log.i("qwertyuiosdvgnghnghnghng",mns.toString());
+
+                    for(int i = 0 ; i < qus.length() ; i++){
+
+                        JSONObject object =qus.getJSONObject(i);
+                        String QID =object.getString("QID");
+                        String QuestionSubject = object.getString("QuestionSubject");
+                        //String spic =object.getString("PicAddress");
+                        ALagemandi aLagemandi = new ALagemandi(QID,QuestionSubject,"پرسش","");
+                        aLagemandis.add(aLagemandi);
+
+                    }
+
+                    for(int i = 0 ; i < ads.length() ; i++){
+
+                        JSONObject object =ads.getJSONObject(i);
+                        String QID =object.getString("AID");
+                        String QuestionSubject = object.getString("UserName");
+                        String spic =object.getString("PicAddress");
+                        ALagemandi aLagemandi = new ALagemandi(QID,QuestionSubject,"مشاور",spic);
+                        aLagemandis.add(aLagemandi);
+
+                    }
+
+                    for(int i = 0 ; i < mns.length() ; i++){
+
+                        JSONObject object =mns.getJSONObject(i);
+                        String QID =object.getString("MID");
+                        String QuestionSubject = object.getString("MainPlaceName");
+                        String spic =object.getString("PicAddress");
+                        ALagemandi aLagemandi = new ALagemandi(QID,QuestionSubject,"مرکز",spic);
+                        aLagemandis.add(aLagemandi);
+
+                    }
 
 
+
+                    //Log.i("qwertyuiosdvgnghnghnghng",mns.toString());
+                    Log.i("qwertyuiosdvgnghnghnghng",aLagemandis.size()+" ");
+
+
+
+
+                    /*updatelistview1(qus);
+                    updatelistview2(ads);
+                    updatelistview3(mns);*/
+
+
+
+
+                    ListeAlagemandiHaAdapter listeAlagemandiHaAdapter = new ListeAlagemandiHaAdapter(PageAlaghemandiha.this,aLagemandis);
+                    listView.setAdapter(listeAlagemandiHaAdapter);
+
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            ALagemandi aLagemandi = aLagemandis.get(position);
+                            String typee = aLagemandi.getType();
+                            if(typee.equals("مشاور")){
+                                Intent intent = new Intent(PageAlaghemandiha.this,ExplainMoshaver.class);
+                                intent.putExtra("adviserid",aLagemandi.getID());
+                                finish();
+                                /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
+                                startActivity(intent);
+                            }else if (typee.equals("پرسش")){
+                                Intent intent = new Intent(PageAlaghemandiha.this,PasoxePorsesh.class);
+                                intent.putExtra("questionid",aLagemandi.getID());
+                                finish();
+                                /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
+                                startActivity(intent);
+                            }else if (typee.equals("مرکز")){
+                                Intent intent = new Intent(PageAlaghemandiha.this,ExplainMarkaz.class);
+                                intent.putExtra("placeid",aLagemandi.getID());
+                                finish();
+                                /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
+                                startActivity(intent);
+                            }
+
+                        }
+                    });
+
+
+
+
+                    ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                    progressbarsandaha.setVisibility(View.INVISIBLE);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
             @Override
@@ -176,9 +281,10 @@ public class PageAlaghemandiha extends AppCompatActivity
             protected Map<String, String> getParams() {
                 Map<String, String> MyData = new HashMap<String, String>();
                 //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
-                MyData.put("contenttype", "question"); //Add the data you'd like to send to the server.
+                //MyData.put("contenttype", "question"); //Add the data you'd like to send to the server.
                 MyData.put("userid", GlobalVar.getUserID()); //Add the data you'd like to send to the server.
                 MyData.put("deviceid", GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
+
                 return MyData;
             }
         };
@@ -186,11 +292,10 @@ public class PageAlaghemandiha extends AppCompatActivity
         MyRequestQueue.add(MyStringRequest);
     }
 
-    private void updatelistview1(String response) {
+    private void updatelistview1(JSONArray jsonArray) {
 
         try {
-            JSONArray jsonArray = new JSONArray(response);
-            Log.i("mansansasasaa",jsonArray.length()+"s");
+            //JSONArray jsonArray = new JSONArray(response);
             for(int i = 0 ; i < jsonArray.length() ; i++){
 
                 JSONObject jsonObject =jsonArray.getJSONObject(i);
@@ -214,44 +319,13 @@ public class PageAlaghemandiha extends AppCompatActivity
         }
 
     }
+    private void updatelistview2(JSONArray jsonArray) {
 
-    private void postgetData2(){
+        Log.i("elabella12",aLagemandis.size()+ " "+ jsonArray.length());
 
-        String url = "http://telyar.dmedia.ir/webservice/Get_favourite/";
-        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //This code is executed if the server responds, whether or not the response contains data.
-                //The String 'response' contains the server's response.
-                Log.i("ahamdabi2",response);
-                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
-
-                updatelistview2(response);
-
-            }
-        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //This code is executed if there is an error.
-            }
-        }) {
-            protected Map<String, String> getParams() {
-                Map<String, String> MyData = new HashMap<String, String>();
-                //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
-                MyData.put("contenttype", "adviser"); //Add the data you'd like to send to the server.
-                MyData.put("userid", GlobalVar.getUserID()); //Add the data you'd like to send to the server.
-                MyData.put("deviceid", GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
-                return MyData;
-            }
-        };
-
-        MyRequestQueue.add(MyStringRequest);
-    }
-
-    private void updatelistview2(String response) {
 
         try {
-            JSONArray jsonArray = new JSONArray(response);
+            //JSONArray jsonArray = new JSONArray(response);
             for(int i = 0 ; i < jsonArray.length() ; i++){
 
                 JSONObject jsonObject =jsonArray.getJSONObject(i);
@@ -277,87 +351,48 @@ public class PageAlaghemandiha extends AppCompatActivity
                 aLagemandis.add(question);
 
             }
-            Log.i("elabella2",aLagemandis.size()+ " ");
+            Log.i("elabella2",aLagemandis.size()+ " "+ jsonArray.length());
 
         } catch (JSONException e) {
             //e.printStackTrace();
         }
+        Log.i("elabella2",aLagemandis.size()+ " "+ jsonArray.length());
 
     }
 
-    private void postgetData3(){
 
-        String url = "http://telyar.dmedia.ir/webservice/Get_favourite/";
-        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //This code is executed if the server responds, whether or not the response contains data.
-                //The String 'response' contains the server's response.
-                Log.i("ahamdabi3",response);
-                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
 
-                updatelistview3(response);
+    private void updatelistview3(JSONArray jsonArray) {
 
-                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
-                progressbarsandaha.setVisibility(View.INVISIBLE);
+        Log.i("elabella34",jsonArray.length()+ " ");
 
-            }
-        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //This code is executed if there is an error.
-                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
-                progressbarsandaha.setVisibility(View.INVISIBLE);
-            }
-        }) {
-            protected Map<String, String> getParams() {
-                Map<String, String> MyData = new HashMap<String, String>();
-                //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
-                MyData.put("contenttype", "mainplace"); //Add the data you'd like to send to the server.
-                MyData.put("userid", GlobalVar.getUserID()); //Add the data you'd like to send to the server.
-                MyData.put("deviceid", GlobalVar.getDeviceID()); //Add the data you'd like to send to the server.
-                return MyData;
-            }
-        };
+        for(int i = 0 ; i < jsonArray.length() ; i++) {
+            JSONObject jsonObject;
+            String AID="";
+            String UserName="";
+            String PicAddress="";
+            try {
+                jsonObject= jsonArray.getJSONObject(i);
+                AID= jsonObject.getString("MID");
+                UserName = jsonObject.getString("MainPlaceName");
+                PicAddress = jsonObject.getString("PicAddress");
+            }catch (Exception ignored){}
+            /*String Rating=jsonObject.getString("Rating");
+            String AdviserMaxTime=jsonObject.getString("AdviserMaxTime");
+            String RegTime=jsonObject.getString("RegTime");
+            String CommentCount=jsonObject.getString("CommentCount");*/
 
-        MyRequestQueue.add(MyStringRequest);
-    }
+            ALagemandi mush = new ALagemandi(AID, UserName, "مرکز", PicAddress);
+            aLagemandis.add(mush);
 
-    private void updatelistview3(String response) {
 
-        try {
-            JSONArray jsonArray = new JSONArray(response);
-            Log.i("elabella34",jsonArray.length()+ " ");
-
-            for(int i = 0 ; i < jsonArray.length() ; i++) {
-                JSONObject jsonObject;
-                String AID="";
-                String UserName="";
-                String PicAddress="";
-                try {
-                    jsonObject= jsonArray.getJSONObject(i);
-                    AID= jsonObject.getString("MID");
-                    UserName = jsonObject.getString("MainPlaceName");
-                    PicAddress = jsonObject.getString("PicAddress");
-                }catch (Exception ignored){}
-                /*String Rating=jsonObject.getString("Rating");
-                String AdviserMaxTime=jsonObject.getString("AdviserMaxTime");
-                String RegTime=jsonObject.getString("RegTime");
-                String CommentCount=jsonObject.getString("CommentCount");*/
-
-                ALagemandi mush = new ALagemandi(AID, UserName, "مرکز", PicAddress);
-                aLagemandis.add(mush);
-                Log.i("elabella3", aLagemandis.size() + " ");
-
-            }
-            Log.i("elabella3",aLagemandis.size()+ " ");
-
-            ListeAlagemandiHaAdapter listeAlagemandiHaAdapter = new ListeAlagemandiHaAdapter(PageAlaghemandiha.this,aLagemandis);
-            listView.setAdapter(listeAlagemandiHaAdapter);
-
-        } catch (JSONException e) {
-            //e.printStackTrace();
         }
+        Log.i("elabella3",aLagemandis.size()+ " "+ jsonArray.length());
+
+
+        ListeAlagemandiHaAdapter listeAlagemandiHaAdapter = new ListeAlagemandiHaAdapter(PageAlaghemandiha.this,aLagemandis);
+        listView.setAdapter(listeAlagemandiHaAdapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

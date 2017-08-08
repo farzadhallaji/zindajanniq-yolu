@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -24,7 +25,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import azad.hallaji.farzad.com.masirezendegi.helper.ListeMoshaverinAdapter;
 import azad.hallaji.farzad.com.masirezendegi.internet.HttpManager;
@@ -38,6 +41,12 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import android.widget.AdapterView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
 
 public class ListeMoshaverin extends AppCompatActivity {
@@ -48,6 +57,7 @@ public class ListeMoshaverin extends AppCompatActivity {
     List<Moshaver> totalList=new ArrayList<>();
     int tempcount=0;
     String subjectid="";
+    private RequestQueue MyRequestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +65,7 @@ public class ListeMoshaverin extends AppCompatActivity {
         setContentView(R.layout.activity_liste_moshaverin);
         Fabric.with(this, new Crashlytics());
 
+        //totalList=new ArrayList<>();
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -78,8 +89,8 @@ public class ListeMoshaverin extends AppCompatActivity {
 
         if (isOnline()) {
             //Toast.makeText(getApplicationContext(), "Network is available", Toast.LENGTH_LONG).show();
-            requestData(subjectid,0);
-
+            //requestData(subjectid,0);
+            method2(subjectid,"0");
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -113,7 +124,7 @@ public class ListeMoshaverin extends AppCompatActivity {
 
                         }else{
                             listView.addFooterView(ftView);
-                            requestData(subjectid,((totalList.size()/20)*20));
+                            method2(subjectid,String.valueOf((totalList.size()/20)*20));
                         }       //TODO TEST sine den yazma
                     }
 
@@ -130,21 +141,87 @@ public class ListeMoshaverin extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Network isn't available", Toast.LENGTH_LONG).show();
         }
-
-
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
     }
 
 
+    void method2(final String subid ,final String start) {
+
+        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+        progressbarsandaha.setVisibility(View.VISIBLE);
+
+        MyRequestQueue = Volley.newRequestQueue(this);
+        String url = "http://telyar.dmedia.ir/webservice/get_adviser/";
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //This code is executed if the server responds, whether or not the response contains data.
+                //The String 'response' contains the server's response.
+                Log.i("qwertyuioaladfffgree", response);
+                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), response , Toast.LENGTH_LONG).show();
+
+                List<Moshaver> templist=new ArrayList<>();
+                Log.i("saasasa",response) ;
+                try {
+
+                    JSONArray jsonArray = new JSONArray(response);
+
+                    for(int i= 0 ; i<jsonArray.length() ; i++){
+                        JSONObject s = (JSONObject) jsonArray.get(i);
+                        List<String>tag=new ArrayList<>();
+                        JSONArray tags = (JSONArray) s.get("Tag");
+                        //Toast.makeText(getApplicationContext(),String.valueOf(tags), Toast.LENGTH_LONG).show();
+
+                        for(int j= 0 ;j < tags.length() ; j++){
+
+                            tag.add(tags.get(j).toString());
+                            //Toast.makeText(getApplicationContext(),tags.get(j).toString(), Toast.LENGTH_LONG).show();
+
+                        }
+                        Moshaver temp = new Moshaver(s.get("AID").toString(),s.get("AdviserName").toString(),
+                                tag,s.get("PicAddress").toString(),s.get("CommentCount").toString());
+                        temp.setUniqueID(s.getString("UniqueID"));
+                        templist.add(temp);
+                    }
+                    totalList.addAll(templist);
+                    if(tempcount==0){
+                        adapter =new ListeMoshaverinAdapter(ListeMoshaverin.this,totalList);
+                        listView.setAdapter(adapter);
+                        tempcount++;
+                    }
+                    adapter.notifyDataSetChanged();
+                    listView.removeFooterView(ftView);
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
+                progressbarsandaha.setVisibility(View.INVISIBLE);
+
+
+            }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //This code is executed if there is an error.
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                //Log.i("asasasasasasa",adviseridm+"/"+GlobalVar.getDeviceID());
+                MyData.put("subjectid", subid);
+                MyData.put("start", String.valueOf(start));
+                MyData.put("deviceid", GlobalVar.getDeviceID());
+                //Toast.makeText(getApplicationContext(), subid, Toast.LENGTH_SHORT).show();
+                Log.i("qwertyuioaladfffgree",MyData.toString());//
+                return MyData;
+            }
+        };
+        MyRequestQueue.add(MyStringRequest);
+    }
 
 
 
@@ -158,87 +235,6 @@ public class ListeMoshaverin extends AppCompatActivity {
         return false;
     }
 
-    private void requestData(String subid , int start) {
-
-        ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
-        progressbarsandaha.setVisibility(View.VISIBLE);
-
-        RequestPackage p = new RequestPackage();
-        p.setMethod("POST");
-        p.setUri("http://telyar.dmedia.ir/webservice/get_adviser");
-
-        p.setParam("subjectid",  subid);
-        p.setParam("start", String.valueOf(start));
-        p.setParam("deviceid", GlobalVar.getDeviceID());
-
-
-        LoginAsyncTask task = new LoginAsyncTask();
-        task.execute(p);
-
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-    private class LoginAsyncTask extends AsyncTask<RequestPackage, String, String> {
-
-
-        @Override
-        protected String doInBackground(RequestPackage... params) {
-            String content = HttpManager.getData(params[0]);
-            return content;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-
-            List<Moshaver> templist=new ArrayList<>();
-            Log.i("saasasa",result) ;
-            try {
-
-                JSONArray jsonArray = new JSONArray(result);
-
-                for(int i= 0 ; i<jsonArray.length() ; i++){
-                    JSONObject s = (JSONObject) jsonArray.get(i);
-                    List<String>tag=new ArrayList<>();
-                    JSONArray tags = (JSONArray) s.get("Tag");
-                    //Toast.makeText(getApplicationContext(),String.valueOf(tags), Toast.LENGTH_LONG).show();
-
-                    for(int j= 0 ;j < tags.length() ; j++){
-
-                        tag.add(tags.get(j).toString());
-                        //Toast.makeText(getApplicationContext(),tags.get(j).toString(), Toast.LENGTH_LONG).show();
-
-                    }
-                    Moshaver temp = new Moshaver(s.get("AID").toString(),s.get("AdviserName").toString(),
-                            tag,s.get("PicAddress").toString(),s.get("CommentCount").toString());
-                    temp.setUniqueID(s.getString("UniqueID"));
-                    templist.add(temp);
-                }
-                totalList.addAll(templist);
-                if(tempcount==0){
-                    adapter =new ListeMoshaverinAdapter(ListeMoshaverin.this,totalList);
-                    listView.setAdapter(adapter);
-                    tempcount++;
-                }
-                adapter.notifyDataSetChanged();
-                listView.removeFooterView(ftView);
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            ProgressBar progressbarsandaha =(ProgressBar)findViewById(R.id.progressbarsandaha);
-            progressbarsandaha.setVisibility(View.INVISIBLE);
-
-        }
-
-    }
 
     @Override
     public void onBackPressed() {
